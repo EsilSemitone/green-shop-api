@@ -7,10 +7,10 @@ export async function up(knex: Knex): Promise<void> {
         table.uuid('uuid').primary().defaultTo(knex.raw('gen_random_uuid()'));
         table.string('name').notNullable();
         table.string('email').notNullable().unique();
-        table.string('role').notNullable().defaultTo('user');
-        table.string('passwordHash').notNullable();
-        table.string('restoreCode');
-        table.string('phoneNumber');
+        table.string('role').notNullable().defaultTo('USER');
+        table.string('password_hash').notNullable();
+        table.string('restore_code');
+        table.string('phone_number');
         table.string('photo_image');
         table.timestamps(true, true);
     });
