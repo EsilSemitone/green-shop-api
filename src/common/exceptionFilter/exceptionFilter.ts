@@ -19,12 +19,12 @@ export class ExceptionsFilter implements IExceptionsFilter {
             res.send({ 
                 error: err.message,
                 code: err.code,
-                ...(err.path && {path: err.path})
+                path: err.path && req.path
             });
         } else {
             this.logger.error(`${err.message}`);
             res.status(500);
-            res.send({ error: "internal server error", code: 500 });
+            res.send({ error: "internal server error", code: 500, path: req.path });
         }
     }
 }
