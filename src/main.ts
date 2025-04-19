@@ -17,6 +17,8 @@ import { IDatabaseService } from './database/database.service.interface';
 import { DatabaseService } from './database/database.service';
 import { IUserRepository } from './user/interfaces/user.repository.interface';
 import { UserRepository } from './user/user.repository';
+import { IJwtService } from './jwtService/jwt.service.interface';
+import { JwtService } from './jwtService/jwt.service';
 
 const container = new Container();
 
@@ -25,6 +27,7 @@ const appModule = new ContainerModule(({ bind }) => {
     bind<ILogger>(APP_TYPES.LOGGER_SERVICE).to(LoggerService);
     bind<IExceptionsFilter>(APP_TYPES.EXCEPTION_FILTER).to(ExceptionsFilter).inSingletonScope();
     bind<IDatabaseService>(APP_TYPES.DATABASE_SERVICE).to(DatabaseService).inSingletonScope();
+    bind<IJwtService>(APP_TYPES.JWT_SERVICE).to(JwtService).inSingletonScope();
 });
 
 const authModule = new ContainerModule(({ bind }) => {

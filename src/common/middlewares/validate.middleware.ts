@@ -6,7 +6,6 @@ import { HttpException } from "../exceptionFilter/http.exception";
 export class ValidateMiddleware implements IMiddleware {
 
     constructor(private schema: ZodType) {
-
     }
 
     execute({ body, path}: Request<object, object, Record<string, unknown>>, res: Response, next: NextFunction) {

@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
 import { configDotenv, DotenvParseOutput } from 'dotenv';
-import { BASE_ERROR } from '../common/error/error';
+import { ERROR } from '../common/error/error';
 import { ILogger } from '../logger/logger.service.interface';
 import { APP_TYPES } from '../types';
 import { IConfigService } from './config.service.interface';
@@ -29,7 +29,7 @@ export class ConfigService implements IConfigService {
         const res = this.configData[key];
 
         if (!res) {
-            throw new Error(BASE_ERROR.ERROR_GET_ENV_PARAM(key));
+            throw new Error(ERROR.ERROR_GET_ENV_PARAM(key));
         }
         return res;
     }
