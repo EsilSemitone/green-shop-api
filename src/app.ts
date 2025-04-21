@@ -1,8 +1,8 @@
 import 'reflect-metadata';
 import express, { Express } from 'express';
 import { inject, injectable } from 'inversify';
-import { IConfigService } from './configService/config.service.interface';
-import { ILogger } from './logger/logger.service.interface';
+import { IConfigService } from './core/configService/config.service.interface';
+import { ILogger } from './core/logger/logger.service.interface';
 import { APP_TYPES } from './types';
 import { json } from 'body-parser';
 import { IController } from './common/interfaces/controller.interface';
@@ -31,7 +31,7 @@ export class App {
     }
 
     private buildPath(path: string): string {
-        return `${this.apiPrefix}/${path}`
+        return `${this.apiPrefix}/${path}`;
     }
 
     useMiddlewares(): void {
@@ -39,7 +39,7 @@ export class App {
     }
 
     useRoutes(): void {
-        this.app.use(this.buildPath("auth"), this.authController.router)
+        this.app.use(this.buildPath('auth'), this.authController.router);
     }
 
     private useExceptionFilters(): void {
@@ -47,9 +47,9 @@ export class App {
     }
 
     init() {
-        this.useMiddlewares()
-        this.useRoutes()
-        this.useExceptionFilters()
+        this.useMiddlewares();
+        this.useRoutes();
+        this.useExceptionFilters();
         this.app.listen(this.port, () => {
             this.loggerService.log(`Start server on ${this.domain}:${this.apiPrefix}/${this.port}`);
         });

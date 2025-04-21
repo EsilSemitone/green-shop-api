@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
 import { sign, verify as jwtVerify } from 'jsonwebtoken';
-import { APP_TYPES } from '../types';
+import { APP_TYPES } from '../../types';
 import { IConfigService } from '../configService/config.service.interface';
 import { ROLES } from 'contracts';
 import { IJwtPayload } from './interfaces/jwt.payload';
@@ -21,10 +21,10 @@ export class JwtService implements IJwtService {
                 {
                     role,
                     userId,
-                    exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
+                    exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24,
                 },
                 this.secret,
-                { algorithm: 'HS256'},
+                { algorithm: 'HS256' },
                 (error, encoded) => {
                     if (error) {
                         reject(error);
@@ -41,10 +41,10 @@ export class JwtService implements IJwtService {
                 {
                     role,
                     userId,
-                    exp: Math.floor(Date.now() / 1000) + (60 * 60 * 24),
+                    exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30,
                 },
                 this.secret,
-                { algorithm: 'HS256'},
+                { algorithm: 'HS256' },
                 (error, encoded) => {
                     if (error) {
                         reject(error);

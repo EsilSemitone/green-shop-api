@@ -1,9 +1,9 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
 import { configDotenv, DotenvParseOutput } from 'dotenv';
-import { ERROR } from '../common/error/error';
+import { ERROR } from '../../common/error/error';
 import { ILogger } from '../logger/logger.service.interface';
-import { APP_TYPES } from '../types';
+import { APP_TYPES } from '../../types';
 import { IConfigService } from './config.service.interface';
 
 @injectable()
