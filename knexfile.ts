@@ -1,6 +1,6 @@
 import type { Knex } from 'knex';
-import { ConfigService } from './src/configService/config.service';
-import { LoggerService } from './src/logger/logger.service';
+import { ConfigService } from './src/core/configService/config.service';
+import { LoggerService } from './src/core/logger/logger.service';
 
 // Update with your config settings.
 const configService = new ConfigService(new LoggerService());

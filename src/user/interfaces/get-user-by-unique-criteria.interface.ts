@@ -1,3 +1,4 @@
 export interface GetUserByUniqueCriteria {
-    email: string
+    email?: string;
+    restore_code?: string;
 }

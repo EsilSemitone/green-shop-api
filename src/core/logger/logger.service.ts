@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { injectable } from 'inversify';
 import { Logger, pino } from 'pino';
-import { LOGGER_CONFIG } from '../common/config/logger.config';
+import { LOGGER_CONFIG } from '../../common/config/logger.config';
 import { ILogger } from './logger.service.interface';
 
 @injectable()

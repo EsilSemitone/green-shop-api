@@ -2,23 +2,28 @@ import 'reflect-metadata';
 import { Container, ContainerModule } from 'inversify';
 import { APP_TYPES } from './types';
 import { App } from './app';
-import { IConfigService } from './configService/config.service.interface';
+import { IConfigService } from './core/configService/config.service.interface';
 import { IMainReturnType } from './common/interfaces/main-return.interface';
-import { ConfigService } from './configService/config.service';
-import { LoggerService } from './logger/logger.service';
-import { ILogger } from './logger/logger.service.interface';
+import { ConfigService } from './core/configService/config.service';
+import { LoggerService } from './core/logger/logger.service';
+import { ILogger } from './core/logger/logger.service.interface';
 import { IController } from './common/interfaces/controller.interface';
 import { AuthController } from './auth/auth.controller';
 import { IExceptionsFilter } from './common/exceptionFilter/exceptionFilter.interface';
 import { ExceptionsFilter } from './common/exceptionFilter/exceptionFilter';
 import { AuthService } from './auth/auth.service';
 import { IAuthService } from './auth/interfaces/auth.service.interface';
-import { IDatabaseService } from './database/database.service.interface';
-import { DatabaseService } from './database/database.service';
+import { IDatabaseService } from './core/database/database.service.interface';
+import { DatabaseService } from './core/database/database.service';
 import { IUserRepository } from './user/interfaces/user.repository.interface';
 import { UserRepository } from './user/user.repository';
-import { IJwtService } from './jwtService/jwt.service.interface';
-import { JwtService } from './jwtService/jwt.service';
+import { IJwtService } from './core/jwtService/jwt.service.interface';
+import { JwtService } from './core/jwtService/jwt.service';
+import { IEmailService } from './integration/email/email.service.interface';
+import { EmailService } from './integration/email/email.service';
+import { IRefreshTokenRepository } from './refresh-token/interfaces/refresh-token.repository.interface';
+import { RefreshTokenRepository } from './refresh-token/refresh-token.repository';
+import { AuthGuardFactory } from './common/middlewares/auth.guard.factory';
 
 const container = new Container();
 
@@ -28,6 +33,10 @@ const appModule = new ContainerModule(({ bind }) => {
     bind<IExceptionsFilter>(APP_TYPES.EXCEPTION_FILTER).to(ExceptionsFilter).inSingletonScope();
     bind<IDatabaseService>(APP_TYPES.DATABASE_SERVICE).to(DatabaseService).inSingletonScope();
     bind<IJwtService>(APP_TYPES.JWT_SERVICE).to(JwtService).inSingletonScope();
+    bind<AuthGuardFactory>(APP_TYPES.AUTH_GUARD_FACTORY).to(AuthGuardFactory).inSingletonScope();
+
+    bind<IEmailService>(APP_TYPES.EMAIL_SERVICE).to(EmailService).inSingletonScope();
+    bind<IRefreshTokenRepository>(APP_TYPES.REFRESH_TOKEN_REPOSITORY).to(RefreshTokenRepository).inSingletonScope();
 });
 
 const authModule = new ContainerModule(({ bind }) => {
