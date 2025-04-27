@@ -5,6 +5,7 @@ import { IDatabaseService } from '../core/database/database.service.interface';
 import { ICreateRefreshToken } from './interfaces/create-refresh-token.interface';
 import { RefreshTokenModel } from '../common/models/refresh-token-model.interface';
 import { IRefreshTokenRepository } from './interfaces/refresh-token.repository.interface';
+import { IGetTokenByUniqueCriteria } from './interfaces/get-token-by-unique-criteria.interface';
 
 @injectable()
 export class RefreshTokenRepository implements IRefreshTokenRepository {
@@ -24,6 +25,15 @@ export class RefreshTokenRepository implements IRefreshTokenRepository {
 
     async getById(uuid: string): Promise<RefreshTokenModel[]> {
         return this.databaseService.db<RefreshTokenModel>('refresh_tokens').where({ uuid });
+    }
+
+    async getByUniqueCriteria(data: IGetTokenByUniqueCriteria): Promise<RefreshTokenModel | null> {
+        const res = await this.databaseService
+            .db<RefreshTokenModel>('refresh_tokens')
+            .where({ ...data })
+            .first();
+
+        return res || null;
     }
 
     async deleteById(uuid: string): Promise<void> {

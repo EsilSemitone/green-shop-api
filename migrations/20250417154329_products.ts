@@ -7,6 +7,7 @@ export async function up(knex: Knex): Promise<void> {
         table.string('short_description').notNullable();
         table.string('description').notNullable();
         table.string('category').notNullable();
+        table.specificType('images', 'text[]');
         table.timestamps(true, true);
     });
 }

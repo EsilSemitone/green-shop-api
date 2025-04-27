@@ -1,5 +1,5 @@
 export interface ICreateRefreshToken {
-    userId: string,
-    token: string,
-    expires_at: Date
+    user_id: string;
+    token: string;
+    expires_at: Date;
 }

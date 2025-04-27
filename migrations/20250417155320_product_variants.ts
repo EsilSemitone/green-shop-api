@@ -11,7 +11,6 @@ export async function up(knex: Knex): Promise<void> {
         table.decimal('price', 10, 2).notNullable();
         table.string('size').notNullable();
         table.integer('stock').notNullable().defaultTo(1);
-        table.specificType('images', 'text[]');
         table.timestamps(true, true);
     });
 }
