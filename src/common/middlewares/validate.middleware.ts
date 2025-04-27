@@ -1,19 +1,36 @@
-import { Request, Response, NextFunction} from "express";
-import { IMiddleware } from "../interfaces/middleware.interface";
-import { ZodType } from "zod";
-import { HttpException } from "../exceptionFilter/http.exception";
+import { Request, Response, NextFunction } from 'express';
+import { IMiddleware } from '../interfaces/middleware.interface';
+import { ZodIssue } from 'zod';
+import { HttpException } from '../exceptionFilter/http.exception';
+import { ValidateMiddlewareInput } from './types/validate.middleware.types';
 
 export class ValidateMiddleware implements IMiddleware {
+    constructor(private input: ValidateMiddlewareInput) {}
 
-    constructor(private schema: ZodType) {
-    }
+    execute({ query, body, params, path }: Request, res: Response, next: NextFunction) {
+        const data = { query, body, params };
+        const errors: ZodIssue[] = [];
 
-    execute({ body, path}: Request<object, object, Record<string, unknown>>, res: Response, next: NextFunction) {
-        const {error} = this.schema.safeParse(body)
-        if (error) {
-            return next(new HttpException(error.errors.map(e => `path: ${e.path}, error: ${e.code}, description: ${e.message}`).join(` ::|:: `), 400, path))
+        for (const { key, schema } of this.input) {
+            const { error } = schema.safeParse(data[key]);
+            if (error) {
+                for (const e of error.errors) {
+                    errors.push(e);
+                }
+            }
         }
-        return next()
+
+        if (errors.length > 0) {
+            return next(
+                new HttpException(
+                    errors
+                        .map((er) => `path: ${er.path}, error: ${er.code}, description: ${er.message}`)
+                        .join(` ::|:: `),
+                    400,
+                    path,
+                ),
+            );
+        }
+        return next();
     }
-    
 }

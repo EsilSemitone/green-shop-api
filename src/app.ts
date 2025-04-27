@@ -7,6 +7,8 @@ import { APP_TYPES } from './types';
 import { json } from 'body-parser';
 import { IController } from './common/interfaces/controller.interface';
 import { IExceptionsFilter } from './common/exceptionFilter/exceptionFilter.interface';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 @injectable()
 export class App {
@@ -20,6 +22,7 @@ export class App {
         @inject(APP_TYPES.LOGGER_SERVICE) private loggerService: ILogger,
         @inject(APP_TYPES.EXCEPTION_FILTER) private exceptionFilter: IExceptionsFilter,
         @inject(APP_TYPES.AUTH_CONTROLLER) private authController: IController,
+        @inject(APP_TYPES.PRODUCT_CONTROLLER) private productController: IController,
     ) {
         this.app = express();
 
@@ -31,15 +34,23 @@ export class App {
     }
 
     private buildPath(path: string): string {
-        return `${this.apiPrefix}/${path}`;
+        return `/${this.apiPrefix}/${path}`;
     }
 
     useMiddlewares(): void {
+        this.app.use(
+            cors({
+                origin: this.configService.getOrThrow('CLIENT_URL'),
+                credentials: true,
+            }),
+        );
+        this.app.use(cookieParser());
         this.app.use(json());
     }
 
     useRoutes(): void {
         this.app.use(this.buildPath('auth'), this.authController.router);
+        this.app.use(this.buildPath('product'), this.productController.router);
     }
 
     private useExceptionFilters(): void {
@@ -51,7 +62,7 @@ export class App {
         this.useRoutes();
         this.useExceptionFilters();
         this.app.listen(this.port, () => {
-            this.loggerService.log(`Start server on ${this.domain}:${this.apiPrefix}/${this.port}`);
+            this.loggerService.log(`Start server on ${this.domain}:${this.port}/${this.apiPrefix}/`);
         });
     }
 }

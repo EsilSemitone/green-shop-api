@@ -5,11 +5,8 @@ import { APP_TYPES } from '../types';
 import { ILogger } from '../core/logger/logger.service.interface';
 import {
     LoginSchemaRequestDto,
-    LoginSchemaResponseDto,
-    LogoutRequestDto,
     LogoutResponseDto,
     RegisterSchemaRequestDto,
-    RegisterSchemaResponseDto,
     ResetPasswordRequestDto,
     ResetPasswordResponseDto,
     RestorePasswordResponseDto,
@@ -25,6 +22,8 @@ import { randomBytes } from 'crypto';
 import { IEmailService } from '../integration/email/email.service.interface';
 import { IRefreshTokenRepository } from '../refresh-token/interfaces/refresh-token.repository.interface';
 import { IJwtPayload } from '../core/jwtService/interfaces/jwt.payload';
+import { IRegisterResponse } from './interfaces/register';
+import { ILoginResponse } from './interfaces/login';
 
 @injectable()
 export class AuthService implements IAuthService {
@@ -42,7 +41,7 @@ export class AuthService implements IAuthService {
         this.salt = Number.parseInt(this.configService.getOrThrow('SALT'));
     }
 
-    async register({ name, email, password }: RegisterSchemaRequestDto): Promise<RegisterSchemaResponseDto> {
+    async register({ name, email, password }: RegisterSchemaRequestDto): Promise<IRegisterResponse> {
         this.loggerService.log(`Start service register user with params: ${JSON.stringify({ name, email })}`);
 
         const isUserExist = await this.userRepository.getByUniqueCriteria({ email });
@@ -60,9 +59,9 @@ export class AuthService implements IAuthService {
         ]);
 
         await this.refreshTokenRepository.create({
-            userId: user.uuid,
+            user_id: user.uuid,
             token: refreshToken,
-            expires_at: new Date(Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30),
+            expires_at: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
         });
 
         this.loggerService.log(`Success service register user`);
@@ -72,7 +71,7 @@ export class AuthService implements IAuthService {
         };
     }
 
-    async login({ email, password }: LoginSchemaRequestDto): Promise<LoginSchemaResponseDto> {
+    async login({ email, password }: LoginSchemaRequestDto): Promise<ILoginResponse> {
         this.loggerService.log(
             `Start service login user with params: ${JSON.stringify({ email, password: 'unknown' })}`,
         );
@@ -95,7 +94,7 @@ export class AuthService implements IAuthService {
         ]);
 
         await this.refreshTokenRepository.create({
-            userId: isUserExist.uuid,
+            user_id: isUserExist.uuid,
             token: refreshToken,
             expires_at: new Date(Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30),
         });
@@ -116,7 +115,7 @@ export class AuthService implements IAuthService {
             throw new HttpException(ERROR.USER_NOT_FOUND, 400);
         }
 
-        const restoreCode = randomBytes(40).toString('hex');
+        const restoreCode = randomBytes(20).toString('hex');
 
         await this.userRepository.update(isUserExist.uuid, { restore_code: restoreCode });
 
@@ -147,8 +146,25 @@ export class AuthService implements IAuthService {
         };
     }
 
-    async logout({ refreshToken }: LogoutRequestDto, { userId }: IJwtPayload): Promise<LogoutResponseDto> {
+    async logout(refreshToken: string | undefined, { userId }: IJwtPayload): Promise<LogoutResponseDto> {
         this.loggerService.log(`Start service logout user with params: ${JSON.stringify({ refreshToken })}`);
+
+        if (!refreshToken) {
+            this.loggerService.error(`Error service logout, refreshToken is not defined`);
+
+            return {
+                isSuccess: false,
+            };
+        }
+        const isTokenExist = await this.refreshTokenRepository.getByUniqueCriteria({ token: refreshToken });
+
+        if (!isTokenExist) {
+            this.loggerService.error(`Error service logout, refreshToken is not found`);
+
+            return {
+                isSuccess: false,
+            };
+        }
 
         await this.refreshTokenRepository.tokenDisable(userId, refreshToken);
 

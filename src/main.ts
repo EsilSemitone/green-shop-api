@@ -24,6 +24,11 @@ import { EmailService } from './integration/email/email.service';
 import { IRefreshTokenRepository } from './refresh-token/interfaces/refresh-token.repository.interface';
 import { RefreshTokenRepository } from './refresh-token/refresh-token.repository';
 import { AuthGuardFactory } from './common/middlewares/auth.guard.factory';
+import { IProductService } from './product/interfaces/product.service.interface';
+import { IProductRepository } from './product/interfaces/product.repository.interface';
+import { ProductController } from './product/product.controller';
+import { ProductService } from './product/product.service';
+import { ProductRepository } from './product/product.repository';
 
 const container = new Container();
 
@@ -48,10 +53,17 @@ const userModule = new ContainerModule(({ bind }) => {
     bind<IUserRepository>(APP_TYPES.USER_REPOSITORY).to(UserRepository).inSingletonScope();
 });
 
+const productModule = new ContainerModule(({ bind }) => {
+    bind<IController>(APP_TYPES.PRODUCT_CONTROLLER).to(ProductController).inSingletonScope();
+    bind<IProductService>(APP_TYPES.PRODUCT_SERVICE).to(ProductService).inSingletonScope();
+    bind<IProductRepository>(APP_TYPES.PRODUCT_REPOSITORY).to(ProductRepository).inSingletonScope();
+});
+
 function buildContainer(): Container {
     container.load(appModule);
     container.load(userModule);
     container.load(authModule);
+    container.load(productModule);
     container.bind<App>(APP_TYPES.APP).to(App).inSingletonScope();
 
     return container;

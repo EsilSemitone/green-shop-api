@@ -21,11 +21,9 @@ export class EmailService implements IEmailService {
         @inject(APP_TYPES.LOGGER_SERVICE) private loggerService: ILogger,
         @inject(APP_TYPES.CONFIG_SERVICE) private configService: IConfigService,
     ) {
-        const domain = this.configService.getOrThrow('DOMAIN');
-        const api_prefix = this.configService.getOrThrow('API_PREFIX');
-        const port = this.configService.getOrThrow('PORT');
+        const domain = this.configService.getOrThrow('CLIENT_URL');
         this.api_key = this.configService.getOrThrow('MAILOPOST_API_KEY');
-        this.domain = `${domain}:${port}${api_prefix}`;
+        this.domain = domain;
     }
 
     async sendRestoreCodeEmail(email: string, restoreCode: string): Promise<void> {
@@ -40,6 +38,7 @@ export class EmailService implements IEmailService {
             const htmlBody = template({
                 link: `${this.domain}/restore?code=${restoreCode}`,
             });
+
             const link = `${API_URL}/email/messages`;
 
             const { data } = await axios.post(
@@ -51,6 +50,7 @@ export class EmailService implements IEmailService {
                     subject: 'Сброс пароля на сайте green shop',
                     html: htmlBody,
                 },
+
                 {
                     headers: {
                         Authorization: `Bearer ${this.api_key}`,

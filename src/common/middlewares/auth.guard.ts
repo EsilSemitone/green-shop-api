@@ -10,15 +10,14 @@ export class AuthGuard implements IMiddleware {
         const token = req.headers.authorization?.split(' ')[1];
 
         if (!token) {
-            throw new HttpException('Пользователь не авторизован', 403, req.path);
+            throw new HttpException('Пользователь не авторизован', 401, req.path);
         }
 
         try {
             const payload = await this.jwtService.verify(token);
             req.user = payload;
         } catch {
-            throw new HttpException('Пользователь не авторизован', 403, req.path);
-
+            throw new HttpException('Пользователь не авторизован', 401, req.path);
         }
         return next();
     }
