@@ -7,4 +7,5 @@ export interface IUserRepository {
     getByUniqueCriteria(data: GetUserByUniqueCriteria): Promise<UserModel | undefined>;
     create(data: ICreateUser): Promise<UserModel>;
     update(uuid: string, data: IUpdateUser): Promise<UserModel>;
+    delete(userId: string): Promise<void>;
 }

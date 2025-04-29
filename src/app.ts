@@ -23,6 +23,7 @@ export class App {
         @inject(APP_TYPES.EXCEPTION_FILTER) private exceptionFilter: IExceptionsFilter,
         @inject(APP_TYPES.AUTH_CONTROLLER) private authController: IController,
         @inject(APP_TYPES.PRODUCT_CONTROLLER) private productController: IController,
+        @inject(APP_TYPES.USER_CONTROLLER) private userController: IController,
     ) {
         this.app = express();
 
@@ -51,6 +52,7 @@ export class App {
     useRoutes(): void {
         this.app.use(this.buildPath('auth'), this.authController.router);
         this.app.use(this.buildPath('product'), this.productController.router);
+        this.app.use(this.buildPath('user'), this.userController.router);
     }
 
     private useExceptionFilters(): void {
