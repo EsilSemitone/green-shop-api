@@ -7,16 +7,22 @@ import { ValidateMiddlewareInput } from './types/validate.middleware.types';
 export class ValidateMiddleware implements IMiddleware {
     constructor(private input: ValidateMiddlewareInput) {}
 
-    execute({ query, body, params, path }: Request, res: Response, next: NextFunction) {
-        const data = { query, body, params };
+    execute(req: Request, res: Response, next: NextFunction) {
         const errors: ZodIssue[] = [];
 
         for (const { key, schema } of this.input) {
-            const { error } = schema.safeParse(data[key]);
+            const { error, data: parseResult } = schema.safeParse(req[key]);
             if (error) {
                 for (const e of error.errors) {
                     errors.push(e);
                 }
+            } else {
+                Object.defineProperty(req, key, {
+                    value: parseResult,
+                    writable: false,
+                    configurable: true,
+                    enumerable: true,
+                });
             }
         }
 
@@ -27,10 +33,11 @@ export class ValidateMiddleware implements IMiddleware {
                         .map((er) => `path: ${er.path}, error: ${er.code}, description: ${er.message}`)
                         .join(` ::|:: `),
                     400,
-                    path,
+                    req.path,
                 ),
             );
         }
+
         return next();
     }
 }

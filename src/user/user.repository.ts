@@ -16,21 +16,26 @@ export class UserRepository {
     }
 
     async create(data: ICreateUser): Promise<UserModel> {
-        await this.databaseService.db<UserModel>('users').insert({
-            ...data,
-        });
+        const [user] = await this.databaseService
+            .db<UserModel>('users')
+            .insert({
+                ...data,
+            })
+            .returning('*');
 
-        const user = await this.databaseService.db<UserModel>('users').where({ email: data.email }).first();
-        return user as UserModel;
+        return user;
     }
 
     async update(uuid: string, data: IUpdateUser): Promise<UserModel> {
-        await this.databaseService
+        const [user] = await this.databaseService
             .db<UserModel>('users')
             .update({ ...data })
-            .where({ uuid });
+            .where({ uuid })
+            .returning('*');
+        return user;
+    }
 
-        const user = await this.databaseService.db<UserModel>('users').where({ uuid }).first();
-        return user as UserModel;
+    async delete(userId: string): Promise<void> {
+        await this.databaseService.db<UserModel>('users').delete().where({ uuid: userId });
     }
 }

@@ -29,6 +29,9 @@ import { IProductRepository } from './product/interfaces/product.repository.inte
 import { ProductController } from './product/product.controller';
 import { ProductService } from './product/product.service';
 import { ProductRepository } from './product/product.repository';
+import { UserController } from './user/user.controller';
+import { IUserService } from './user/interfaces/user.service.interface';
+import { UserService } from './user/user.service';
 
 const container = new Container();
 
@@ -51,6 +54,8 @@ const authModule = new ContainerModule(({ bind }) => {
 
 const userModule = new ContainerModule(({ bind }) => {
     bind<IUserRepository>(APP_TYPES.USER_REPOSITORY).to(UserRepository).inSingletonScope();
+    bind<IController>(APP_TYPES.USER_CONTROLLER).to(UserController).inSingletonScope();
+    bind<IUserService>(APP_TYPES.USER_SERVICE).to(UserService).inSingletonScope();
 });
 
 const productModule = new ContainerModule(({ bind }) => {
