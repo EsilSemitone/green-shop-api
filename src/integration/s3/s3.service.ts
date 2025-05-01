@@ -5,9 +5,10 @@ import { IConfigService } from '../../core/configService/config.service.interfac
 import { ILogger } from '../../core/logger/logger.service.interface';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { randomUUID } from 'crypto';
+import { IS3Service } from './interfaces/s3.service.interface';
 
 @injectable()
-export class S3Service {
+export class S3Service implements IS3Service {
     bucketName: string;
     accessKey: string;
     secretAccessKey: string;
@@ -21,9 +22,11 @@ export class S3Service {
         this.bucketName = this.configService.getOrThrow('S3_BUCKET_NAME');
 
         this.client = new S3Client({
+            endpoint: 'https://s3.regru.cloud',
+            region: 'eu-central-1',
             credentials: {
-                accessKeyId: process.env.AWS_ACCESS_KEY!,
-                secretAccessKey: process.env.AWS_SECRET_KEY!,
+                accessKeyId: this.accessKey,
+                secretAccessKey: this.secretAccessKey,
             },
         });
     }
@@ -32,22 +35,25 @@ export class S3Service {
         try {
             this.loggerService.log(`Start service uploadFile with params: ${JSON.stringify({ path })}`);
             const fileExt = file.originalname.split('.').pop();
-            const fileName = `${path}/${randomUUID()}.${fileExt}`;
+            const fullPath = `${path}/${randomUUID()}.${fileExt}`;
 
             const command = new PutObjectCommand({
                 Bucket: this.bucketName,
-                Key: fileName,
+                Key: fullPath,
                 Body: file.buffer,
                 ContentType: file.mimetype,
             });
             await this.client.send(command);
+
             this.loggerService.log('Success service uploadFile');
-            return `https://${process.env.AWS_BUCKET_NAME}.s3.amazonaws.com/${fileName}`;
+            return `https://s3.regru.cloud/green-shop/${fullPath}`;
         } catch (e) {
             this.loggerService.error(`Error service s3 upload file`);
             if (e instanceof Error) {
                 this.loggerService.error(`${e.name},${e.name},${e.stack}`);
+                throw new Error(e.message);
             }
+            throw new Error();
         }
     }
 }

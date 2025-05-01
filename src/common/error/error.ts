@@ -6,4 +6,6 @@ export const ERROR = {
     INVALID_LOGIN_DATA: 'Не верная почта или пароль',
     PRODUCT_NOT_FOUND: 'Продукт с таким id не найден',
     PRODUCT_VARIANT_NOT_FOUND: 'Вариант продукта с таким id не найден',
+
+    EXPECTED_FILES: 'Ожидалось что будет передан хотя бы один файл',
 };
