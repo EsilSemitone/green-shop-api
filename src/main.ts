@@ -32,6 +32,9 @@ import { ProductRepository } from './product/product.repository';
 import { UserController } from './user/user.controller';
 import { IUserService } from './user/interfaces/user.service.interface';
 import { UserService } from './user/user.service';
+import { IS3Service } from './integration/s3/interfaces/s3.service.interface';
+import { S3Service } from './integration/s3/s3.service';
+import { UploadController } from './upload/upload.controller';
 
 const container = new Container();
 
@@ -43,8 +46,13 @@ const appModule = new ContainerModule(({ bind }) => {
     bind<IJwtService>(APP_TYPES.JWT_SERVICE).to(JwtService).inSingletonScope();
     bind<AuthGuardFactory>(APP_TYPES.AUTH_GUARD_FACTORY).to(AuthGuardFactory).inSingletonScope();
 
-    bind<IEmailService>(APP_TYPES.EMAIL_SERVICE).to(EmailService).inSingletonScope();
     bind<IRefreshTokenRepository>(APP_TYPES.REFRESH_TOKEN_REPOSITORY).to(RefreshTokenRepository).inSingletonScope();
+    bind<IController>(APP_TYPES.UPLOAD_CONTROLLER).to(UploadController).inSingletonScope();
+});
+
+const integrationModule = new ContainerModule(({ bind }) => {
+    bind<IEmailService>(APP_TYPES.EMAIL_SERVICE).to(EmailService).inSingletonScope();
+    bind<IS3Service>(APP_TYPES.S3_SERVICE).to(S3Service).inSingletonScope();
 });
 
 const authModule = new ContainerModule(({ bind }) => {
@@ -69,6 +77,7 @@ function buildContainer(): Container {
     container.load(userModule);
     container.load(authModule);
     container.load(productModule);
+    container.load(integrationModule);
     container.bind<App>(APP_TYPES.APP).to(App).inSingletonScope();
 
     return container;
