@@ -52,11 +52,16 @@ export class AuthController extends Controller implements IController {
                 func: this.logout,
                 middlewares: [this.authGuardFactory.create()],
             },
+            {
+                path: '/refresh',
+                method: 'post',
+                func: this.refresh,
+                middlewares: [this.authGuardFactory.create()],
+            },
         ]);
     }
 
     async register(req: Request<object, object, RegisterSchemaRequestDto, object, object>, res: Response) {
-        console.log(req.cookies);
         const { accessToken, refreshToken } = await this.authService.register(req.body);
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
@@ -80,6 +85,16 @@ export class AuthController extends Controller implements IController {
         const result = await this.authService.logout(cookies['refreshToken'], user!);
         res.clearCookie('refreshToken');
         this.ok(res, result);
+    }
+
+    async refresh({ user, cookies }: Request, res: Response) {
+        const { refreshToken, accessToken } = await this.authService.refresh(cookies['refreshToken'], user!);
+        res.cookie('refreshToken', refreshToken, {
+            httpOnly: true,
+            sameSite: 'strict',
+            maxAge: 1000 * 60 * 60 * 24 * 30,
+        });
+        this.ok(res, { accessToken });
     }
 
     async restorePassword({ body }: Request<object, object, RestorePasswordRequestDto, object, object>, res: Response) {

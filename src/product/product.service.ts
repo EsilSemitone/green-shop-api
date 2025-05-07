@@ -11,9 +11,12 @@ import {
     DeleteProductResponseDto,
     DeleteProductVariantResponseDto,
     GetProductByUuidResponseDto,
+    GetProductFilterResponseDto,
     GetProductVariantsByCriteriaRequestQueryDto,
     GetProductVariantsByCriteriaResponseDto,
     GetProductVariantsByProductResponseDto,
+    GetSimilarProductVariantsRequestDto,
+    GetSimilarProductVariantsResponseDto,
     UpdateProductRequestDto,
     UpdateProductResponseDto,
     UpdateProductVariantRequestDto,
@@ -167,7 +170,7 @@ export class ProductService implements IProductService {
             throw new HttpException(ERROR.PRODUCT_NOT_FOUND, 404);
         }
 
-        const variants = await this.productRepository.getProductVariantsByCriteria({ product_id: productId });
+        const variants = await this.productRepository.getProductVariantsByProduct(productId);
 
         this.loggerService.log('Success service get product variants by product');
         return { ...product, variants };
@@ -198,5 +201,32 @@ export class ProductService implements IProductService {
             totalPage,
             page,
         };
+    }
+
+    async getProductFilter(): Promise<GetProductFilterResponseDto> {
+        this.loggerService.log(`Start service get product filter`);
+
+        const filter = await this.productRepository.getProductFilter();
+
+        this.loggerService.log('Success service get product filter');
+        return filter;
+    }
+
+    async getSimilarProductVariants(
+        dto: GetSimilarProductVariantsRequestDto,
+    ): Promise<GetSimilarProductVariantsResponseDto> {
+        this.loggerService.log(`Start service get product filter`);
+
+        const { products } = await this.productRepository.getProductVariantsByCriteriaExtended({ ...dto, offset: 0 });
+
+        const currentProducts = products.map(({ price, images, ...otherProps }) => {
+            return {
+                ...otherProps,
+                price: Number(price).toFixed(2),
+                image: images[0] || null,
+            };
+        });
+        this.loggerService.log('Success service get product filter');
+        return currentProducts;
     }
 }

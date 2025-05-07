@@ -9,7 +9,6 @@ import { IController } from './common/interfaces/controller.interface';
 import { IExceptionsFilter } from './common/exceptionFilter/exceptionFilter.interface';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import multer from 'multer';
 
 @injectable()
 export class App {
@@ -26,6 +25,7 @@ export class App {
         @inject(APP_TYPES.PRODUCT_CONTROLLER) private productController: IController,
         @inject(APP_TYPES.USER_CONTROLLER) private userController: IController,
         @inject(APP_TYPES.UPLOAD_CONTROLLER) private uploadController: IController,
+        @inject(APP_TYPES.CART_CONTROLLER) private cartController: IController,
     ) {
         this.app = express();
 
@@ -49,8 +49,6 @@ export class App {
         );
         this.app.use(cookieParser());
         this.app.use(json());
-        // this.app.use(express.static(__dirname));
-        // this.app.use(multer({ dest: 'uploads' }).single('filedata'));
     }
 
     useRoutes(): void {
@@ -58,6 +56,7 @@ export class App {
         this.app.use(this.buildPath('product'), this.productController.router);
         this.app.use(this.buildPath('user'), this.userController.router);
         this.app.use(this.buildPath('upload'), this.uploadController.router);
+        this.app.use(this.buildPath('cart'), this.cartController.router);
     }
 
     private useExceptionFilters(): void {

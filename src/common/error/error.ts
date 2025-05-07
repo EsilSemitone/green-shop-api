@@ -1,4 +1,6 @@
 export const ERROR = {
+    UNAUTHORIZED: 'Пользователь не авторизован',
+
     ERROR_PARSE_ENV_FILE: 'Произошла ошибка при парсинге env',
     ERROR_GET_ENV_PARAM: (key: string) => `Произошла ошибка при получении ${key} из env`,
     USER_ALREADY_EXIST: 'Пользователь с таким email уже существует',
@@ -8,4 +10,7 @@ export const ERROR = {
     PRODUCT_VARIANT_NOT_FOUND: 'Вариант продукта с таким id не найден',
 
     EXPECTED_FILES: 'Ожидалось что будет передан хотя бы один файл',
+
+    INVALID_REFRESH_TOKEN: 'Не валидный refresh токен',
+    INVALID_ACCESS_TOKEN: 'Не валидный access токен',
 };

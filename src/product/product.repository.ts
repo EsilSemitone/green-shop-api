@@ -10,10 +10,12 @@ import { ICreateProductVariant } from './interfaces/create-product-variant.inter
 import { ProductVariantModel } from '../common/models/product-variant-model';
 import { IUpdateProductVariant } from './interfaces/update-product-variant.interface';
 import {
-    IGetProductVariantsByCriteria,
+    IGetProductVariantsByCriteriaExtendedData,
     IGetProductVariantsByCriteriaExtendedReturnType,
 } from './interfaces/get-product-variants-by-criteria.interface';
-import { GetProductVariantsByCriteriaRequestQueryDto } from 'contracts';
+import { IProductFilter } from './interfaces/product-filter.interface';
+import { CustomProductVariantExtended } from './interfaces/custom-product-variant.interface';
+import { ProductVariantTagsModel } from '../common/models/product-variant-tags-model.interface';
 
 @injectable()
 export class ProductRepository implements IProductRepository {
@@ -66,8 +68,25 @@ export class ProductRepository implements IProductRepository {
         return product || null;
     }
 
-    async getProductVariantsByCriteria(filter: IGetProductVariantsByCriteria): Promise<ProductVariantModel[]> {
-        const productVariants = await this.databaseService.db<ProductVariantModel>('product_variants').where(filter);
+    async getProductVariantsByProduct(productId: string): Promise<CustomProductVariantExtended[]> {
+        const productVariants = await this.databaseService.db
+            .with(
+                'product_tags',
+                this.databaseService
+                    .db<ProductVariantTagsModel>('product_variant_tags')
+                    .select('product_variant_id', 'tag_id'),
+            )
+            .select([
+                'pv.*',
+                this.databaseService.db.raw('array_agg(t.name) as tags'),
+                this.databaseService.db.raw('array_agg(t.uuid) as tags_id'),
+            ])
+            .from({ pv: 'product_variants' })
+            .join({ pt: 'product_tags' }, 'pv.uuid', 'pt.product_variant_id')
+            .join({ t: 'tags' }, 'pt.tag_id', 't.uuid')
+            .where({ product_id: productId })
+            .groupBy('pv.uuid');
+
         return productVariants;
     }
 
@@ -75,11 +94,12 @@ export class ProductRepository implements IProductRepository {
         limit,
         offset,
         priceFrom,
+        tags_id,
         priceTo,
         category,
         size,
         search,
-    }: GetProductVariantsByCriteriaRequestQueryDto): Promise<IGetProductVariantsByCriteriaExtendedReturnType> {
+    }: IGetProductVariantsByCriteriaExtendedData): Promise<IGetProductVariantsByCriteriaExtendedReturnType> {
         const buildProductQuery = () => {
             const query = this.databaseService.db<ProductModel>('products').select('uuid', 'name', 'images');
             if (category) {
@@ -91,19 +111,31 @@ export class ProductRepository implements IProductRepository {
             return query;
         };
 
+        const buildTagsQuery = () => {
+            const query = this.databaseService
+                .db<ProductVariantTagsModel>('product_variant_tags')
+                .select('product_variant_id', 'tag_id');
+            if (tags_id) {
+                query.whereIn('tag_id', tags_id);
+            }
+            return query;
+        };
+
         const query = () => {
             const q = this.databaseService.db
                 .with('product_filter', buildProductQuery())
+                .with('product_tags', buildTagsQuery())
                 .select(
+                    this.databaseService.db.raw('DISTINCT product_variants.uuid as product_variant_id'),
                     'pf.uuid as uuid',
                     'product_variants.price as price',
                     'pf.name as name',
-                    'product_variants.uuid as product_variant_id',
                     'pf.images as images',
                 )
                 .from('product_variants')
                 .whereBetween('price', [priceFrom ? Number(priceFrom) : 0, priceTo ? Number(priceTo) : 100000])
-                .join('product_filter as pf', 'product_variants.product_id', 'pf.uuid');
+                .join('product_filter as pf', 'product_variants.product_id', 'pf.uuid')
+                .join('product_tags as pt', 'product_variants.uuid', 'pt.product_variant_id');
             if (size) {
                 q.andWhere({ size });
             }
@@ -122,5 +154,48 @@ export class ProductRepository implements IProductRepository {
 
     async deleteProductVariant(uuid: string): Promise<void> {
         await this.databaseService.db<ProductVariantModel>('product_variants').delete().where({ uuid });
+    }
+
+    async getProductFilter(): Promise<IProductFilter> {
+        const result = await this.databaseService.db.raw(`
+            select json_build_object (
+                'categories', (
+                    select json_agg(
+                        json_build_object(
+                            'category', category,
+                            'count', count_category
+                        )) from (
+                                select category, count(*) as count_category from products
+                                group by category
+                        ) as categories
+                ),
+                'sizes', (
+                    select json_agg(
+                        json_build_object(
+                            'size', size,
+                            'count', count_size
+                        )) from (
+                                select size, count(*) as count_size from product_variants
+                                group by size
+                        ) as sizes
+                ),
+                    'prices', (
+                    select json_build_object(
+                            'min', min(price),
+                            'max', max(price)
+                        ) from product_variants
+                )
+            );
+        `);
+
+        const filter = result.rows[0].json_build_object;
+
+        return {
+            ...filter,
+            prices: {
+                min: Number.parseFloat(filter.prices.min),
+                max: Number.parseFloat(filter.prices.max),
+            },
+        };
     }
 }
