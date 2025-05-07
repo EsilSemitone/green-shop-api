@@ -23,6 +23,8 @@ import {
     GetProductVariantsByCriteriaRequestQuerySchema,
     GetProductVariantsByProductRequestParamsDto,
     GetProductVariantsByProductRequestParamsSchema,
+    GetSimilarProductVariantsRequestDto,
+    GetSimilarProductVariantsRequestSchema,
     UpdateProductRequestDto,
     UpdateProductRequestParamsDto,
     UpdateProductRequestParamsSchema,
@@ -58,6 +60,20 @@ export class ProductController extends Controller implements IController {
                 middlewares: [
                     new ValidateMiddleware([{ key: 'query', schema: GetProductVariantsByCriteriaRequestQuerySchema }]),
                 ],
+            },
+            {
+                path: '/variants/similar',
+                method: 'post',
+                func: this.getSimilarProductVariants,
+                middlewares: [
+                    new ValidateMiddleware([{ key: 'body', schema: GetSimilarProductVariantsRequestSchema }]),
+                ],
+            },
+            {
+                path: '/filter',
+                method: 'get',
+                func: this.getProductFilter,
+                middlewares: [],
             },
             {
                 path: '/:uuid',
@@ -201,6 +217,19 @@ export class ProductController extends Controller implements IController {
         res: Response,
     ) {
         const result = await this.productService.getProductVariantsByCriteria(query);
-        this.ok(res, { isSuccess: result });
+        this.ok(res, result);
+    }
+
+    async getProductFilter(req: Request, res: Response) {
+        const result = await this.productService.getProductFilter();
+        this.ok(res, result);
+    }
+
+    async getSimilarProductVariants(
+        { body }: Request<object, object, GetSimilarProductVariantsRequestDto>,
+        res: Response,
+    ) {
+        const result = await this.productService.getSimilarProductVariants(body);
+        this.ok(res, result);
     }
 }

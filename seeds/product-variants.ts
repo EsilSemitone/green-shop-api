@@ -1,42 +1,11 @@
 import { Knex } from 'knex';
 import { ProductVariantModel } from '../src/common/models/product-variant-model';
-import { randomUUID } from 'crypto';
-import { SIZE } from 'contracts';
-import { PRODUCTS } from './products';
-import { ProductModel } from '../src/common/models/product-model.interface';
-
-function getProductVariants(products: ProductModel[]): ProductVariantModel[] {
-    //
-    const sizes = [SIZE.LARGE, SIZE.MEDIUM, SIZE.SMALL];
-    const result = products
-        .map((product) => {
-            const variantAmount = Math.floor(Math.random() * 3);
-            const res = [];
-            for (let i = 0; i <= variantAmount; i++) {
-                res.push({
-                    uuid: randomUUID(),
-                    product_id: product.uuid,
-                    rating: Number.parseFloat(`${Math.floor(Math.random() * 4) + 1}.${Math.floor(Math.random() * 99)}`),
-                    price: Number.parseFloat(
-                        `${Math.floor(Math.random() * 1000) + 50}.${Math.floor(Math.random() * 99)}`,
-                    ),
-                    size: sizes[i],
-                    stock: Math.floor(Math.random() * 100) + 1,
-                    created_at: product.created_at,
-                    updated_at: product.created_at,
-                });
-            }
-            return res;
-        })
-        .flat(1);
-
-    return result;
-}
+import { PRODUCT_VARIANTS } from './constants/product-variants';
 
 export async function seed(knex: Knex): Promise<void> {
     // Deletes ALL existing entries
     await knex('product_variants').del();
 
     // Inserts seed entries
-    await knex<ProductVariantModel>('product_variants').insert(getProductVariants(PRODUCTS));
+    await knex<ProductVariantModel>('product_variants').insert(PRODUCT_VARIANTS);
 }

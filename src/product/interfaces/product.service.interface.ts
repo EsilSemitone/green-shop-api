@@ -4,9 +4,12 @@ import {
     DeleteProductResponseDto,
     DeleteProductVariantResponseDto,
     GetProductByUuidResponseDto,
+    GetProductFilterResponseDto,
     GetProductVariantsByCriteriaRequestQueryDto,
     GetProductVariantsByCriteriaResponseDto,
     GetProductVariantsByProductResponseDto,
+    GetSimilarProductVariantsRequestDto,
+    GetSimilarProductVariantsResponseDto,
     UpdateProductRequestDto,
     UpdateProductResponseDto,
     UpdateProductVariantRequestDto,
@@ -33,4 +36,6 @@ export interface IProductService {
     getProductVariantsByCriteria(
         query: GetProductVariantsByCriteriaRequestQueryDto,
     ): Promise<GetProductVariantsByCriteriaResponseDto>;
+    getProductFilter(): Promise<GetProductFilterResponseDto>;
+    getSimilarProductVariants(dto: GetSimilarProductVariantsRequestDto): Promise<GetSimilarProductVariantsResponseDto>;
 }

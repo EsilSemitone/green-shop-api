@@ -35,6 +35,11 @@ import { UserService } from './user/user.service';
 import { IS3Service } from './integration/s3/interfaces/s3.service.interface';
 import { S3Service } from './integration/s3/s3.service';
 import { UploadController } from './upload/upload.controller';
+import { CartController } from './cart/cart.controller';
+import { ICartService } from './cart/interfaces/cart.service.interface';
+import { CartService } from './cart/cart.service';
+import { ICartRepository } from './cart/interfaces/cart.repository.interface';
+import { cartRepository } from './cart/cart.repository';
 
 const container = new Container();
 
@@ -72,12 +77,19 @@ const productModule = new ContainerModule(({ bind }) => {
     bind<IProductRepository>(APP_TYPES.PRODUCT_REPOSITORY).to(ProductRepository).inSingletonScope();
 });
 
+const cartModule = new ContainerModule(({ bind }) => {
+    bind<IController>(APP_TYPES.CART_CONTROLLER).to(CartController).inSingletonScope();
+    bind<ICartService>(APP_TYPES.CART_SERVICE).to(CartService).inSingletonScope();
+    bind<ICartRepository>(APP_TYPES.CART_REPOSITORY).to(cartRepository).inSingletonScope();
+});
+
 function buildContainer(): Container {
     container.load(appModule);
     container.load(userModule);
     container.load(authModule);
     container.load(productModule);
     container.load(integrationModule);
+    container.load(cartModule);
     container.bind<App>(APP_TYPES.APP).to(App).inSingletonScope();
 
     return container;

@@ -5,10 +5,11 @@ import { ICreateProductVariant } from './create-product-variant.interface';
 import { ProductVariantModel } from '../../common/models/product-variant-model';
 import { IUpdateProductVariant } from './update-product-variant.interface';
 import {
-    IGetProductVariantsByCriteria,
+    IGetProductVariantsByCriteriaExtendedData,
     IGetProductVariantsByCriteriaExtendedReturnType,
 } from './get-product-variants-by-criteria.interface';
-import { GetProductVariantsByCriteriaRequestQueryDto } from 'contracts';
+import { IProductFilter } from './product-filter.interface';
+import { CustomProductVariantExtended } from './custom-product-variant.interface';
 
 export interface IProductRepository {
     create(data: CreateProductRequestDto): Promise<ProductModel>;
@@ -20,13 +21,15 @@ export interface IProductRepository {
     updateProductVariant({ uuid, ...data }: IUpdateProductVariant): Promise<ProductVariantModel>;
     getProductVariantByUuid(uuid: string): Promise<ProductVariantModel | null>;
     deleteProductVariant(uuid: string): Promise<void>;
-    getProductVariantsByCriteria(filter: IGetProductVariantsByCriteria): Promise<ProductVariantModel[]>;
+    getProductVariantsByProduct(productId: string): Promise<CustomProductVariantExtended[]>;
     getProductVariantsByCriteriaExtended({
         limit,
         offset,
-        price,
+        priceFrom,
+        priceTo,
         category,
         size,
         search,
-    }: GetProductVariantsByCriteriaRequestQueryDto): Promise<IGetProductVariantsByCriteriaExtendedReturnType>;
+    }: IGetProductVariantsByCriteriaExtendedData): Promise<IGetProductVariantsByCriteriaExtendedReturnType>;
+    getProductFilter(): Promise<IProductFilter>;
 }
