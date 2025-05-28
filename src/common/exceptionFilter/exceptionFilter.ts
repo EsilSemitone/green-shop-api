@@ -13,6 +13,7 @@ export class ExceptionsFilter implements IExceptionsFilter {
     }
 
     execute(err: Error | HttpException, req: Request, res: Response, _: NextFunction): void {
+        console.log(err.stack)
         if (err instanceof HttpException) {
             this.logger.error(`[${err.context || ''}] ${err.path || req.path} ${err.message}  ${err.code}`);
             res.status(err.code);
@@ -26,5 +27,6 @@ export class ExceptionsFilter implements IExceptionsFilter {
             res.status(500);
             res.send({ error: 'internal server error', code: 500, path: req.path });
         }
+        this.logger.error(`[${err.stack}`);
     }
 }

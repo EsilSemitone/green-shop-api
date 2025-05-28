@@ -96,7 +96,7 @@ export class AuthService implements IAuthService {
         await this.refreshTokenRepository.create({
             user_id: isUserExist.uuid,
             token: refreshToken,
-            expires_at: new Date(Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30),
+            expires_at: new Date(Date.now() + 60 * 60 * 24 * 30),
         });
 
         this.loggerService.log(`Success service login user`);
@@ -175,28 +175,40 @@ export class AuthService implements IAuthService {
         };
     }
 
-    async refresh(refreshToken: string | undefined, { userId }: IJwtPayload): Promise<ILoginResponse> {
-        this.loggerService.log(`Start service logout user with params: ${JSON.stringify({ refreshToken })}`);
+    async refresh(refreshToken: string | undefined): Promise<ILoginResponse> {
+        this.loggerService.log(`Start service refresh token with params: ${JSON.stringify({ refreshToken })}`);
 
         if (!refreshToken) {
+            console.log(1);
             this.loggerService.error(`Error service refresh, refreshToken is not defined`);
             throw new HttpException(ERROR.INVALID_REFRESH_TOKEN, 400);
         }
         const isTokenExist = await this.refreshTokenRepository.getByUniqueCriteria({ token: refreshToken });
 
         if (!isTokenExist) {
+            console.log(2);
+
             this.loggerService.error(`Error service refresh, refreshToken is not found`);
             throw new HttpException(ERROR.INVALID_REFRESH_TOKEN, 400);
         }
 
         if (!isTokenExist.is_valid || new Date().getTime() > isTokenExist.expires_at.getTime()) {
+            console.log(`isTokenExist.is_valid ${isTokenExist.is_valid}`);
+            console.log(`new Date().getTime() ${new Date().toLocaleDateString()}`);
+            console.log(
+                `isTokenExist.expires_at.getTime() ${new Date(
+                    isTokenExist.expires_at.getTime() * 1000,
+                ).toLocaleDateString()}`,
+            );
             this.loggerService.error(`Error service refresh, refreshToken is not valid`);
             throw new HttpException(ERROR.INVALID_REFRESH_TOKEN, 400);
         }
 
-        const isUserExist = await this.userRepository.getByUniqueCriteria({ uuid: userId });
+        const { userId } = await this.jwtService.verify(isTokenExist.token);
 
-        if (!isUserExist) {
+        const user = await this.userRepository.getByUniqueCriteria({ uuid: userId });
+
+        if (!user) {
             this.loggerService.error(`Error service refresh, user is not found`);
             throw new HttpException(ERROR.INVALID_ACCESS_TOKEN, 400);
         }
@@ -204,14 +216,14 @@ export class AuthService implements IAuthService {
         await this.refreshTokenRepository.tokenDisable(userId, refreshToken);
 
         const [accessToken, newRefreshToken] = await Promise.all([
-            await this.jwtService.signAccess(isUserExist.uuid, isUserExist.role),
-            await this.jwtService.signRefresh(isUserExist.uuid, isUserExist.role),
+            await this.jwtService.signAccess(userId, user.role),
+            await this.jwtService.signRefresh(userId, user.role),
         ]);
 
         await this.refreshTokenRepository.create({
-            user_id: isUserExist.uuid,
+            user_id: userId,
             token: refreshToken,
-            expires_at: new Date(Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 30),
+            expires_at: new Date(Date.now() + 60 * 60 * 24 * 30),
         });
 
         this.loggerService.log(`Success service refresh`);

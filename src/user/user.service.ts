@@ -40,7 +40,9 @@ export class UserService implements IUserService {
         userId: string,
         { password, ...otherUpdateData }: UpdateUserRequestDto,
     ): Promise<UpdateUserResponseDto> {
-        this.loggerService.log(`Start service update user with params: ${JSON.stringify({ userId })}`);
+        this.loggerService.log(
+            `Start service update user with params: ${JSON.stringify({ userId, password, ...otherUpdateData })}`,
+        );
 
         const user = await this.userRepository.getByUniqueCriteria({ uuid: userId });
         if (!user) {

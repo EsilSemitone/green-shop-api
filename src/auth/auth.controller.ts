@@ -56,7 +56,7 @@ export class AuthController extends Controller implements IController {
                 path: '/refresh',
                 method: 'post',
                 func: this.refresh,
-                middlewares: [this.authGuardFactory.create()],
+                middlewares: [],
             },
         ]);
     }
@@ -87,8 +87,8 @@ export class AuthController extends Controller implements IController {
         this.ok(res, result);
     }
 
-    async refresh({ user, cookies }: Request, res: Response) {
-        const { refreshToken, accessToken } = await this.authService.refresh(cookies['refreshToken'], user!);
+    async refresh({cookies }: Request, res: Response) {
+        const { refreshToken, accessToken } = await this.authService.refresh(cookies['refreshToken']);
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,
             sameSite: 'strict',

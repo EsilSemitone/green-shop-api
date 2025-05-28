@@ -14,8 +14,9 @@ import {
     IGetProductVariantsByCriteriaExtendedReturnType,
 } from './interfaces/get-product-variants-by-criteria.interface';
 import { IProductFilter } from './interfaces/product-filter.interface';
-import { CustomProductVariantExtended } from './interfaces/custom-product-variant.interface';
+import { CustomProductVariant, CustomProductVariantExtended } from './interfaces/custom-product-variant.interface';
 import { ProductVariantTagsModel } from '../common/models/product-variant-tags-model.interface';
+import { IGetProductVariantExtended } from './interfaces/get-product-cariant-extended.interface';
 
 @injectable()
 export class ProductRepository implements IProductRepository {
@@ -197,5 +198,37 @@ export class ProductRepository implements IProductRepository {
                 max: Number.parseFloat(filter.prices.max),
             },
         };
+    }
+
+    async getProductVariantExtended({ uuid }: IGetProductVariantExtended): Promise<CustomProductVariant | null> {
+        const buildProductQuery = () => {
+            const query = this.databaseService.db<ProductModel>('products').select('uuid', 'name', 'images');
+            return query;
+        };
+        const buildProductVariantTagsQuery = () => {
+            const query = this.databaseService
+                .db<ProductVariantTagsModel>('product_variant_tags')
+                .select('tag_id', 'product_variant_id');
+            return query;
+        };
+        const result: CustomProductVariant | null = await this.databaseService.db
+            .with('product', buildProductQuery())
+            .with('pv_tags', buildProductVariantTagsQuery())
+            .select(
+                'pv.uuid as product_variant_id',
+                'pd.uuid as uuid',
+                'pv.price as price',
+                'pd.name as name',
+                'pd.images as images',
+                this.databaseService.db.raw('array_agg(pv_tags.tag_id) as tags_id'),
+            )
+            .from({ pv: 'product_variants' })
+            .where({ 'pv.uuid': uuid })
+            .join('product as pd', 'pv.product_id', 'pd.uuid')
+            .join('pv_tags', 'pv_tags.product_variant_id', 'pv.uuid')
+            .groupBy('pv.uuid', 'pd.uuid', 'pv.price', 'pd.name', 'pd.images')
+            .first();
+
+        return result || null;
     }
 }

@@ -9,7 +9,8 @@ import {
     IGetProductVariantsByCriteriaExtendedReturnType,
 } from './get-product-variants-by-criteria.interface';
 import { IProductFilter } from './product-filter.interface';
-import { CustomProductVariantExtended } from './custom-product-variant.interface';
+import { CustomProductVariant, CustomProductVariantExtended } from './custom-product-variant.interface';
+import { IGetProductVariantExtended } from './get-product-cariant-extended.interface';
 
 export interface IProductRepository {
     create(data: CreateProductRequestDto): Promise<ProductModel>;
@@ -32,4 +33,5 @@ export interface IProductRepository {
         search,
     }: IGetProductVariantsByCriteriaExtendedData): Promise<IGetProductVariantsByCriteriaExtendedReturnType>;
     getProductFilter(): Promise<IProductFilter>;
+    getProductVariantExtended(query: IGetProductVariantExtended): Promise<CustomProductVariant | null>;
 }

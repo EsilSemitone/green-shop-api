@@ -8,6 +8,7 @@ import {
     GetProductVariantsByCriteriaRequestQueryDto,
     GetProductVariantsByCriteriaResponseDto,
     GetProductVariantsByProductResponseDto,
+    GetProductVariantByUuidResponseDto,
     GetSimilarProductVariantsRequestDto,
     GetSimilarProductVariantsResponseDto,
     UpdateProductRequestDto,
@@ -38,4 +39,5 @@ export interface IProductService {
     ): Promise<GetProductVariantsByCriteriaResponseDto>;
     getProductFilter(): Promise<GetProductFilterResponseDto>;
     getSimilarProductVariants(dto: GetSimilarProductVariantsRequestDto): Promise<GetSimilarProductVariantsResponseDto>;
+    getProductVariantByUuid(uuid: string): Promise<GetProductVariantByUuidResponseDto>;
 }

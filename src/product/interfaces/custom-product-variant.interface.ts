@@ -6,9 +6,10 @@ export interface CustomProductVariant {
     name: string;
     product_variant_id: string;
     images: string[];
+    tags_id: string[];
 }
 
 export interface CustomProductVariantExtended extends ProductVariantModel {
     tags: string[];
-    tags_id: string[]
+    tags_id: string[];
 }

@@ -1,5 +1,5 @@
 import { Knex } from 'knex';
-import { PRODUCT_VARIANT_TAGS } from './constants/product-variants-tags';
+// import { PRODUCT_VARIANT_TAGS } from './constants/product-variants-tags';
 import { getProductVariantTags } from './helpers/get-product-variants-tags';
 import { TAGS } from './constants/tags';
 

@@ -17,12 +17,14 @@ export class ValidateMiddleware implements IMiddleware {
                     errors.push(e);
                 }
             } else {
-                Object.defineProperty(req, key, {
-                    value: parseResult,
-                    writable: false,
-                    configurable: true,
-                    enumerable: true,
-                });
+                if (key != 'params') {
+                    Object.defineProperty(req, key, {
+                        value: parseResult,
+                        writable: false,
+                        configurable: true,
+                        enumerable: true,
+                    });
+                }
             }
         }
 
