@@ -40,6 +40,24 @@ import { ICartService } from './cart/interfaces/cart.service.interface';
 import { CartService } from './cart/cart.service';
 import { ICartRepository } from './cart/interfaces/cart.repository.interface';
 import { cartRepository } from './cart/cart.repository';
+import { AddressController } from './address/address.controller';
+import { IAddressService } from './address/interfaces/address.service.interface';
+import { AddressService } from './address/address.service';
+import { IAddressRepository } from './address/interfaces/address.repository.interface';
+import { AddressRepository } from './address/address.repository';
+import { IOrderService } from './order/interfaces/order.service.interface';
+import { IOrderRepository } from './order/interfaces/order.repository.interface';
+import { OrderController } from './order/order.controller';
+import { OrderService } from './order/order.service';
+import { OrderRepository } from './order/order.repository';
+import { IPaymentMethodRepository } from './payment-method/interfaces/payment-method.repository.interface';
+import { PaymentMethodRepository } from './payment-method/payment-method.repository';
+import { PaymentMethodController } from './payment-method/payment-method.controller';
+import { IPaymentMethodService } from './payment-method/interfaces/payment-method.service.interface';
+import { PaymentMethodService } from './payment-method/payment-method.service';
+import { IYookassaService } from './integration/yookassa/interfaces/yookassa.service.interface';
+import { YookassaService } from './integration/yookassa/yookassa.service';
+import { YookassaController } from './integration/yookassa/yookassa.controller';
 
 const container = new Container();
 
@@ -83,6 +101,29 @@ const cartModule = new ContainerModule(({ bind }) => {
     bind<ICartRepository>(APP_TYPES.CART_REPOSITORY).to(cartRepository).inSingletonScope();
 });
 
+const addressModule = new ContainerModule(({ bind }) => {
+    bind<IController>(APP_TYPES.ADDRESS_CONTROLLER).to(AddressController).inSingletonScope();
+    bind<IAddressService>(APP_TYPES.ADDRESS_SERVICE).to(AddressService).inSingletonScope();
+    bind<IAddressRepository>(APP_TYPES.ADDRESS_REPOSITORY).to(AddressRepository).inSingletonScope();
+});
+
+const orderModule = new ContainerModule(({ bind }) => {
+    bind<IController>(APP_TYPES.ORDER_CONTROLLER).to(OrderController).inSingletonScope();
+    bind<IOrderService>(APP_TYPES.ORDER_SERVICE).to(OrderService).inSingletonScope();
+    bind<IOrderRepository>(APP_TYPES.ORDER_REPOSITORY).to(OrderRepository).inSingletonScope();
+});
+
+const PaymentMethodModule = new ContainerModule(({ bind }) => {
+    bind<IController>(APP_TYPES.PAYMENT_METHOD_CONTROLLER).to(PaymentMethodController).inSingletonScope();
+    bind<IPaymentMethodService>(APP_TYPES.PAYMENT_METHOD_SERVICE).to(PaymentMethodService).inSingletonScope();
+    bind<IPaymentMethodRepository>(APP_TYPES.PAYMENT_METHOD_REPOSITORY).to(PaymentMethodRepository).inSingletonScope();
+});
+
+const YookassaModule = new ContainerModule(({ bind }) => {
+    bind<IController>(APP_TYPES.YOOKASSA_CONTROLLER).to(YookassaController).inSingletonScope();
+    bind<IYookassaService>(APP_TYPES.YOOKASSA_SERVICE).to(YookassaService).inSingletonScope();
+});
+
 function buildContainer(): Container {
     container.load(appModule);
     container.load(userModule);
@@ -90,6 +131,10 @@ function buildContainer(): Container {
     container.load(productModule);
     container.load(integrationModule);
     container.load(cartModule);
+    container.load(addressModule);
+    container.load(orderModule);
+    container.load(PaymentMethodModule);
+    container.load(YookassaModule);
     container.bind<App>(APP_TYPES.APP).to(App).inSingletonScope();
 
     return container;

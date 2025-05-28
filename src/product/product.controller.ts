@@ -23,6 +23,8 @@ import {
     GetProductVariantsByCriteriaRequestQuerySchema,
     GetProductVariantsByProductRequestParamsDto,
     GetProductVariantsByProductRequestParamsSchema,
+    GetProductVariantByUuidRequestParamsDto,
+    GetProductVariantByUuidRequestParamsSchema,
     GetSimilarProductVariantsRequestDto,
     GetSimilarProductVariantsRequestSchema,
     UpdateProductRequestDto,
@@ -59,6 +61,14 @@ export class ProductController extends Controller implements IController {
                 func: this.getProductVariantsByCriteria,
                 middlewares: [
                     new ValidateMiddleware([{ key: 'query', schema: GetProductVariantsByCriteriaRequestQuerySchema }]),
+                ],
+            },
+            {
+                path: '/variants/:uuid',
+                method: 'get',
+                func: this.getProductVariantByUuid,
+                middlewares: [
+                    new ValidateMiddleware([{ key: 'params', schema: GetProductVariantByUuidRequestParamsSchema }]),
                 ],
             },
             {
@@ -230,6 +240,11 @@ export class ProductController extends Controller implements IController {
         res: Response,
     ) {
         const result = await this.productService.getSimilarProductVariants(body);
+        this.ok(res, result);
+    }
+
+    async getProductVariantByUuid({ params }: Request<GetProductVariantByUuidRequestParamsDto>, res: Response) {
+        const result = await this.productService.getProductVariantByUuid(params.uuid);
         this.ok(res, result);
     }
 }

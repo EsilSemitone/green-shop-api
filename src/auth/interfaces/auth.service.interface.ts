@@ -1,7 +1,6 @@
 import {
     LoginSchemaRequestDto,
     LogoutResponseDto,
-    RefreshResponseDto,
     RegisterSchemaRequestDto,
     ResetPasswordRequestDto,
     ResetPasswordResponseDto,
@@ -17,5 +16,5 @@ export interface IAuthService {
     logout(refreshToken: string | undefined, { userId }: IJwtPayload): Promise<LogoutResponseDto>;
     restorePassword(email: string): Promise<RestorePasswordResponseDto>;
     resetPassword(data: ResetPasswordRequestDto): Promise<ResetPasswordResponseDto>;
-    refresh(refreshToken: string | undefined, { userId }: IJwtPayload): Promise<ILoginResponse>;
+    refresh(refreshToken: string | undefined): Promise<ILoginResponse>;
 }

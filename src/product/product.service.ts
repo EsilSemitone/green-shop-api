@@ -15,6 +15,7 @@ import {
     GetProductVariantsByCriteriaRequestQueryDto,
     GetProductVariantsByCriteriaResponseDto,
     GetProductVariantsByProductResponseDto,
+    GetProductVariantByUuidResponseDto,
     GetSimilarProductVariantsRequestDto,
     GetSimilarProductVariantsResponseDto,
     UpdateProductRequestDto,
@@ -190,7 +191,7 @@ export class ProductService implements IProductService {
         const currentProducts = products.map(({ price, images, ...otherProps }) => {
             return {
                 ...otherProps,
-                price: Number(price).toFixed(2),
+                price: Number(Number(price).toFixed(2)),
                 image: images[0] || null,
             };
         });
@@ -228,5 +229,20 @@ export class ProductService implements IProductService {
         });
         this.loggerService.log('Success service get product filter');
         return currentProducts;
+    }
+
+    async getProductVariantByUuid(uuid: string): Promise<GetProductVariantByUuidResponseDto> {
+        this.loggerService.log(`Start service get product variant by uuid ${JSON.stringify({ uuid })}`);
+
+        const variant = await this.productRepository.getProductVariantExtended({ uuid });
+
+        if (!variant) {
+            throw new HttpException(ERROR.PRODUCT_VARIANT_NOT_FOUND, 404);
+        }
+
+        const { images, price, ...otherProps } = variant;
+
+        this.loggerService.log('Success service get product variant by uuid');
+        return { ...otherProps, image: images[0] || null, price: Number(Number(price).toFixed(2)) };
     }
 }

@@ -26,6 +26,10 @@ export class App {
         @inject(APP_TYPES.USER_CONTROLLER) private userController: IController,
         @inject(APP_TYPES.UPLOAD_CONTROLLER) private uploadController: IController,
         @inject(APP_TYPES.CART_CONTROLLER) private cartController: IController,
+        @inject(APP_TYPES.ADDRESS_CONTROLLER) private addressController: IController,
+        @inject(APP_TYPES.ORDER_CONTROLLER) private orderController: IController,
+        @inject(APP_TYPES.PAYMENT_METHOD_CONTROLLER) private paymentMethodController: IController,
+        @inject(APP_TYPES.YOOKASSA_CONTROLLER) private yookassaController: IController,
     ) {
         this.app = express();
 
@@ -43,7 +47,7 @@ export class App {
     useMiddlewares(): void {
         this.app.use(
             cors({
-                origin: this.configService.getOrThrow('CLIENT_URL'),
+                origin: [this.configService.getOrThrow('CLIENT_URL')],
                 credentials: true,
             }),
         );
@@ -57,6 +61,10 @@ export class App {
         this.app.use(this.buildPath('user'), this.userController.router);
         this.app.use(this.buildPath('upload'), this.uploadController.router);
         this.app.use(this.buildPath('cart'), this.cartController.router);
+        this.app.use(this.buildPath('address'), this.addressController.router);
+        this.app.use(this.buildPath('order'), this.orderController.router);
+        this.app.use(this.buildPath('payment-method'), this.paymentMethodController.router);
+        this.app.use(this.buildPath('yookassa'), this.yookassaController.router);
     }
 
     private useExceptionFilters(): void {
