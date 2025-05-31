@@ -30,6 +30,7 @@ export class App {
         @inject(APP_TYPES.ORDER_CONTROLLER) private orderController: IController,
         @inject(APP_TYPES.PAYMENT_METHOD_CONTROLLER) private paymentMethodController: IController,
         @inject(APP_TYPES.YOOKASSA_CONTROLLER) private yookassaController: IController,
+        @inject(APP_TYPES.FAVORITES_CONTROLLER) private favoritesController: IController,
     ) {
         this.app = express();
 
@@ -65,6 +66,7 @@ export class App {
         this.app.use(this.buildPath('order'), this.orderController.router);
         this.app.use(this.buildPath('payment-method'), this.paymentMethodController.router);
         this.app.use(this.buildPath('yookassa'), this.yookassaController.router);
+        this.app.use(this.buildPath('favorites'), this.favoritesController.router);
     }
 
     private useExceptionFilters(): void {
