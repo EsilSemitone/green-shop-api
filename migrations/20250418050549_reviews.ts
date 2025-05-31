@@ -7,12 +7,17 @@ export async function up(knex: Knex): Promise<void> {
         table.uuid('user_id').notNullable();
         table.foreign('user_id').references('users.uuid').onDelete('SET NULL');
 
+        table.uuid('product_id').notNullable();
+        table.foreign('product_id').references('products.uuid').onDelete('CASCADE');
+
         table.uuid('product_variant_id').notNullable();
         table.foreign('product_variant_id').references('product_variants.uuid').onDelete('CASCADE');
 
         table.string('title').notNullable();
         table.string('description').notNullable();
         table.integer('rating').checkBetween([1, 5]).notNullable();
+
+        table.unique(['user_id', 'product_variant_id']);
         table.timestamps(true, true);
     });
 }

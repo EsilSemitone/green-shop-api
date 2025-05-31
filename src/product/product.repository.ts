@@ -135,6 +135,7 @@ export class ProductRepository implements IProductRepository {
                 )
                 .from('product_variants')
                 .whereBetween('price', [priceFrom ? Number(priceFrom) : 0, priceTo ? Number(priceTo) : 100000])
+                .where(this.databaseService.db.raw('product_variants.stock > 0'))
                 .join('product_filter as pf', 'product_variants.product_id', 'pf.uuid')
                 .join('product_tags as pt', 'product_variants.uuid', 'pt.product_variant_id');
             if (size) {

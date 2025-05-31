@@ -58,6 +58,11 @@ import { PaymentMethodService } from './payment-method/payment-method.service';
 import { IYookassaService } from './integration/yookassa/interfaces/yookassa.service.interface';
 import { YookassaService } from './integration/yookassa/yookassa.service';
 import { YookassaController } from './integration/yookassa/yookassa.controller';
+import { FavoritesController } from './favorites/favorites.controller';
+import { IFavoritesService } from './favorites/interfaces/favorites.service.interface';
+import { FavoritesService } from './favorites/favorites.service';
+import { IFavoritesRepository } from './favorites/interfaces/favorites.repository.interface';
+import { FavoritesRepository } from './favorites/favorites.repository';
 
 const container = new Container();
 
@@ -124,6 +129,12 @@ const YookassaModule = new ContainerModule(({ bind }) => {
     bind<IYookassaService>(APP_TYPES.YOOKASSA_SERVICE).to(YookassaService).inSingletonScope();
 });
 
+const FavoritesModule = new ContainerModule(({ bind }) => {
+    bind<IController>(APP_TYPES.FAVORITES_CONTROLLER).to(FavoritesController).inSingletonScope();
+    bind<IFavoritesService>(APP_TYPES.FAVORITES_SERVICE).to(FavoritesService).inSingletonScope();
+    bind<IFavoritesRepository>(APP_TYPES.FAVORITES_REPOSITORY).to(FavoritesRepository).inSingletonScope();
+});
+
 function buildContainer(): Container {
     container.load(appModule);
     container.load(userModule);
@@ -135,6 +146,7 @@ function buildContainer(): Container {
     container.load(orderModule);
     container.load(PaymentMethodModule);
     container.load(YookassaModule);
+    container.load(FavoritesModule);
     container.bind<App>(APP_TYPES.APP).to(App).inSingletonScope();
 
     return container;
