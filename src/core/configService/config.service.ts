@@ -1,14 +1,14 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
-import { configDotenv, DotenvParseOutput } from 'dotenv';
-import { ERROR } from '../../common/error/error';
-import { ILogger } from '../logger/logger.service.interface';
-import { APP_TYPES } from '../../types';
-import { IConfigService } from './config.service.interface';
+import { configDotenv } from 'dotenv';
+import { ERROR } from '../../common/error/error.ts';
+import { ILogger } from '../logger/logger.service.interface.ts';
+import { APP_TYPES } from '../../types.ts';
+import { Config, ConfigServiceSchema } from './interfaces/config.service.schema.ts';
 
 @injectable()
-export class ConfigService implements IConfigService {
-    configData: DotenvParseOutput;
+export class ConfigService implements ConfigService {
+    configData: Config;
 
     constructor(@inject(APP_TYPES.LOGGER_SERVICE) private loggerService: ILogger) {
         this.loggerService.setServiceName(ConfigService.name);
@@ -17,15 +17,19 @@ export class ConfigService implements IConfigService {
             this.loggerService.error(config.error.message);
             throw new Error(config.error.message);
         }
+        const res = ConfigServiceSchema.safeParse(config.parsed);
 
-        this.configData = config.parsed as DotenvParseOutput;
+        if (!res.success) {
+            throw new Error(res.error.message);
+        }
+        this.configData = res.data;
     }
 
-    get(key: string): string | null {
+    get(key: keyof Config): string | null {
         const res = this.configData[key];
         return res ?? null;
     }
-    getOrThrow(key: string): string {
+    getOrThrow(key: keyof Config): string {
         const res = this.configData[key];
 
         if (!res) {

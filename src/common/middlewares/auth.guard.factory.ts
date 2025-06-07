@@ -1,9 +1,9 @@
 import 'reflect-metadata';
 
-import { IJwtService } from '../../core/jwtService/jwt.service.interface';
+import { IJwtService } from '../../core/jwtService/jwt.service.interface.ts';
 import { inject, injectable } from 'inversify';
-import { APP_TYPES } from '../../types';
-import { AuthGuard } from './auth.guard';
+import { APP_TYPES } from '../../types.ts';
+import { AuthGuard } from './auth.guard.ts';
 
 @injectable()
 export class AuthGuardFactory {

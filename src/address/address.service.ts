@@ -1,17 +1,17 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
-import { IAddressService } from './interfaces/address.service.interface';
-import { ILogger } from '../core/logger/logger.service.interface';
-import { APP_TYPES } from '../types';
+import { IAddressService } from './interfaces/address.service.interface.ts';
+import { ILogger } from '../core/logger/logger.service.interface.ts';
+import { APP_TYPES } from '../types.ts';
 import {
     CreateAddressRequestDto,
     CreateAddressResponseDto,
     DeleteAddressResponseDto,
     GetAllAddressesResponseDto,
 } from 'contracts';
-import { IAddressRepository } from './interfaces/address.repository.interface';
-import { HttpException } from '../common/exceptionFilter/http.exception';
-import { ERROR } from '../common/error/error';
+import { IAddressRepository } from './interfaces/address.repository.interface.ts';
+import { HttpException } from '../common/exceptionFilter/http.exception.ts';
+import { ERROR } from '../common/error/error.ts';
 
 @injectable()
 export class AddressService implements IAddressService {

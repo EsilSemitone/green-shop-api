@@ -1,10 +1,10 @@
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
-import { Controller } from '../common/abstract.controller';
-import { IController } from '../common/interfaces/controller.interface';
-import { AuthGuardFactory } from '../common/middlewares/auth.guard.factory';
-import { APP_TYPES } from '../types';
-import { ValidateMiddleware } from '../common/middlewares/validate.middleware';
+import { Controller } from '../common/abstract.controller.ts';
+import { IController } from '../common/interfaces/controller.interface.ts';
+import { AuthGuardFactory } from '../common/middlewares/auth.guard.factory.ts';
+import { APP_TYPES } from '../types.ts';
+import { ValidateMiddleware } from '../common/middlewares/validate.middleware.ts';
 import {
     CreateAddressRequestDto,
     CreateAddressRequestSchema,
@@ -12,7 +12,7 @@ import {
     DeleteAddressRequestParamsSchema,
 } from 'contracts';
 import { Request, Response } from 'express';
-import { IAddressService } from './interfaces/address.service.interface';
+import { IAddressService } from './interfaces/address.service.interface.ts';
 
 @injectable()
 export class AddressController extends Controller implements IController {

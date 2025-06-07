@@ -16,6 +16,8 @@ export async function up(knex: Knex): Promise<void> {
         table.string('title').notNullable();
         table.string('description').notNullable();
         table.integer('rating').checkBetween([1, 5]).notNullable();
+        table.integer('likes_count').notNullable().defaultTo(0);
+        table.boolean('verified').notNullable();
 
         table.unique(['user_id', 'product_variant_id']);
         table.timestamps(true, true);

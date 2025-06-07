@@ -1,5 +1,5 @@
 import { ROLES } from 'contracts';
-import { UserModel } from '../common/models/user-model.interface';
+import { UserModel } from '../common/models/user-model.interface.ts';
 import { compareSync, hashSync } from 'bcryptjs';
 
 export class UserEntity {

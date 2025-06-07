@@ -1,5 +1,5 @@
-import { PRODUCT_CATEGORY_ENUM  } from "contracts";
-import { getRandomPhotos } from "../helpers/get-random-photo";
+import { PRODUCT_CATEGORY_ENUM } from 'contracts';
+import { getRandomPhotos } from '../helpers/get-random-photo.ts';
 
 const PHOTO = [
     'https://s3.regru.cloud/green-shop/product/9e33b544-e065-4069-b663-cfebcf841458.png',

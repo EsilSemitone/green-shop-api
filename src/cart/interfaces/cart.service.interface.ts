@@ -9,7 +9,7 @@ import {
     UpdateCartItemRequestDto,
     UpdateCartItemRequestResponseDto,
 } from 'contracts';
-import { CartModel } from '../../common/models/cart-model';
+import { CartModel } from '../../common/models/cart-model.ts';
 
 export interface ICartService {
     create(userId: string): Promise<CreateCartResponseDto>;

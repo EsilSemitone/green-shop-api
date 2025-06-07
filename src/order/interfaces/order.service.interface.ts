@@ -1,4 +1,9 @@
-import { CreateOrderRequestDto, CreateOrderResponseDto, GetMyOrdersResponseDto, GetOrderDetailsResponseDto } from 'contracts';
+import {
+    CreateOrderRequestDto,
+    CreateOrderResponseDto,
+    GetMyOrdersResponseDto,
+    GetOrderDetailsResponseDto,
+} from 'contracts';
 
 export interface IOrderService {
     create(
@@ -8,4 +13,5 @@ export interface IOrderService {
     ): Promise<CreateOrderResponseDto>;
     getMyOrders(userId: string): Promise<GetMyOrdersResponseDto>;
     getOrderDetails(orderId: string): Promise<GetOrderDetailsResponseDto>;
+    hasUserPurchasedProduct(userId: string, product_variant_id: string): Promise<boolean>;
 }

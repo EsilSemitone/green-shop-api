@@ -1,5 +1,5 @@
 import { ROLES } from "contracts";
-import { IJwtPayload } from "./interfaces/jwt.payload";
+import { IJwtPayload } from "./interfaces/jwt.payload.ts";
 
 export interface IJwtService {
     signAccess(userId: string, role: ROLES): Promise<string>

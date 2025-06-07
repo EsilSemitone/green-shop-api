@@ -1,16 +1,15 @@
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
-import { Controller } from '../common/abstract.controller';
-import { IController } from '../common/interfaces/controller.interface';
-import { APP_TYPES } from '../types';
+import { Controller } from '../common/abstract.controller.ts';
+import { IController } from '../common/interfaces/controller.interface.ts';
+import { APP_TYPES } from '../types.ts';
 import { Request, Response } from 'express';
 import { LoginSchemaRequest, LoginSchemaRequestDto } from 'contracts/auth/login.schema.js';
-// import { RegisterSchemaRequest, RegisterSchemaRequestDto } from 'contracts/auth/register.schema.js';
 import { ResetPasswordRequestDto, ResetPasswordSchemaRequest } from 'contracts/auth/reset-password.schema.js';
 import { RestorePasswordRequestDto, RestorePasswordSchemaRequest } from 'contracts/auth/restore-password.schema.js';
-import { ValidateMiddleware } from '../common/middlewares/validate.middleware';
-import { IAuthService } from './interfaces/auth.service.interface';
-import { AuthGuardFactory } from '../common/middlewares/auth.guard.factory';
+import { ValidateMiddleware } from '../common/middlewares/validate.middleware.ts';
+import { IAuthService } from './interfaces/auth.service.interface.ts';
+import { AuthGuardFactory } from '../common/middlewares/auth.guard.factory.ts';
 import { RegisterSchemaRequest, RegisterSchemaRequestDto } from 'contracts';
 
 @injectable()
@@ -87,7 +86,7 @@ export class AuthController extends Controller implements IController {
         this.ok(res, result);
     }
 
-    async refresh({cookies }: Request, res: Response) {
+    async refresh({ cookies }: Request, res: Response) {
         const { refreshToken, accessToken } = await this.authService.refresh(cookies['refreshToken']);
         res.cookie('refreshToken', refreshToken, {
             httpOnly: true,

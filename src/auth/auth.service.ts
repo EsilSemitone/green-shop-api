@@ -1,8 +1,8 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
-import { IAuthService } from './interfaces/auth.service.interface';
-import { APP_TYPES } from '../types';
-import { ILogger } from '../core/logger/logger.service.interface';
+import { IAuthService } from './interfaces/auth.service.interface.ts';
+import { APP_TYPES } from '../types.ts';
+import { ILogger } from '../core/logger/logger.service.interface.ts';
 import {
     LoginSchemaRequestDto,
     LogoutResponseDto,
@@ -12,18 +12,18 @@ import {
     RestorePasswordResponseDto,
     ROLES,
 } from 'contracts';
-import { IUserRepository } from '../user/interfaces/user.repository.interface';
-import { HttpException } from '../common/exceptionFilter/http.exception';
-import { ERROR } from '../common/error/error';
-import { UserEntity } from '../user/user.entity';
-import { IConfigService } from '../core/configService/config.service.interface';
-import { IJwtService } from '../core/jwtService/jwt.service.interface';
+import { IUserRepository } from '../user/interfaces/user.repository.interface.ts';
+import { HttpException } from '../common/exceptionFilter/http.exception.ts';
+import { ERROR } from '../common/error/error.ts';
+import { UserEntity } from '../user/user.entity.ts';
+import { IJwtService } from '../core/jwtService/jwt.service.interface.ts';
 import { randomBytes } from 'crypto';
-import { IEmailService } from '../integration/email/email.service.interface';
-import { IRefreshTokenRepository } from '../refresh-token/interfaces/refresh-token.repository.interface';
-import { IJwtPayload } from '../core/jwtService/interfaces/jwt.payload';
-import { IRegisterResponse } from './interfaces/register';
-import { ILoginResponse } from './interfaces/login';
+import { IEmailService } from '../integration/email/email.service.interface.ts';
+import { IRefreshTokenRepository } from '../refresh-token/interfaces/refresh-token.repository.interface.ts';
+import { IJwtPayload } from '../core/jwtService/interfaces/jwt.payload.ts';
+import { IRegisterResponse } from './interfaces/register.ts';
+import { ILoginResponse } from './interfaces/login.ts';
+import { IConfigService } from '../core/configService/config.service.interface.ts';
 
 @injectable()
 export class AuthService implements IAuthService {

@@ -6,9 +6,9 @@ import {
     ResetPasswordResponseDto,
     RestorePasswordResponseDto,
 } from 'contracts';
-import { IJwtPayload } from '../../core/jwtService/interfaces/jwt.payload';
-import { IRegisterResponse } from './register';
-import { ILoginResponse } from './login';
+import { IJwtPayload } from '../../core/jwtService/interfaces/jwt.payload.ts';
+import { IRegisterResponse } from './register.ts';
+import { ILoginResponse } from './login.ts';
 
 export interface IAuthService {
     register(dto: RegisterSchemaRequestDto): Promise<IRegisterResponse>;

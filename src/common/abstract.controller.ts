@@ -1,8 +1,8 @@
 import { injectable } from 'inversify';
 import 'reflect-metadata';
-import { IController } from './interfaces/controller.interface';
+import { IController } from './interfaces/controller.interface.ts';
 import { Response, Router } from 'express';
-import { IRout } from './interfaces/rout.interface';
+import { IRout } from './interfaces/rout.interface.ts';
 
 @injectable()
 export class Controller implements IController {

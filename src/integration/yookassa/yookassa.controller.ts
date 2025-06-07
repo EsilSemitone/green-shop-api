@@ -1,11 +1,11 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
-import { Controller } from '../../common/abstract.controller';
-import { IController } from '../../common/interfaces/controller.interface';
+import { Controller } from '../../common/abstract.controller.ts';
+import { IController } from '../../common/interfaces/controller.interface.ts';
 import { Request, Response } from 'express';
-import { YookassaPaymentWebhookRequestDto } from './dto/payment.dto';
-import { APP_TYPES } from '../../types';
-import { IYookassaService } from './interfaces/yookassa.service.interface';
+import { YookassaPaymentWebhookRequestDto } from './dto/payment.dto.ts';
+import { APP_TYPES } from '../../types.ts';
+import { IYookassaService } from './interfaces/yookassa.service.interface.ts';
 
 @injectable()
 export class YookassaController extends Controller implements IController {

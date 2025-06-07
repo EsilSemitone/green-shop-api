@@ -1,4 +1,4 @@
-import { IJwtPayload } from '../core/jwtService/interfaces/jwt.payload';
+import { IJwtPayload } from '../core/jwtService/interfaces/jwt.payload.ts';
 
 declare module 'express' {
     export interface Request {

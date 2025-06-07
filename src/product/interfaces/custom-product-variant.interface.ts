@@ -1,4 +1,4 @@
-import { ProductVariantModel } from '../../common/models/product-variant-model';
+import { ProductVariantModel } from '../../common/models/product-variant-model.ts';
 
 export interface CustomProductVariant {
     uuid: string;

@@ -11,11 +11,12 @@ export async function up(knex: Knex): Promise<void> {
         table.foreign('review_id').references('reviews.uuid').onDelete('CASCADE');
 
         table.text('content').notNullable();
+        table.integer('likes_count').notNullable().defaultTo(0);
 
         table.timestamps(true, true);
     });
 }
 
 export async function down(knex: Knex): Promise<void> {
-    knex.schema.dropTable('review_comments');
+    await knex.schema.dropTable('review_comments');
 }

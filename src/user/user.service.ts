@@ -1,14 +1,14 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
-import { ILogger } from '../core/logger/logger.service.interface';
-import { APP_TYPES } from '../types';
-import { IUserRepository } from './interfaces/user.repository.interface';
+import { ILogger } from '../core/logger/logger.service.interface.ts';
+import { APP_TYPES } from '../types.ts';
+import { IUserRepository } from './interfaces/user.repository.interface.ts';
 import { DeleteUserResponseDto, GetMeResponseDto, UpdateUserRequestDto, UpdateUserResponseDto } from 'contracts';
-import { HttpException } from '../common/exceptionFilter/http.exception';
-import { ERROR } from '../common/error/error';
-import { IUserService } from './interfaces/user.service.interface';
-import { UserEntity } from './user.entity';
-import { IConfigService } from '../core/configService/config.service.interface';
+import { HttpException } from '../common/exceptionFilter/http.exception.ts';
+import { ERROR } from '../common/error/error.ts';
+import { IUserService } from './interfaces/user.service.interface.ts';
+import { UserEntity } from './user.entity.ts';
+import { IConfigService } from '../core/configService/config.service.interface.ts';
 
 @injectable()
 export class UserService implements IUserService {

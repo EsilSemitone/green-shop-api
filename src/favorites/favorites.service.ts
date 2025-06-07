@@ -1,10 +1,10 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
-import { APP_TYPES } from '../types';
-import { ILogger } from '../core/logger/logger.service.interface';
+import { APP_TYPES } from '../types.ts';
+import { ILogger } from '../core/logger/logger.service.interface.ts';
 import { AddToFavoritesResponseDto, GetAllFavoritesResponseDto } from 'contracts';
-import { IFavoritesRepository } from './interfaces/favorites.repository.interface';
-import { IFavoritesService } from './interfaces/favorites.service.interface';
+import { IFavoritesRepository } from './interfaces/favorites.repository.interface.ts';
+import { IFavoritesService } from './interfaces/favorites.service.interface.ts';
 
 @injectable()
 export class FavoritesService implements IFavoritesService {

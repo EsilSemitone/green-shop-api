@@ -1,5 +1,5 @@
 import { Knex } from 'knex';
-import { IConfigService } from '../../core/configService/config.service.interface';
+import { IConfigService } from '../../core/configService/config.service.interface.ts';
 
 export function getDatabaseConfig(configService: IConfigService): Knex.Config {
     const postgresHost = configService.getOrThrow('POSTGRES_HOST');

@@ -29,4 +29,16 @@ export const ERROR = {
     PAYMENT_ERROR: 'Произошла ошибка при оплате',
 
     YOOKASSA_EVENT_ERROR: 'Получен тип события который не обрабатывается',
+
+    REVIEW_ALREADY_EXIST: 'Отзыв на этот продукт уже оставлен',
+    REVIEW_NOT_FOUND: 'Отзыв не найден',
+    REVIEW_COMMENT_NOT_FOUND: 'Комментарий не найден',
+    REVIEW_HAS_DIFFERENT_USER_OWNER: 'Пользовательне является автором этого комментария',
+    USER_NOT_A_HAVE_REVIEW: 'Пользователь не является автором этого отзыва',
+
+    INVALID_LIKE_TARGET_NAME: 'Нельзя поставить лайк этой сущности',
+    LIKE_ALREADY_ExIST: 'Пользователь уже поставил лайк',
+    USER_DONT_HAVE_A_LIKE: 'У пользователя нет лайка на эту сущность',
+
+    ENTITY_NOT_FOUND: 'Сущность не найдена',
 };

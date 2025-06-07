@@ -1,12 +1,12 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
-import { Controller } from '../common/abstract.controller';
-import { IController } from '../common/interfaces/controller.interface';
-import { AuthGuardFactory } from '../common/middlewares/auth.guard.factory';
-import { APP_TYPES } from '../types';
+import { Controller } from '../common/abstract.controller.ts';
+import { IController } from '../common/interfaces/controller.interface.ts';
+import { AuthGuardFactory } from '../common/middlewares/auth.guard.factory.ts';
+import { APP_TYPES } from '../types.ts';
 import { Request, Response } from 'express';
-import { ICartService } from './interfaces/cart.service.interface';
-import { ValidateMiddleware } from '../common/middlewares/validate.middleware';
+import { ICartService } from './interfaces/cart.service.interface.ts';
+import { ValidateMiddleware } from '../common/middlewares/validate.middleware.ts';
 import {
     CreateCartItemRequestDto,
     CreateCartItemRequestSchema,
@@ -19,7 +19,7 @@ import {
     UpdateCartItemRequestParamSchema,
     UpdateCartItemRequestSchema,
 } from 'contracts';
-import { CartProvideMiddleware } from '../common/middlewares/cart-provide.middleware';
+import { CartProvideMiddleware } from '../common/middlewares/cart-provide.middleware.ts';
 
 @injectable()
 export class CartController extends Controller implements IController {

@@ -1,20 +1,20 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
-import { Controller } from '../common/abstract.controller';
-import { IController } from '../common/interfaces/controller.interface';
+import { Controller } from '../common/abstract.controller.ts';
+import { IController } from '../common/interfaces/controller.interface.ts';
 import { Request, Response } from 'express';
-import { APP_TYPES } from '../types';
-import { AuthGuardFactory } from '../common/middlewares/auth.guard.factory';
-import { ValidateMiddleware } from '../common/middlewares/validate.middleware';
+import { APP_TYPES } from '../types.ts';
+import { AuthGuardFactory } from '../common/middlewares/auth.guard.factory.ts';
+import { ValidateMiddleware } from '../common/middlewares/validate.middleware.ts';
 import {
     CreateOrderRequestDto,
     CreateOrderRequestSchema,
     GetOrderDetailsRequestParamsDto,
     GetOrderDetailsRequestParamsSchema,
 } from 'contracts';
-import { IOrderService } from './interfaces/order.service.interface';
-import { CartProvideMiddleware } from '../common/middlewares/cart-provide.middleware';
-import { ICartService } from '../cart/interfaces/cart.service.interface';
+import { IOrderService } from './interfaces/order.service.interface.ts';
+import { CartProvideMiddleware } from '../common/middlewares/cart-provide.middleware.ts';
+import { ICartService } from '../cart/interfaces/cart.service.interface.ts';
 
 @injectable()
 export class OrderController extends Controller implements IController {
