@@ -1,11 +1,11 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
-import { APP_TYPES } from '../types';
-import { IDatabaseService } from '../core/database/database.service.interface';
-import { UserModel } from '../common/models/user-model.interface';
-import { GetUserByUniqueCriteria } from './interfaces/get-user-by-unique-criteria.interface';
-import { ICreateUser } from './interfaces/create-user.interface';
-import { IUpdateUser } from './interfaces/update-user.interface';
+import { APP_TYPES } from '../types.ts';
+import { IDatabaseService } from '../core/database/database.service.interface.ts';
+import { UserModel } from '../common/models/user-model.interface.ts';
+import { GetUserByUniqueCriteria } from './interfaces/get-user-by-unique-criteria.interface.ts';
+import { ICreateUser } from './interfaces/create-user.interface.ts';
+import { IUpdateUser } from './interfaces/update-user.interface.ts';
 
 @injectable()
 export class UserRepository {

@@ -1,5 +1,5 @@
 import { ORDER_STATUS, PAYMENT_METHOD } from 'contracts';
-import { AddressModel } from './address-model';
+import { AddressModel } from './address-model.ts';
 
 export interface OrderModel {
     uuid: string;

@@ -1,13 +1,13 @@
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
-import { APP_TYPES } from '../../types';
-import { ILogger } from '../../core/logger/logger.service.interface';
+import { APP_TYPES } from '../../types.ts';
+import { ILogger } from '../../core/logger/logger.service.interface.ts';
 import axios, { AxiosError } from 'axios';
 import { readFileSync } from 'fs';
 import { compile } from 'handlebars';
-import { IConfigService } from '../../core/configService/config.service.interface';
-import { API_URL } from './constants/api';
-import { IEmailService } from './email.service.interface';
+import { API_URL } from './constants/api.ts';
+import { IEmailService } from './email.service.interface.ts';
+import { IConfigService } from '../../core/configService/config.service.interface.ts';
 
 @injectable()
 export class EmailService implements IEmailService {

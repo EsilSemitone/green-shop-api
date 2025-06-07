@@ -1,6 +1,6 @@
-import { RefreshTokenModel } from '../../common/models/refresh-token-model.interface';
-import { ICreateRefreshToken } from './create-refresh-token.interface';
-import { IGetTokenByUniqueCriteria } from './get-token-by-unique-criteria.interface';
+import { RefreshTokenModel } from '../../common/models/refresh-token-model.interface.ts';
+import { ICreateRefreshToken } from './create-refresh-token.interface.ts';
+import { IGetTokenByUniqueCriteria } from './get-token-by-unique-criteria.interface.ts';
 
 export interface IRefreshTokenRepository {
     create(data: ICreateRefreshToken): Promise<void>;

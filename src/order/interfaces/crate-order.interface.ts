@@ -1,5 +1,6 @@
 import { PAYMENT_METHOD } from 'contracts';
-import { AddressModel, CartItemModel } from '../../common/models';
+import { CartItemModel } from '../../common/models/cart-item-model.ts';
+import { AddressModel } from '../../common/models/address-model.ts';
 
 export interface ICreateOrder {
     userId: string;

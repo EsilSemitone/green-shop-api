@@ -1,16 +1,16 @@
-import { CreateProductRequestDto } from 'contracts/product/create-product';
-import { ProductModel } from '../../common/models/product-model.interface';
-import { IUpdateProduct } from './update-product.interface';
-import { ICreateProductVariant } from './create-product-variant.interface';
-import { ProductVariantModel } from '../../common/models/product-variant-model';
-import { IUpdateProductVariant } from './update-product-variant.interface';
+import { CreateProductRequestDto } from 'contracts/product/create-product.ts';
+import { ProductModel } from '../../common/models/product-model.interface.ts';
+import { IUpdateProduct } from './update-product.interface.ts';
+import { ICreateProductVariant } from './create-product-variant.interface.ts';
+import { ProductVariantModel } from '../../common/models/product-variant-model.ts';
+import { IUpdateProductVariant } from './update-product-variant.interface.ts';
 import {
     IGetProductVariantsByCriteriaExtendedData,
     IGetProductVariantsByCriteriaExtendedReturnType,
-} from './get-product-variants-by-criteria.interface';
-import { IProductFilter } from './product-filter.interface';
-import { CustomProductVariant, CustomProductVariantExtended } from './custom-product-variant.interface';
-import { IGetProductVariantExtended } from './get-product-cariant-extended.interface';
+} from './get-product-variants-by-criteria.interface.ts';
+import { IProductFilter } from './product-filter.interface.ts';
+import { CustomProductVariant, CustomProductVariantExtended } from './custom-product-variant.interface.ts';
+import { IGetProductVariantExtended } from './get-product-cariant-extended.interface.ts';
 
 export interface IProductRepository {
     create(data: CreateProductRequestDto): Promise<ProductModel>;

@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import { IMiddleware } from '../interfaces/middleware.interface';
+import { IMiddleware } from '../interfaces/middleware.interface.ts';
 import { ZodIssue } from 'zod';
-import { HttpException } from '../exceptionFilter/http.exception';
-import { ValidateMiddlewareInput } from './types/validate.middleware.types';
+import { HttpException } from '../exceptionFilter/http.exception.ts';
+import { ValidateMiddlewareInput } from './types/validate.middleware.types.ts';
 
 export class ValidateMiddleware implements IMiddleware {
     constructor(private input: ValidateMiddlewareInput) {}

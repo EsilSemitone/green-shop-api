@@ -1,18 +1,18 @@
 import 'reflect-metadata';
-import { Controller } from '../common/abstract.controller';
-import { IController } from '../common/interfaces/controller.interface';
+import { Controller } from '../common/abstract.controller.ts';
+import { IController } from '../common/interfaces/controller.interface.ts';
 import { inject, injectable } from 'inversify';
-import { APP_TYPES } from '../types';
+import { APP_TYPES } from '../types.ts';
 import { Request, Response } from 'express';
-import { AuthGuardFactory } from '../common/middlewares/auth.guard.factory';
-import { IFavoritesService } from './interfaces/favorites.service.interface';
+import { AuthGuardFactory } from '../common/middlewares/auth.guard.factory.ts';
+import { IFavoritesService } from './interfaces/favorites.service.interface.ts';
 import {
     AddToFavoritesRequestDto,
     AddToFavoritesRequestSchema,
     RemoveToFavoritesRequestDto,
     RemoveToFavoritesRequestSchema,
 } from 'contracts';
-import { ValidateMiddleware } from '../common/middlewares/validate.middleware';
+import { ValidateMiddleware } from '../common/middlewares/validate.middleware.ts';
 
 @injectable()
 export class FavoritesController extends Controller implements IController {

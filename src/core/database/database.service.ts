@@ -1,10 +1,10 @@
 import 'reflect-metadata';
 import knex, { Knex } from 'knex';
 import { inject, injectable } from 'inversify';
-import { APP_TYPES } from '../../types';
-import { IConfigService } from '../configService/config.service.interface';
-import { getDatabaseConfig } from '../../common/config/database.config';
-import { IDatabaseService } from './database.service.interface';
+import { APP_TYPES } from '../../types.ts';
+import { getDatabaseConfig } from '../../common/config/database.config.ts';
+import { IDatabaseService } from './database.service.interface.ts';
+import { IConfigService } from '../configService/config.service.interface.ts';
 
 @injectable()
 export class DatabaseService implements IDatabaseService {

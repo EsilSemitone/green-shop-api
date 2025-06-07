@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto';
-import { ProductVariantTagsModel } from '../../src/common/models/product-variant-tags-model.interface';
-import { TagsModel } from '../../src/common/models/tags-model.interface';
+import { ProductVariantTagsModel } from '../../src/common/models/product-variant-tags-model.interface.ts';
+import { TagsModel } from '../../src/common/models/tags-model.interface.ts';
 
 export function getProductVariantTags(tags: TagsModel[], product_variant_uuids: string[]): ProductVariantTagsModel[] {
     const resArr: ProductVariantTagsModel[] = [];

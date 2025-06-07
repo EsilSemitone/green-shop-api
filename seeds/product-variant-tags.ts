@@ -1,7 +1,6 @@
 import { Knex } from 'knex';
-// import { PRODUCT_VARIANT_TAGS } from './constants/product-variants-tags';
-import { getProductVariantTags } from './helpers/get-product-variants-tags';
-import { TAGS } from './constants/tags';
+import { getProductVariantTags } from './helpers/get-product-variants-tags.ts';
+import { TAGS } from './constants/tags.ts';
 
 export async function seed(knex: Knex): Promise<void> {
     // Deletes ALL existing entries

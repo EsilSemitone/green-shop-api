@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import { IMiddleware } from '../interfaces/middleware.interface';
-import { HttpException } from '../exceptionFilter/http.exception';
-import { IJwtService } from '../../core/jwtService/jwt.service.interface';
+import { IMiddleware } from '../interfaces/middleware.interface.ts';
+import { HttpException } from '../exceptionFilter/http.exception.ts';
+import { IJwtService } from '../../core/jwtService/jwt.service.interface.ts';
 
 export class AuthGuard implements IMiddleware {
     constructor(private jwtService: IJwtService) {}

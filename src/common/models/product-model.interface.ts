@@ -1,4 +1,4 @@
-import { PRODUCT_CATEGORY } from 'contracts/enums/product-category';
+import { PRODUCT_CATEGORY } from 'contracts/enums/product-category.ts';
 
 export interface ProductModel {
     uuid: string;

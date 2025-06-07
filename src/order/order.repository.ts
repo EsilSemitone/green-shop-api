@@ -1,16 +1,19 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
-import { IOrderRepository } from './interfaces/order.repository.interface';
-import { APP_TYPES } from '../types';
-import { IDatabaseService } from '../core/database/database.service.interface';
-import { ICreateOrder } from './interfaces/crate-order.interface';
-import { CartItemModel, OrderItemModel, OrderModel, ProductVariantModel } from '../common/models';
-import { ERROR } from '../common/error/error';
-import { HttpException } from '../common/exceptionFilter/http.exception';
+import { IOrderRepository } from './interfaces/order.repository.interface.ts';
+import { APP_TYPES } from '../types.ts';
+import { IDatabaseService } from '../core/database/database.service.interface.ts';
+import { ICreateOrder } from './interfaces/crate-order.interface.ts';
+import { ERROR } from '../common/error/error.ts';
+import { HttpException } from '../common/exceptionFilter/http.exception.ts';
 import { ORDER_STATUS } from 'contracts';
-import { IExtendedOrder } from './interfaces/extended-order.interface';
-import { IGetOrdersByCriteria } from './interfaces/get-orders-by-criteria.interface';
-import { IUpdateOrder } from './interfaces/update-order.interface';
+import { IExtendedOrder } from './interfaces/extended-order.interface.ts';
+import { IGetOrdersByCriteria } from './interfaces/get-orders-by-criteria.interface.ts';
+import { IUpdateOrder } from './interfaces/update-order.interface.ts';
+import { CartItemModel } from '../common/models/cart-item-model.ts';
+import { OrderItemModel } from '../common/models/order-item.model.ts';
+import { OrderModel } from '../common/models/order.model.ts';
+import { ProductVariantModel } from '../common/models/product-variant-model.ts';
 
 @injectable()
 export class OrderRepository implements IOrderRepository {
@@ -145,5 +148,23 @@ export class OrderRepository implements IOrderRepository {
     async updateOrder(uuid: string, data: IUpdateOrder): Promise<OrderModel> {
         const [order] = await this.db.db<OrderModel>('orders').update(data).where({ uuid }).returning('*');
         return order;
+    }
+
+    async existOrderWithProductVariant(
+        user_id: string,
+        product_variant_id: string,
+        status: ORDER_STATUS,
+    ): Promise<boolean> {
+        const res: OrderModel[] = await this.db.db
+            .select('orders.*')
+            .from('orders')
+            .join('order_items as oi', 'orders.uuid', 'oi.order_id')
+            .where({
+                'orders.user_id': user_id,
+                'orders.status': status,
+                'oi.product_variant_id': product_variant_id,
+            });
+
+        return res.length > 0;
     }
 }

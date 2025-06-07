@@ -1,17 +1,20 @@
 import 'reflect-metadata';
-import { IYookassaService } from './interfaces/yookassa.service.interface';
+import { IYookassaService } from './interfaces/yookassa.service.interface.ts';
 import { inject, injectable } from 'inversify';
-import { APP_TYPES } from '../../types';
-import { ILogger } from '../../core/logger/logger.service.interface';
-import { IConfigService } from '../../core/configService/config.service.interface';
+import { APP_TYPES } from '../../types.ts';
+import { ILogger } from '../../core/logger/logger.service.interface.ts';
 import { YooCheckout } from '@a2seven/yoo-checkout';
-import { ICreateYookassaPayment, ICreateYookassaPaymentReturn } from './interfaces/create-yookassa-payment.interface';
-import { HttpException } from '../../common/exceptionFilter/http.exception';
-import { ERROR } from '../../common/error/error';
-import { YookassaPaymentWebhookRequestDto } from './dto/payment.dto';
-import { YOOKASSA_EVENT } from './enums/yookassa-event';
-import { IOrderRepository } from '../../order/interfaces/order.repository.interface';
+import {
+    ICreateYookassaPayment,
+    ICreateYookassaPaymentReturn,
+} from './interfaces/create-yookassa-payment.interface.ts';
+import { HttpException } from '../../common/exceptionFilter/http.exception.ts';
+import { ERROR } from '../../common/error/error.ts';
+import { YookassaPaymentWebhookRequestDto } from './dto/payment.dto.ts';
+import { YOOKASSA_EVENT } from './enums/yookassa-event.ts';
+import { IOrderRepository } from '../../order/interfaces/order.repository.interface.ts';
 import { ORDER_STATUS } from 'contracts';
+import { IConfigService } from '../../core/configService/config.service.interface.ts';
 
 @injectable()
 export class YookassaService implements IYookassaService {

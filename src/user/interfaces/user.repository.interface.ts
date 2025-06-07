@@ -1,7 +1,7 @@
-import { UserModel } from '../../common/models/user-model.interface';
-import { ICreateUser } from './create-user.interface';
-import { GetUserByUniqueCriteria } from './get-user-by-unique-criteria.interface';
-import { IUpdateUser } from './update-user.interface';
+import { UserModel } from '../../common/models/user-model.interface.ts';
+import { ICreateUser } from './create-user.interface.ts';
+import { GetUserByUniqueCriteria } from './get-user-by-unique-criteria.interface.ts';
+import { IUpdateUser } from './update-user.interface.ts';
 
 export interface IUserRepository {
     getByUniqueCriteria(data: GetUserByUniqueCriteria): Promise<UserModel | undefined>;

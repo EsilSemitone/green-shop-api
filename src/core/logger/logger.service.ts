@@ -1,8 +1,8 @@
 import 'reflect-metadata';
 import { injectable } from 'inversify';
 import { Logger, pino } from 'pino';
-import { LOGGER_CONFIG } from '../../common/config/logger.config';
-import { ILogger } from './logger.service.interface';
+import { LOGGER_CONFIG } from '../../common/config/logger.config.ts';
+import { ILogger } from './logger.service.interface.ts';
 
 @injectable()
 export class LoggerService implements ILogger {

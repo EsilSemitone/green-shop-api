@@ -1,5 +1,5 @@
-import { AddressModel } from '../../common/models/address-model';
-import { ICreateAddress } from './create-address.interface';
+import { AddressModel } from '../../common/models/address-model.ts';
+import { ICreateAddress } from './create-address.interface.ts';
 
 export interface IAddressRepository {
     create(data: ICreateAddress): Promise<AddressModel>;

@@ -1,5 +1,5 @@
 import { PRODUCT_CATEGORY, SIZE } from 'contracts';
-import { CustomProductVariant } from './custom-product-variant.interface';
+import { CustomProductVariant } from './custom-product-variant.interface.ts';
 
 export interface IGetProductVariantsByCriteriaExtendedData {
     limit: number;

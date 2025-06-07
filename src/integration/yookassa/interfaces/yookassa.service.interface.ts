@@ -1,5 +1,5 @@
-import { YookassaPaymentWebhookRequestDto } from '../dto/payment.dto';
-import { ICreateYookassaPayment, ICreateYookassaPaymentReturn } from './create-yookassa-payment.interface';
+import { YookassaPaymentWebhookRequestDto } from '../dto/payment.dto.ts';
+import { ICreateYookassaPayment, ICreateYookassaPaymentReturn } from './create-yookassa-payment.interface.ts';
 
 export interface IYookassaService {
     createPayment({

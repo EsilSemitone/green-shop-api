@@ -1,11 +1,11 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
 import { sign, verify as jwtVerify } from 'jsonwebtoken';
-import { APP_TYPES } from '../../types';
-import { IConfigService } from '../configService/config.service.interface';
+import { APP_TYPES } from '../../types.ts';
 import { ROLES } from 'contracts';
-import { IJwtPayload } from './interfaces/jwt.payload';
-import { IJwtService } from './jwt.service.interface';
+import { IJwtPayload } from './interfaces/jwt.payload.ts';
+import { IJwtService } from './jwt.service.interface.ts';
+import { IConfigService } from '../configService/config.service.interface.ts';
 
 @injectable()
 export class JwtService implements IJwtService {

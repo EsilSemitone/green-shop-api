@@ -1,9 +1,9 @@
-import { ProductVariantModel } from '../../common/models';
-import { FavoritesModel } from '../../common/models/favorites-model';
-import { IAddToFavorites } from './add-to-favorites.interface';
-import { IFavoritesProductVariant } from './favorites-product-variant';
-import { IGetUniqueFavorites } from './get-unique-favorites.interface';
-import { IARemoveToFavorites } from './remove-to-favorites.interface';
+import { FavoritesModel } from '../../common/models/favorites-model.ts';
+import { ProductVariantModel } from '../../common/models/product-variant-model.ts';
+import { IAddToFavorites } from './add-to-favorites.interface.ts';
+import { IFavoritesProductVariant } from './favorites-product-variant.ts';
+import { IGetUniqueFavorites } from './get-unique-favorites.interface.ts';
+import { IARemoveToFavorites } from './remove-to-favorites.interface.ts';
 
 export interface IFavoritesRepository {
     getAllByUserUuid(userId: string): Promise<IFavoritesProductVariant[]>;

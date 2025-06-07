@@ -1,8 +1,10 @@
-import { OrderItemModel, OrderModel } from '../../common/models';
-import { ICreateOrder } from './crate-order.interface';
-import { IExtendedOrder } from './extended-order.interface';
-import { IGetOrdersByCriteria } from './get-orders-by-criteria.interface';
-import { IUpdateOrder } from './update-order.interface';
+import { ORDER_STATUS } from 'contracts';
+import { ICreateOrder } from './crate-order.interface.ts';
+import { IExtendedOrder } from './extended-order.interface.ts';
+import { IGetOrdersByCriteria } from './get-orders-by-criteria.interface.ts';
+import { IUpdateOrder } from './update-order.interface.ts';
+import { OrderItemModel } from '../../common/models/order-item.model.ts';
+import { OrderModel } from '../../common/models/order.model.ts';
 
 export interface IOrderRepository {
     create({ userId, cartItems, payment_method, shipping_price }: ICreateOrder): Promise<IExtendedOrder>;
@@ -11,4 +13,5 @@ export interface IOrderRepository {
     getOrderItemsByOrderUuid(uuid: string): Promise<OrderItemModel[]>;
     updateOrder(uuid: string, data: IUpdateOrder): Promise<OrderModel>;
     getOrderByPaymentId(payment_id: string): Promise<OrderModel | null>;
+    existOrderWithProductVariant(user_id: string, product_variant_id: string, status: ORDER_STATUS): Promise<boolean>;
 }

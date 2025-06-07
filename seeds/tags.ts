@@ -1,5 +1,5 @@
 import { Knex } from 'knex';
-import { TAGS } from './constants/tags';
+import { TAGS } from './constants/tags.ts';
 
 export async function seed(knex: Knex): Promise<void> {
     // Deletes ALL existing entries

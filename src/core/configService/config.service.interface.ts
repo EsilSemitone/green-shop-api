@@ -1,4 +1,6 @@
+import { Config } from "./interfaces/config.service.schema.ts";
+
 export interface IConfigService {
-    get: (key: string) => string | null;
-    getOrThrow: (key: string) => string;
+    get: (key: keyof Config) => string | null;
+    getOrThrow: (key: keyof Config) => string;
 }

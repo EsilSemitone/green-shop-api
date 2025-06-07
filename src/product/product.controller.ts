@@ -1,13 +1,13 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
-import { Controller } from '../common/abstract.controller';
-import { ValidateMiddleware } from '../common/middlewares/validate.middleware';
+import { Controller } from '../common/abstract.controller.ts';
+import { ValidateMiddleware } from '../common/middlewares/validate.middleware.ts';
 import { Request, Response } from 'express';
-import { APP_TYPES } from '../types';
-import { AuthGuardFactory } from '../common/middlewares/auth.guard.factory';
+import { APP_TYPES } from '../types.ts';
+import { AuthGuardFactory } from '../common/middlewares/auth.guard.factory.ts';
 import { CreateProductRequestSchema, CreateProductRequestDto } from 'contracts/product/create-product.js';
-import { IController } from '../common/interfaces/controller.interface';
-import { IProductService } from './interfaces/product.service.interface';
+import { IController } from '../common/interfaces/controller.interface.ts';
+import { IProductService } from './interfaces/product.service.interface.ts';
 import {
     CreateProductVariantRequestDto,
     CreateProductVariantRequestParamsDto,

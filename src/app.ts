@@ -1,14 +1,14 @@
 import 'reflect-metadata';
 import express, { Express } from 'express';
 import { inject, injectable } from 'inversify';
-import { IConfigService } from './core/configService/config.service.interface';
-import { ILogger } from './core/logger/logger.service.interface';
-import { APP_TYPES } from './types';
+import { ILogger } from './core/logger/logger.service.interface.ts';
+import { APP_TYPES } from './types.ts';
 import { json } from 'body-parser';
-import { IController } from './common/interfaces/controller.interface';
-import { IExceptionsFilter } from './common/exceptionFilter/exceptionFilter.interface';
+import { IController } from './common/interfaces/controller.interface.ts';
+import { IExceptionsFilter } from './common/exceptionFilter/exceptionFilter.interface.ts';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
+import { IConfigService } from './core/configService/config.service.interface.ts';
 
 @injectable()
 export class App {
@@ -31,6 +31,8 @@ export class App {
         @inject(APP_TYPES.PAYMENT_METHOD_CONTROLLER) private paymentMethodController: IController,
         @inject(APP_TYPES.YOOKASSA_CONTROLLER) private yookassaController: IController,
         @inject(APP_TYPES.FAVORITES_CONTROLLER) private favoritesController: IController,
+        @inject(APP_TYPES.REVIEW_CONTROLLER) private reviewController: IController,
+        @inject(APP_TYPES.LIKE_CONTROLLER) private likeController: IController,
     ) {
         this.app = express();
 
@@ -67,6 +69,8 @@ export class App {
         this.app.use(this.buildPath('payment-method'), this.paymentMethodController.router);
         this.app.use(this.buildPath('yookassa'), this.yookassaController.router);
         this.app.use(this.buildPath('favorites'), this.favoritesController.router);
+        this.app.use(this.buildPath('review'), this.reviewController.router);
+        this.app.use(this.buildPath('like'), this.likeController.router);
     }
 
     private useExceptionFilters(): void {

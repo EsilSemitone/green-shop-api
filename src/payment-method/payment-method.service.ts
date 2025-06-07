@@ -1,10 +1,10 @@
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
-import { IPaymentMethodService } from './interfaces/payment-method.service.interface';
-import { APP_TYPES } from '../types';
-import { IPaymentMethodRepository } from './interfaces/payment-method.repository.interface';
+import { IPaymentMethodService } from './interfaces/payment-method.service.interface.ts';
+import { APP_TYPES } from '../types.ts';
+import { IPaymentMethodRepository } from './interfaces/payment-method.repository.interface.ts';
 import { GetPaymentMethodsResponseDto } from 'contracts';
-import { ILogger } from '../core/logger/logger.service.interface';
+import { ILogger } from '../core/logger/logger.service.interface.ts';
 
 @injectable()
 export class PaymentMethodService implements IPaymentMethodService {

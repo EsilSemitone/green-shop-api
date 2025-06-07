@@ -1,5 +1,5 @@
 import { Knex } from 'knex';
-import { PAYMENT_METHODS } from './constants/payment_methods';
+import { PAYMENT_METHODS } from './constants/payment_methods.ts';
 
 export async function seed(knex: Knex): Promise<void> {
     // Deletes ALL existing entries

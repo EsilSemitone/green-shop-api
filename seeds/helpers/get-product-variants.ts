@@ -1,7 +1,7 @@
 import { SIZE } from 'contracts';
 import { randomUUID } from 'crypto';
-import { ProductModel } from '../../src/common/models/product-model.interface';
-import { ProductVariantModel } from '../../src/common/models/product-variant-model';
+import { ProductModel } from '../../src/common/models/product-model.interface.ts';
+import { ProductVariantModel } from '../../src/common/models/product-variant-model.ts';
 
 export function getProductVariants(products: ProductModel[]): ProductVariantModel[] {
     const sizes = [SIZE.LARGE, SIZE.MEDIUM, SIZE.SMALL];

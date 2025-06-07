@@ -1,14 +1,14 @@
 import 'reflect-metadata';
-import { IFavoritesRepository } from './interfaces/favorites.repository.interface';
+import { IFavoritesRepository } from './interfaces/favorites.repository.interface.ts';
 import { inject, injectable } from 'inversify';
-import { APP_TYPES } from '../types';
-import { IDatabaseService } from '../core/database/database.service.interface';
-import { ProductVariantModel } from '../common/models';
-import { IGetUniqueFavorites } from './interfaces/get-unique-favorites.interface';
-import { IAddToFavorites } from './interfaces/add-to-favorites.interface';
-import { FavoritesModel } from '../common/models/favorites-model';
-import { IARemoveToFavorites } from './interfaces/remove-to-favorites.interface';
-import { IFavoritesProductVariant } from './interfaces/favorites-product-variant';
+import { APP_TYPES } from '../types.ts';
+import { IDatabaseService } from '../core/database/database.service.interface.ts';
+import { IGetUniqueFavorites } from './interfaces/get-unique-favorites.interface.ts';
+import { IAddToFavorites } from './interfaces/add-to-favorites.interface.ts';
+import { FavoritesModel } from '../common/models/favorites-model.ts';
+import { IARemoveToFavorites } from './interfaces/remove-to-favorites.interface.ts';
+import { IFavoritesProductVariant } from './interfaces/favorites-product-variant.ts';
+import { ProductVariantModel } from '../common/models/product-variant-model.ts';
 
 @injectable()
 export class FavoritesRepository implements IFavoritesRepository {
@@ -20,7 +20,7 @@ export class FavoritesRepository implements IFavoritesRepository {
                 'pv.price as price',
                 'pv.uuid as product_variant_id',
                 'p.uuid as uuid',
-                'p.name as name', 
+                'p.name as name',
                 'p.images',
             ])
             .from('favorites')

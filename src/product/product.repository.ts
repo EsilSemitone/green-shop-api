@@ -1,22 +1,22 @@
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
-import { APP_TYPES } from '../types';
-import { IDatabaseService } from '../core/database/database.service.interface';
-import { IProductRepository } from './interfaces/product.repository.interface';
-import { CreateProductRequestDto } from 'contracts/product/create-product';
-import { ProductModel } from '../common/models/product-model.interface';
-import { IUpdateProduct } from './interfaces/update-product.interface';
-import { ICreateProductVariant } from './interfaces/create-product-variant.interface';
-import { ProductVariantModel } from '../common/models/product-variant-model';
-import { IUpdateProductVariant } from './interfaces/update-product-variant.interface';
+import { APP_TYPES } from '../types.ts';
+import { IDatabaseService } from '../core/database/database.service.interface.ts';
+import { IProductRepository } from './interfaces/product.repository.interface.ts';
+import { CreateProductRequestDto } from 'contracts/product/create-product.ts';
+import { ProductModel } from '../common/models/product-model.interface.ts';
+import { IUpdateProduct } from './interfaces/update-product.interface.ts';
+import { ICreateProductVariant } from './interfaces/create-product-variant.interface.ts';
+import { ProductVariantModel } from '../common/models/product-variant-model.ts';
+import { IUpdateProductVariant } from './interfaces/update-product-variant.interface.ts';
 import {
     IGetProductVariantsByCriteriaExtendedData,
     IGetProductVariantsByCriteriaExtendedReturnType,
-} from './interfaces/get-product-variants-by-criteria.interface';
-import { IProductFilter } from './interfaces/product-filter.interface';
-import { CustomProductVariant, CustomProductVariantExtended } from './interfaces/custom-product-variant.interface';
-import { ProductVariantTagsModel } from '../common/models/product-variant-tags-model.interface';
-import { IGetProductVariantExtended } from './interfaces/get-product-cariant-extended.interface';
+} from './interfaces/get-product-variants-by-criteria.interface.ts';
+import { IProductFilter } from './interfaces/product-filter.interface.ts';
+import { CustomProductVariant, CustomProductVariantExtended } from './interfaces/custom-product-variant.interface.ts';
+import { ProductVariantTagsModel } from '../common/models/product-variant-tags-model.interface.ts';
+import { IGetProductVariantExtended } from './interfaces/get-product-cariant-extended.interface.ts';
 
 @injectable()
 export class ProductRepository implements IProductRepository {

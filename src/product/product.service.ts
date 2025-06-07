@@ -1,10 +1,10 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
-import { IProductService } from './interfaces/product.service.interface';
-import { ILogger } from '../core/logger/logger.service.interface';
-import { APP_TYPES } from '../types';
-import { CreateProductRequestDto, CreateProductResponseDto } from 'contracts/product/create-product';
-import { IProductRepository } from './interfaces/product.repository.interface';
+import { IProductService } from './interfaces/product.service.interface.ts';
+import { ILogger } from '../core/logger/logger.service.interface.ts';
+import { APP_TYPES } from '../types.ts';
+import { CreateProductRequestDto, CreateProductResponseDto } from 'contracts/product/create-product.ts';
+import { IProductRepository } from './interfaces/product.repository.interface.ts';
 import {
     CreateProductVariantRequestDto,
     CreateProductVariantResponseDto,
@@ -23,8 +23,8 @@ import {
     UpdateProductVariantRequestDto,
     UpdateProductVariantResponseDto,
 } from 'contracts';
-import { HttpException } from '../common/exceptionFilter/http.exception';
-import { ERROR } from '../common/error/error';
+import { HttpException } from '../common/exceptionFilter/http.exception.ts';
+import { ERROR } from '../common/error/error.ts';
 
 @injectable()
 export class ProductService implements IProductService {

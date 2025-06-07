@@ -1,10 +1,10 @@
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
-import { Controller } from '../common/abstract.controller';
-import { IController } from '../common/interfaces/controller.interface';
-import { APP_TYPES } from '../types';
+import { Controller } from '../common/abstract.controller.ts';
+import { IController } from '../common/interfaces/controller.interface.ts';
+import { APP_TYPES } from '../types.ts';
 import { Request, Response } from 'express';
-import { IPaymentMethodService } from './interfaces/payment-method.service.interface';
+import { IPaymentMethodService } from './interfaces/payment-method.service.interface.ts';
 
 @injectable()
 export class PaymentMethodController extends Controller implements IController {
