@@ -15,8 +15,8 @@ import {
     UpdateProductResponseDto,
     UpdateProductVariantRequestDto,
     UpdateProductVariantResponseDto,
-} from 'contracts';
-import { CreateProductRequestDto, CreateProductResponseDto } from 'contracts/product/create-product.ts';
+} from 'contracts-green-shop';
+import { CreateProductRequestDto, CreateProductResponseDto } from 'contracts-green-shop/product/create-product.ts';
 
 export interface IProductService {
     create(data: CreateProductRequestDto): Promise<CreateProductResponseDto>;

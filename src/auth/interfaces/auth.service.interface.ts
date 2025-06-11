@@ -5,7 +5,7 @@ import {
     ResetPasswordRequestDto,
     ResetPasswordResponseDto,
     RestorePasswordResponseDto,
-} from 'contracts';
+} from 'contracts-green-shop';
 import { IJwtPayload } from '../../core/jwtService/interfaces/jwt.payload.ts';
 import { IRegisterResponse } from './register.ts';
 import { ILoginResponse } from './login.ts';

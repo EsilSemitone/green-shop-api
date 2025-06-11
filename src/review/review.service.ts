@@ -13,7 +13,7 @@ import {
     GetMyReviewsResponseDto,
     GetProductReviewsRequestQueryDto,
     LIKE_TYPE,
-} from 'contracts';
+} from 'contracts-green-shop';
 import { IOrderService } from '../order/interfaces/order.service.interface.ts';
 import { HttpException } from '../common/exceptionFilter/http.exception.ts';
 import { ERROR } from '../common/error/error.ts';

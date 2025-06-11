@@ -1,4 +1,4 @@
-import { ROLES } from 'contracts/enums/roles.js';
+import { ROLES } from 'contracts-green-shop/enums/roles.js';
 
 export interface UserModel {
     uuid: string;

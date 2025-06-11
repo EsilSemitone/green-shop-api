@@ -1,4 +1,4 @@
-import { PRODUCT_CATEGORY_ENUM } from 'contracts';
+import { PRODUCT_CATEGORY_ENUM } from 'contracts-green-shop';
 import { getRandomPhotos } from '../helpers/get-random-photo.ts';
 
 const PHOTO = [

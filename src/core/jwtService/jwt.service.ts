@@ -1,8 +1,8 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
-import { sign, verify as jwtVerify } from 'jsonwebtoken';
+import jsonwebtoken from 'jsonwebtoken';
 import { APP_TYPES } from '../../types.ts';
-import { ROLES } from 'contracts';
+import { ROLES } from 'contracts-green-shop';
 import { IJwtPayload } from './interfaces/jwt.payload.ts';
 import { IJwtService } from './jwt.service.interface.ts';
 import { IConfigService } from '../configService/config.service.interface.ts';
@@ -17,7 +17,7 @@ export class JwtService implements IJwtService {
 
     async signAccess(userId: string, role: ROLES): Promise<string> {
         return new Promise<string>((resolve, reject) => {
-            sign(
+            jsonwebtoken.sign(
                 {
                     role,
                     userId,
@@ -37,7 +37,7 @@ export class JwtService implements IJwtService {
 
     async signRefresh(userId: string, role: ROLES): Promise<string> {
         return new Promise<string>((resolve, reject) => {
-            sign(
+            jsonwebtoken.sign(
                 {
                     role,
                     userId,
@@ -57,7 +57,7 @@ export class JwtService implements IJwtService {
 
     verify(token: string): Promise<IJwtPayload> {
         return new Promise<IJwtPayload>((resolve, reject) => {
-            jwtVerify(token, this.secret, (error, decoder) => {
+            jsonwebtoken.verify(token, this.secret, (error, decoder) => {
                 if (error) {
                     reject(error);
                 }

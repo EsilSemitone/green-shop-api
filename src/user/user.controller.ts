@@ -6,7 +6,7 @@ import { ValidateMiddleware } from '../common/middlewares/validate.middleware.ts
 import { APP_TYPES } from '../types.ts';
 import { Request, Response } from 'express';
 import { IUserService } from './interfaces/user.service.interface.ts';
-import { UpdateUserRequestDto, UpdateUserRequestSchema } from 'contracts';
+import { UpdateUserRequestDto, UpdateUserRequestSchema } from 'contracts-green-shop';
 
 export class UserController extends Controller implements IController {
     constructor(

@@ -1,4 +1,4 @@
-import { ORDER_BY_REVIEWS } from 'contracts/enums/order-by-my-reviews.ts';
+import { ORDER_BY_REVIEWS } from 'contracts-green-shop/enums/order-by-my-reviews.ts';
 import { IExtendedReview } from './extended-review.interface.ts';
 
 export interface IGetReviewsByCriteria {

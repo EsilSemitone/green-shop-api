@@ -7,7 +7,7 @@ import {
     DeleteReviewResponseDto,
     GetMyReviewsResponseDto,
     GetProductReviewsRequestQueryDto,
-} from 'contracts';
+} from 'contracts-green-shop';
 
 export interface IReviewService {
     createReview(userId: string, dto: CreateReviewRequestDto): Promise<CreateReviewResponseDto>;

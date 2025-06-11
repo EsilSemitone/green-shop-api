@@ -11,7 +11,7 @@ import {
     ResetPasswordResponseDto,
     RestorePasswordResponseDto,
     ROLES,
-} from 'contracts';
+} from 'contracts-green-shop';
 import { IUserRepository } from '../user/interfaces/user.repository.interface.ts';
 import { HttpException } from '../common/exceptionFilter/http.exception.ts';
 import { ERROR } from '../common/error/error.ts';

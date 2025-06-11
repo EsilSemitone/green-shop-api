@@ -8,7 +8,7 @@ import {
     SyncCartResponseDto,
     UpdateCartItemRequestDto,
     UpdateCartItemRequestResponseDto,
-} from 'contracts';
+} from 'contracts-green-shop';
 import { CartModel } from '../../common/models/cart-model.ts';
 
 export interface ICartService {

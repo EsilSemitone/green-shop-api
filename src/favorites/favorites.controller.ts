@@ -11,7 +11,7 @@ import {
     AddToFavoritesRequestSchema,
     RemoveToFavoritesRequestDto,
     RemoveToFavoritesRequestSchema,
-} from 'contracts';
+} from 'contracts-green-shop';
 import { ValidateMiddleware } from '../common/middlewares/validate.middleware.ts';
 
 @injectable()

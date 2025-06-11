@@ -1,4 +1,4 @@
-import { PRODUCT_CATEGORY, SIZE } from 'contracts';
+import { PRODUCT_CATEGORY, SIZE } from 'contracts-green-shop';
 import { CustomProductVariant } from './custom-product-variant.interface.ts';
 
 export interface IGetProductVariantsByCriteriaExtendedData {

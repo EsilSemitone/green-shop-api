@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
 import { APP_TYPES } from '../types.ts';
 import { ILogger } from '../core/logger/logger.service.interface.ts';
-import { AddToFavoritesResponseDto, GetAllFavoritesResponseDto } from 'contracts';
+import { AddToFavoritesResponseDto, GetAllFavoritesResponseDto } from 'contracts-green-shop';
 import { IFavoritesRepository } from './interfaces/favorites.repository.interface.ts';
 import { IFavoritesService } from './interfaces/favorites.service.interface.ts';
 

@@ -1,4 +1,4 @@
-import { ROLES } from 'contracts';
+import { ROLES } from 'contracts-green-shop';
 import { UserModel } from '../common/models/user-model.interface.ts';
 import { compareSync, hashSync } from 'bcryptjs';
 

@@ -10,7 +10,7 @@ import {
     CreateLikeRequestParamsSchema,
     DeleteLikeRequestParamsDto,
     DeleteLikeRequestParamsSchema,
-} from 'contracts';
+} from 'contracts-green-shop';
 import { ILikeService } from './interfaces/like.service.interface.ts';
 import { ValidateMiddleware } from '../common/middlewares/validate.middleware.ts';
 

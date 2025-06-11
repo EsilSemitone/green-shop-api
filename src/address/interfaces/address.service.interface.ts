@@ -3,7 +3,7 @@ import {
     CreateAddressResponseDto,
     DeleteAddressResponseDto,
     GetAllAddressesResponseDto,
-} from 'contracts';
+} from 'contracts-green-shop';
 
 export interface IAddressService {
     create(userId: string, createData: CreateAddressRequestDto): Promise<CreateAddressResponseDto>;

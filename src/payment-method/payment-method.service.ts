@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import { IPaymentMethodService } from './interfaces/payment-method.service.interface.ts';
 import { APP_TYPES } from '../types.ts';
 import { IPaymentMethodRepository } from './interfaces/payment-method.repository.interface.ts';
-import { GetPaymentMethodsResponseDto } from 'contracts';
+import { GetPaymentMethodsResponseDto } from 'contracts-green-shop';
 import { ILogger } from '../core/logger/logger.service.interface.ts';
 
 @injectable()

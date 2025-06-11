@@ -1,4 +1,4 @@
-import { LIKE_TYPE } from 'contracts';
+import { LIKE_TYPE } from 'contracts-green-shop';
 
 export interface ILikeRepository {
     createLike(user_id: string, target_id: string, target_type: LIKE_TYPE): Promise<void>;

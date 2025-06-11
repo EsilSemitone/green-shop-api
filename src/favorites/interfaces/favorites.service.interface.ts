@@ -1,4 +1,4 @@
-import { AddToFavoritesResponseDto, GetAllFavoritesResponseDto } from 'contracts';
+import { AddToFavoritesResponseDto, GetAllFavoritesResponseDto } from 'contracts-green-shop';
 
 export interface IFavoritesService {
     getAll(userId: string): Promise<GetAllFavoritesResponseDto>;

@@ -1,4 +1,4 @@
-import { PRODUCT_CATEGORY, SIZE } from 'contracts';
+import { PRODUCT_CATEGORY, SIZE } from 'contracts-green-shop';
 
 export interface IProductFilter {
     categories: { category: PRODUCT_CATEGORY; count: number }[];

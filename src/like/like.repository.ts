@@ -3,7 +3,7 @@ import { ILikeRepository } from './interfaces/like.repository.ts';
 import { inject, injectable } from 'inversify';
 import { APP_TYPES } from '../types.ts';
 import { IDatabaseService } from '../core/database/database.service.interface.ts';
-import { LIKE_TYPE } from 'contracts';
+import { LIKE_TYPE } from 'contracts-green-shop';
 import { targetLikeMap } from './helpers/target-like-map.ts';
 import { ERROR } from '../common/error/error.ts';
 import { HttpException } from '../common/exceptionFilter/http.exception.ts';

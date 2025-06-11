@@ -1,4 +1,4 @@
-import { ROLES } from 'contracts';
+import { ROLES } from 'contracts-green-shop';
 
 export interface IJwtPayload {
     userId: string;
