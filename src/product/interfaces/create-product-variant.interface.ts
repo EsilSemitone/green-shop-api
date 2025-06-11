@@ -1,4 +1,4 @@
-import { SIZE } from 'contracts';
+import { SIZE } from 'contracts-green-shop';
 
 export interface ICreateProductVariant {
     product_id: string;

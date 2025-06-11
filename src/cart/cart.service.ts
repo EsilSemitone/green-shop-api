@@ -13,7 +13,7 @@ import {
     SyncCartResponseDto,
     UpdateCartItemRequestDto,
     UpdateCartItemRequestResponseDto,
-} from 'contracts';
+} from 'contracts-green-shop';
 import { ICartRepository } from './interfaces/cart.repository.interface.ts';
 import { HttpException } from '../common/exceptionFilter/http.exception.ts';
 import { ERROR } from '../common/error/error.ts';

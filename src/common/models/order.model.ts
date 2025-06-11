@@ -1,4 +1,4 @@
-import { ORDER_STATUS, PAYMENT_METHOD } from 'contracts';
+import { ORDER_STATUS, PAYMENT_METHOD } from 'contracts-green-shop';
 import { AddressModel } from './address-model.ts';
 
 export interface OrderModel {

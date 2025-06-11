@@ -1,4 +1,4 @@
-import { DeleteUserResponseDto, GetMeResponseDto, UpdateUserRequestDto, UpdateUserResponseDto } from 'contracts';
+import { DeleteUserResponseDto, GetMeResponseDto, UpdateUserRequestDto, UpdateUserResponseDto } from 'contracts-green-shop';
 
 export interface IUserService {
     me(userId: string): Promise<GetMeResponseDto>;

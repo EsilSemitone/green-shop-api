@@ -1,4 +1,4 @@
-import { CreateProductRequestDto } from 'contracts/product/create-product.ts';
+import { CreateProductRequestDto } from 'contracts-green-shop/product/create-product.ts';
 import { ProductModel } from '../../common/models/product-model.interface.ts';
 import { IUpdateProduct } from './update-product.interface.ts';
 import { ICreateProductVariant } from './create-product-variant.interface.ts';

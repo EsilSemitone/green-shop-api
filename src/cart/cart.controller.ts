@@ -18,7 +18,7 @@ import {
     UpdateCartItemRequestParamDto,
     UpdateCartItemRequestParamSchema,
     UpdateCartItemRequestSchema,
-} from 'contracts';
+} from 'contracts-green-shop';
 import { CartProvideMiddleware } from '../common/middlewares/cart-provide.middleware.ts';
 
 @injectable()

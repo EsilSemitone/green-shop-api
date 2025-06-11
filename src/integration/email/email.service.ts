@@ -4,7 +4,7 @@ import { APP_TYPES } from '../../types.ts';
 import { ILogger } from '../../core/logger/logger.service.interface.ts';
 import axios, { AxiosError } from 'axios';
 import { readFileSync } from 'fs';
-import { compile } from 'handlebars';
+import handlebars from 'handlebars';
 import { API_URL } from './constants/api.ts';
 import { IEmailService } from './email.service.interface.ts';
 import { IConfigService } from '../../core/configService/config.service.interface.ts';
@@ -33,7 +33,7 @@ export class EmailService implements IEmailService {
 
         try {
             const templateSource = readFileSync(`${__dirname}/email/restore-code.hbs`, 'utf8');
-            const template = compile(templateSource);
+            const template = handlebars.compile(templateSource);
 
             const htmlBody = template({
                 link: `${this.domain}/restore?code=${restoreCode}`,

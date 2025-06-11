@@ -1,4 +1,4 @@
-import { ORDER_STATUS } from 'contracts';
+import { ORDER_STATUS } from 'contracts-green-shop';
 import { ICreateOrder } from './crate-order.interface.ts';
 import { IExtendedOrder } from './extended-order.interface.ts';
 import { IGetOrdersByCriteria } from './get-orders-by-criteria.interface.ts';

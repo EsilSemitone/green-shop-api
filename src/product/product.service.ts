@@ -3,7 +3,7 @@ import { inject, injectable } from 'inversify';
 import { IProductService } from './interfaces/product.service.interface.ts';
 import { ILogger } from '../core/logger/logger.service.interface.ts';
 import { APP_TYPES } from '../types.ts';
-import { CreateProductRequestDto, CreateProductResponseDto } from 'contracts/product/create-product.ts';
+import { CreateProductRequestDto, CreateProductResponseDto } from 'contracts-green-shop/product/create-product.ts';
 import { IProductRepository } from './interfaces/product.repository.interface.ts';
 import {
     CreateProductVariantRequestDto,
@@ -22,7 +22,7 @@ import {
     UpdateProductResponseDto,
     UpdateProductVariantRequestDto,
     UpdateProductVariantResponseDto,
-} from 'contracts';
+} from 'contracts-green-shop';
 import { HttpException } from '../common/exceptionFilter/http.exception.ts';
 import { ERROR } from '../common/error/error.ts';
 

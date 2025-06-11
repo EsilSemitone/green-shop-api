@@ -1,4 +1,4 @@
-import { SIZE } from 'contracts';
+import { SIZE } from 'contracts-green-shop';
 import { randomUUID } from 'crypto';
 import { ProductModel } from '../../src/common/models/product-model.interface.ts';
 import { ProductVariantModel } from '../../src/common/models/product-variant-model.ts';
@@ -8,7 +8,7 @@ export function getProductVariants(products: ProductModel[]): ProductVariantMode
     const result = products
         .map((product) => {
             const variantAmount = Math.floor(Math.random() * 3);
-            const res = [];
+            const res: ProductVariantModel[] = [];
             for (let i = 0; i <= variantAmount; i++) {
                 res.push({
                     uuid: randomUUID(),

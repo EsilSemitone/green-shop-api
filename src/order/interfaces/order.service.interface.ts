@@ -3,7 +3,7 @@ import {
     CreateOrderResponseDto,
     GetMyOrdersResponseDto,
     GetOrderDetailsResponseDto,
-} from 'contracts';
+} from 'contracts-green-shop';
 
 export interface IOrderService {
     create(

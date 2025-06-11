@@ -1,4 +1,4 @@
-import { PRODUCT_CATEGORY } from 'contracts';
+import { PRODUCT_CATEGORY } from 'contracts-green-shop';
 
 export interface IUpdateProduct {
     uuid: string;

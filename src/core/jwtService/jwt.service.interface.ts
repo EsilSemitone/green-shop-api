@@ -1,4 +1,4 @@
-import { ROLES } from "contracts";
+import { ROLES } from "contracts-green-shop";
 import { IJwtPayload } from "./interfaces/jwt.payload.ts";
 
 export interface IJwtService {

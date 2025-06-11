@@ -9,7 +9,7 @@ import {
     GetOrderDetailsResponseDto,
     ORDER_STATUS,
     PAYMENT_METHOD,
-} from 'contracts';
+} from 'contracts-green-shop';
 import { IOrderRepository } from './interfaces/order.repository.interface.ts';
 import { IPaymentMethodRepository } from '../payment-method/interfaces/payment-method.repository.interface.ts';
 import { HttpException } from '../common/exceptionFilter/http.exception.ts';

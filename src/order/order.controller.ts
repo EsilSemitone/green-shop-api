@@ -11,7 +11,7 @@ import {
     CreateOrderRequestSchema,
     GetOrderDetailsRequestParamsDto,
     GetOrderDetailsRequestParamsSchema,
-} from 'contracts';
+} from 'contracts-green-shop';
 import { IOrderService } from './interfaces/order.service.interface.ts';
 import { CartProvideMiddleware } from '../common/middlewares/cart-provide.middleware.ts';
 import { ICartService } from '../cart/interfaces/cart.service.interface.ts';

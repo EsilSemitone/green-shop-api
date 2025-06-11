@@ -10,7 +10,7 @@ import {
     CreateAddressRequestSchema,
     DeleteAddressRequestParamsDto,
     DeleteAddressRequestParamsSchema,
-} from 'contracts';
+} from 'contracts-green-shop';
 import { Request, Response } from 'express';
 import { IAddressService } from './interfaces/address.service.interface.ts';
 

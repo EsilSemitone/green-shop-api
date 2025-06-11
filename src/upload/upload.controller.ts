@@ -10,7 +10,7 @@ import { HttpException } from '../common/exceptionFilter/http.exception.ts';
 import { ERROR } from '../common/error/error.ts';
 import multer from 'multer';
 import { ValidateMiddleware } from '../common/middlewares/validate.middleware.ts';
-import { UploadRequestDto, UploadRequestSchema } from 'contracts';
+import { UploadRequestDto, UploadRequestSchema } from 'contracts-green-shop';
 
 @injectable()
 export class UploadController extends Controller implements IController {

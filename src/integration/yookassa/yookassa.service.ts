@@ -13,7 +13,7 @@ import { ERROR } from '../../common/error/error.ts';
 import { YookassaPaymentWebhookRequestDto } from './dto/payment.dto.ts';
 import { YOOKASSA_EVENT } from './enums/yookassa-event.ts';
 import { IOrderRepository } from '../../order/interfaces/order.repository.interface.ts';
-import { ORDER_STATUS } from 'contracts';
+import { ORDER_STATUS } from 'contracts-green-shop';
 import { IConfigService } from '../../core/configService/config.service.interface.ts';
 
 @injectable()

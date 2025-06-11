@@ -1,4 +1,4 @@
-import { PAYMENT_METHOD } from 'contracts';
+import { PAYMENT_METHOD } from 'contracts-green-shop';
 
 export const PAYMENT_METHODS = [
     {

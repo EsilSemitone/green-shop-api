@@ -1,4 +1,4 @@
-import { PAYMENT_METHOD } from 'contracts';
+import { PAYMENT_METHOD } from 'contracts-green-shop';
 import { CartItemModel } from '../../common/models/cart-item-model.ts';
 import { AddressModel } from '../../common/models/address-model.ts';
 

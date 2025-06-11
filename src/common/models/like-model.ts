@@ -1,4 +1,4 @@
-import { LIKE_TYPE } from 'contracts';
+import { LIKE_TYPE } from 'contracts-green-shop';
 
 export interface LikeModel {
     uuid: string;

@@ -6,7 +6,7 @@ import { IDatabaseService } from '../core/database/database.service.interface.ts
 import { ICreateOrder } from './interfaces/crate-order.interface.ts';
 import { ERROR } from '../common/error/error.ts';
 import { HttpException } from '../common/exceptionFilter/http.exception.ts';
-import { ORDER_STATUS } from 'contracts';
+import { ORDER_STATUS } from 'contracts-green-shop';
 import { IExtendedOrder } from './interfaces/extended-order.interface.ts';
 import { IGetOrdersByCriteria } from './interfaces/get-orders-by-criteria.interface.ts';
 import { IUpdateOrder } from './interfaces/update-order.interface.ts';

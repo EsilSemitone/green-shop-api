@@ -3,7 +3,7 @@ import express, { Express } from 'express';
 import { inject, injectable } from 'inversify';
 import { ILogger } from './core/logger/logger.service.interface.ts';
 import { APP_TYPES } from './types.ts';
-import { json } from 'body-parser';
+import parser from 'body-parser';
 import { IController } from './common/interfaces/controller.interface.ts';
 import { IExceptionsFilter } from './common/exceptionFilter/exceptionFilter.interface.ts';
 import cors from 'cors';
@@ -50,12 +50,12 @@ export class App {
     useMiddlewares(): void {
         this.app.use(
             cors({
-                origin: [this.configService.getOrThrow('CLIENT_URL')],
+                origin: [this.configService.getOrThrow('CLIENT_URL'), 'http://localhost:80', 'http://localhost:8000'],
                 credentials: true,
             }),
         );
         this.app.use(cookieParser());
-        this.app.use(json());
+        this.app.use(parser.json());
     }
 
     useRoutes(): void {
@@ -83,6 +83,7 @@ export class App {
         this.useExceptionFilters();
         this.app.listen(this.port, () => {
             this.loggerService.log(`Start server on ${this.domain}:${this.port}/${this.apiPrefix}/`);
+            this.loggerService.log(`${this.configService.getOrThrow('CLIENT_URL')}`);
         });
     }
 }

@@ -1,4 +1,4 @@
-import { LIKE_TYPE } from 'contracts';
+import { LIKE_TYPE } from 'contracts-green-shop';
 
 export const targetLikeMap = new Map<LIKE_TYPE, string>([
     [LIKE_TYPE.REVIEW, 'reviews'],

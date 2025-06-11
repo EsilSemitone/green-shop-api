@@ -3,7 +3,7 @@ import { inject, injectable } from 'inversify';
 import { ILogger } from '../core/logger/logger.service.interface.ts';
 import { APP_TYPES } from '../types.ts';
 import { IUserRepository } from './interfaces/user.repository.interface.ts';
-import { DeleteUserResponseDto, GetMeResponseDto, UpdateUserRequestDto, UpdateUserResponseDto } from 'contracts';
+import { DeleteUserResponseDto, GetMeResponseDto, UpdateUserRequestDto, UpdateUserResponseDto } from 'contracts-green-shop';
 import { HttpException } from '../common/exceptionFilter/http.exception.ts';
 import { ERROR } from '../common/error/error.ts';
 import { IUserService } from './interfaces/user.service.interface.ts';

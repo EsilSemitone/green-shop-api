@@ -21,7 +21,7 @@ import {
     GetProductReviewsRequestParamsSchema,
     GetProductReviewsRequestQueryDto,
     GetProductReviewsRequestQuerySchema,
-} from 'contracts';
+} from 'contracts-green-shop';
 import { IReviewService } from './interfaces/review.service.interface.ts';
 import { AuthMiddleware } from '../common/middlewares/auth.middleware.ts';
 
