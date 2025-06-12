@@ -1,0 +1,39 @@
+name: Deploy backend
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  repository_dispatch:
+    types: [update-contracts]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Log in to GitHub Container Registry
+        run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u esilsemitone --password-stdin
+
+      - name: Build Docker image
+        run: docker build -t ghcr.io/esilsemitone/green-shop-api:latest .
+
+      - name: Push Docker image
+        run: docker push ghcr.io/esilsemitone/green-shop-api:latest
+
+      - name: Deploy on server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u esilsemitone --password-stdin
+            docker pull ghcr.io/esilsemitone/green-shop-api:latest
+            docker-compose up -d backend
