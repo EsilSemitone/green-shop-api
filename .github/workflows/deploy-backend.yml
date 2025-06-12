@@ -33,4 +33,4 @@ jobs:
           script: |
             echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u esilsemitone --password-stdin
             docker pull ghcr.io/esilsemitone/green-shop-api:latest
-            docker-compose up -d backend
+            docker compose up -d backend
