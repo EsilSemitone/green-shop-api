@@ -1,14 +1,14 @@
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
-import { ICartRepository } from './interfaces/cart.repository.interface.ts';
-import { APP_TYPES } from '../types.ts';
-import { IDatabaseService } from '../core/database/database.service.interface.ts';
-import { CartModel } from '../common/models/cart-model.ts';
-import { IGetCartByUniqueCriteria } from './interfaces/get-cart-by-unique-criteria.interface.ts';
-import { IGetCartItemsByCriteria } from './interfaces/get-cart-item-by-criteia.interface.ts';
-import { CartItemModel } from '../common/models/cart-item-model.ts';
-import { ICreateCartItem } from './interfaces/create-cart-item.interface.ts';
-import { IUpdateCartItem } from './interfaces/update-cart-item.interface.ts';
+import { ICartRepository } from './interfaces/cart.repository.interface';
+import { APP_TYPES } from '../types';
+import { IDatabaseService } from '../core/database/database.service.interface';
+import { CartModel } from '../common/models/cart-model';
+import { IGetCartByUniqueCriteria } from './interfaces/get-cart-by-unique-criteria.interface';
+import { IGetCartItemsByCriteria } from './interfaces/get-cart-item-by-criteia.interface';
+import { CartItemModel } from '../common/models/cart-item-model';
+import { ICreateCartItem } from './interfaces/create-cart-item.interface';
+import { IUpdateCartItem } from './interfaces/update-cart-item.interface';
 
 @injectable()
 export class cartRepository implements ICartRepository {

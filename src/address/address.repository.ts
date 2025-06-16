@@ -1,10 +1,10 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
-import { IAddressRepository } from './interfaces/address.repository.interface.ts';
-import { APP_TYPES } from '../types.ts';
-import { IDatabaseService } from '../core/database/database.service.interface.ts';
-import { ICreateAddress } from './interfaces/create-address.interface.ts';
-import { AddressModel } from '../common/models/address-model.ts';
+import { IAddressRepository } from './interfaces/address.repository.interface';
+import { APP_TYPES } from '../types';
+import { IDatabaseService } from '../core/database/database.service.interface';
+import { ICreateAddress } from './interfaces/create-address.interface';
+import { AddressModel } from '../common/models/address-model';
 
 @injectable()
 export class AddressRepository implements IAddressRepository {

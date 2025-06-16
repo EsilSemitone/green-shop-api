@@ -1,7 +1,7 @@
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
-import { APP_TYPES } from '../types.ts';
-import { IOrderService } from './interfaces/order.service.interface.ts';
+import { APP_TYPES } from '../types';
+import { IOrderService } from './interfaces/order.service.interface';
 import {
     CreateOrderRequestDto,
     CreateOrderResponseDto,
@@ -10,15 +10,15 @@ import {
     ORDER_STATUS,
     PAYMENT_METHOD,
 } from 'contracts-green-shop';
-import { IOrderRepository } from './interfaces/order.repository.interface.ts';
-import { IPaymentMethodRepository } from '../payment-method/interfaces/payment-method.repository.interface.ts';
-import { HttpException } from '../common/exceptionFilter/http.exception.ts';
-import { ERROR } from '../common/error/error.ts';
-import { ICartRepository } from '../cart/interfaces/cart.repository.interface.ts';
-import { IAddressRepository } from '../address/interfaces/address.repository.interface.ts';
-import { IYookassaService } from '../integration/yookassa/interfaces/yookassa.service.interface.ts';
-import { IConfigService } from '../core/configService/config.service.interface.ts';
-import { ILogger } from '../core/logger/logger.service.interface.ts';
+import { IOrderRepository } from './interfaces/order.repository.interface';
+import { IPaymentMethodRepository } from '../payment-method/interfaces/payment-method.repository.interface';
+import { HttpException } from '../common/exceptionFilter/http.exception';
+import { ERROR } from '../common/error/error';
+import { ICartRepository } from '../cart/interfaces/cart.repository.interface';
+import { IAddressRepository } from '../address/interfaces/address.repository.interface';
+import { IYookassaService } from '../integration/yookassa/interfaces/yookassa.service.interface';
+import { IConfigService } from '../core/configService/config.service.interface';
+import { ILogger } from '../core/logger/logger.service.interface';
 
 @injectable()
 export class OrderService implements IOrderService {

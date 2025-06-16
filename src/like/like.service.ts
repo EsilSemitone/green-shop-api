@@ -1,10 +1,10 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
-import { ILikeService } from './interfaces/like.service.interface.ts';
-import { APP_TYPES } from '../types.ts';
-import { ILogger } from '../core/logger/logger.service.interface.ts';
+import { ILikeService } from './interfaces/like.service.interface';
+import { APP_TYPES } from '../types';
+import { ILogger } from '../core/logger/logger.service.interface';
 import { LIKE_TYPE } from 'contracts-green-shop';
-import { ILikeRepository } from './interfaces/like.repository.ts';
+import { ILikeRepository } from './interfaces/like.repository';
 
 @injectable()
 export class LikeService implements ILikeService {

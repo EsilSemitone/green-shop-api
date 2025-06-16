@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import { IMiddleware } from '../interfaces/middleware.interface.ts';
-import { HttpException } from '../exceptionFilter/http.exception.ts';
-import { ERROR } from '../error/error.ts';
-import { ICartService } from '../../cart/interfaces/cart.service.interface.ts';
+import { IMiddleware } from '../interfaces/middleware.interface';
+import { HttpException } from '../exceptionFilter/http.exception';
+import { ERROR } from '../error/error';
+import { ICartService } from '../../cart/interfaces/cart.service.interface';
 
 export class CartProvideMiddleware implements IMiddleware {
     constructor(private cartService: ICartService) {}

@@ -1,14 +1,14 @@
 import 'reflect-metadata';
 import express, { Express } from 'express';
 import { inject, injectable } from 'inversify';
-import { ILogger } from './core/logger/logger.service.interface.ts';
+import { ILogger } from './core/logger/logger.service.interface';
 import { APP_TYPES } from './types';
 import parser from 'body-parser';
-import { IController } from './common/interfaces/controller.interface.ts';
-import { IExceptionsFilter } from './common/exceptionFilter/exceptionFilter.interface.ts';
+import { IController } from './common/interfaces/controller.interface';
+import { IExceptionsFilter } from './common/exceptionFilter/exceptionFilter.interface';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
-import { IConfigService } from './core/configService/config.service.interface.ts';
+import { IConfigService } from './core/configService/config.service.interface';
 
 @injectable()
 export class App {

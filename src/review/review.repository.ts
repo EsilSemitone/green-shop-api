@@ -1,15 +1,15 @@
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
-import { IReviewRepository } from './interfaces/review.repository.interface.ts';
-import { APP_TYPES } from '../types.ts';
-import { IDatabaseService } from '../core/database/database.service.interface.ts';
-import { IGetReviewByCriteria } from './interfaces/get-review-by-criteria.interface.ts';
-import { ReviewModel } from '../common/models/review-model.ts';
-import { ICreateReview } from './interfaces/create-review.interface.ts';
-import { IGetReviewsByCriteria, IGetReviewsByCriteriaReturn } from './interfaces/get-reviews-by-criteria.interface.ts';
-import { orderByMap } from './helpers/order-by-map.ts';
-import { ReviewCommentModel } from '../common/models/review-comments-model.ts';
-import { ICreateReviewComment } from './interfaces/create-review-comment.interface.ts';
+import { IReviewRepository } from './interfaces/review.repository.interface';
+import { APP_TYPES } from '../types';
+import { IDatabaseService } from '../core/database/database.service.interface';
+import { IGetReviewByCriteria } from './interfaces/get-review-by-criteria.interface';
+import { ReviewModel } from '../common/models/review-model';
+import { ICreateReview } from './interfaces/create-review.interface';
+import { IGetReviewsByCriteria, IGetReviewsByCriteriaReturn } from './interfaces/get-reviews-by-criteria.interface';
+import { orderByMap } from './helpers/order-by-map';
+import { ReviewCommentModel } from '../common/models/review-comments-model';
+import { ICreateReviewComment } from './interfaces/create-review-comment.interface';
 
 @injectable()
 export class ReviewRepository implements IReviewRepository {

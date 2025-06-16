@@ -1,11 +1,11 @@
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
-import { IController } from '../common/interfaces/controller.interface.ts';
-import { Controller } from '../common/abstract.controller.ts';
-import { APP_TYPES } from '../types.ts';
-import { AuthGuardFactory } from '../common/middlewares/auth.guard.factory.ts';
+import { IController } from '../common/interfaces/controller.interface';
+import { Controller } from '../common/abstract.controller';
+import { APP_TYPES } from '../types';
+import { AuthGuardFactory } from '../common/middlewares/auth.guard.factory';
 import { Request, Response } from 'express';
-import { ValidateMiddleware } from '../common/middlewares/validate.middleware.ts';
+import { ValidateMiddleware } from '../common/middlewares/validate.middleware';
 import {
     CreateReviewCommentRequestDto,
     CreateReviewCommentRequestParamsDto,
@@ -22,8 +22,8 @@ import {
     GetProductReviewsRequestQueryDto,
     GetProductReviewsRequestQuerySchema,
 } from 'contracts-green-shop';
-import { IReviewService } from './interfaces/review.service.interface.ts';
-import { AuthMiddleware } from '../common/middlewares/auth.middleware.ts';
+import { IReviewService } from './interfaces/review.service.interface';
+import { AuthMiddleware } from '../common/middlewares/auth.middleware';
 
 @injectable()
 export class ReviewController extends Controller implements IController {

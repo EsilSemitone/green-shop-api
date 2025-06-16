@@ -1,8 +1,8 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
-import { IAuthService } from './interfaces/auth.service.interface.ts';
-import { APP_TYPES } from '../types.ts';
-import { ILogger } from '../core/logger/logger.service.interface.ts';
+import { IAuthService } from './interfaces/auth.service.interface';
+import { APP_TYPES } from '../types';
+import { ILogger } from '../core/logger/logger.service.interface';
 import {
     LoginSchemaRequestDto,
     LogoutResponseDto,
@@ -12,18 +12,18 @@ import {
     RestorePasswordResponseDto,
     ROLES,
 } from 'contracts-green-shop';
-import { IUserRepository } from '../user/interfaces/user.repository.interface.ts';
-import { HttpException } from '../common/exceptionFilter/http.exception.ts';
-import { ERROR } from '../common/error/error.ts';
-import { UserEntity } from '../user/user.entity.ts';
-import { IJwtService } from '../core/jwtService/jwt.service.interface.ts';
+import { IUserRepository } from '../user/interfaces/user.repository.interface';
+import { HttpException } from '../common/exceptionFilter/http.exception';
+import { ERROR } from '../common/error/error';
+import { UserEntity } from '../user/user.entity';
+import { IJwtService } from '../core/jwtService/jwt.service.interface';
 import { randomBytes } from 'crypto';
-import { IEmailService } from '../integration/email/email.service.interface.ts';
-import { IRefreshTokenRepository } from '../refresh-token/interfaces/refresh-token.repository.interface.ts';
-import { IJwtPayload } from '../core/jwtService/interfaces/jwt.payload.ts';
-import { IRegisterResponse } from './interfaces/register.ts';
-import { ILoginResponse } from './interfaces/login.ts';
-import { IConfigService } from '../core/configService/config.service.interface.ts';
+import { IEmailService } from '../integration/email/email.service.interface';
+import { IRefreshTokenRepository } from '../refresh-token/interfaces/refresh-token.repository.interface';
+import { IJwtPayload } from '../core/jwtService/interfaces/jwt.payload';
+import { IRegisterResponse } from './interfaces/register';
+import { ILoginResponse } from './interfaces/login';
+import { IConfigService } from '../core/configService/config.service.interface';
 
 @injectable()
 export class AuthService implements IAuthService {
@@ -119,7 +119,6 @@ export class AuthService implements IAuthService {
 
         await this.userRepository.update(isUserExist.uuid, { restore_code: restoreCode });
 
-        console.log('here');
         await this.emailService.sendRestoreCodeEmail(email, restoreCode);
 
         this.loggerService.log(`Success service restorePassword`);
@@ -179,27 +178,18 @@ export class AuthService implements IAuthService {
         this.loggerService.log(`Start service refresh token with params: ${JSON.stringify({ refreshToken })}`);
 
         if (!refreshToken) {
-            console.log(1);
             this.loggerService.error(`Error service refresh, refreshToken is not defined`);
             throw new HttpException(ERROR.INVALID_REFRESH_TOKEN, 400);
         }
         const isTokenExist = await this.refreshTokenRepository.getByUniqueCriteria({ token: refreshToken });
 
         if (!isTokenExist) {
-            console.log(2);
 
             this.loggerService.error(`Error service refresh, refreshToken is not found`);
             throw new HttpException(ERROR.INVALID_REFRESH_TOKEN, 400);
         }
 
         if (!isTokenExist.is_valid || new Date().getTime() > isTokenExist.expires_at.getTime()) {
-            console.log(`isTokenExist.is_valid ${isTokenExist.is_valid}`);
-            console.log(`new Date().getTime() ${new Date().toLocaleDateString()}`);
-            console.log(
-                `isTokenExist.expires_at.getTime() ${new Date(
-                    isTokenExist.expires_at.getTime() * 1000,
-                ).toLocaleDateString()}`,
-            );
             this.loggerService.error(`Error service refresh, refreshToken is not valid`);
             throw new HttpException(ERROR.INVALID_REFRESH_TOKEN, 400);
         }

@@ -1,10 +1,10 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
-import { IPaymentMethodRepository } from './interfaces/payment-method.repository.interface.ts';
-import { APP_TYPES } from '../types.ts';
-import { IDatabaseService } from '../core/database/database.service.interface.ts';
-import { IGetPaymentMethodByUniqueCriteria } from './interfaces/get-payment-method-by-unique-criteria.interface.ts';
-import { PaymentMethodModel } from '../common/models/payment-method-model.interface.ts';
+import { IPaymentMethodRepository } from './interfaces/payment-method.repository.interface';
+import { APP_TYPES } from '../types';
+import { IDatabaseService } from '../core/database/database.service.interface';
+import { IGetPaymentMethodByUniqueCriteria } from './interfaces/get-payment-method-by-unique-criteria.interface';
+import { PaymentMethodModel } from '../common/models/payment-method-model.interface';
 
 @injectable()
 export class PaymentMethodRepository implements IPaymentMethodRepository {

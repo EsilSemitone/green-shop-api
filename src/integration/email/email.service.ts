@@ -1,13 +1,13 @@
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
-import { APP_TYPES } from '../../types.ts';
-import { ILogger } from '../../core/logger/logger.service.interface.ts';
+import { APP_TYPES } from '../../types';
+import { ILogger } from '../../core/logger/logger.service.interface';
 import axios, { AxiosError } from 'axios';
 import { readFileSync } from 'fs';
 import handlebars from 'handlebars';
-import { API_URL } from './constants/api.ts';
-import { IEmailService } from './email.service.interface.ts';
-import { IConfigService } from '../../core/configService/config.service.interface.ts';
+import { API_URL } from './constants/api';
+import { IEmailService } from './email.service.interface';
+import { IConfigService } from '../../core/configService/config.service.interface';
 
 @injectable()
 export class EmailService implements IEmailService {
@@ -59,7 +59,6 @@ export class EmailService implements IEmailService {
                 },
             );
 
-            console.log(data);
         } catch (e) {
             if (e instanceof AxiosError) {
                 this.loggerService.error(e.response?.data);

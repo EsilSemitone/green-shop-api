@@ -1,15 +1,15 @@
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
-import { Controller } from '../common/abstract.controller.ts';
-import { IController } from '../common/interfaces/controller.interface.ts';
-import { APP_TYPES } from '../types.ts';
-import { IS3Service } from '../integration/s3/interfaces/s3.service.interface.ts';
-import { AuthGuardFactory } from '../common/middlewares/auth.guard.factory.ts';
+import { Controller } from '../common/abstract.controller';
+import { IController } from '../common/interfaces/controller.interface';
+import { APP_TYPES } from '../types';
+import { IS3Service } from '../integration/s3/interfaces/s3.service.interface';
+import { AuthGuardFactory } from '../common/middlewares/auth.guard.factory';
 import { Request, Response } from 'express';
-import { HttpException } from '../common/exceptionFilter/http.exception.ts';
-import { ERROR } from '../common/error/error.ts';
+import { HttpException } from '../common/exceptionFilter/http.exception';
+import { ERROR } from '../common/error/error';
 import multer from 'multer';
-import { ValidateMiddleware } from '../common/middlewares/validate.middleware.ts';
+import { ValidateMiddleware } from '../common/middlewares/validate.middleware';
 import { UploadRequestDto, UploadRequestSchema } from 'contracts-green-shop';
 
 @injectable()

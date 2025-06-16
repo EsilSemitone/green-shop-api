@@ -1,11 +1,11 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
-import { APP_TYPES } from '../types.ts';
-import { IDatabaseService } from '../core/database/database.service.interface.ts';
-import { ICreateRefreshToken } from './interfaces/create-refresh-token.interface.ts';
-import { RefreshTokenModel } from '../common/models/refresh-token-model.interface.ts';
-import { IRefreshTokenRepository } from './interfaces/refresh-token.repository.interface.ts';
-import { IGetTokenByUniqueCriteria } from './interfaces/get-token-by-unique-criteria.interface.ts';
+import { APP_TYPES } from '../types';
+import { IDatabaseService } from '../core/database/database.service.interface';
+import { ICreateRefreshToken } from './interfaces/create-refresh-token.interface';
+import { RefreshTokenModel } from '../common/models/refresh-token-model.interface';
+import { IRefreshTokenRepository } from './interfaces/refresh-token.repository.interface';
+import { IGetTokenByUniqueCriteria } from './interfaces/get-token-by-unique-criteria.interface';
 
 @injectable()
 export class RefreshTokenRepository implements IRefreshTokenRepository {
