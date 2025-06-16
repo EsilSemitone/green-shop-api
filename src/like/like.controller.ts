@@ -44,6 +44,7 @@ export class LikeController extends Controller implements IController {
     }
 
     async createLike({ user, params }: Request<CreateLikeRequestParamsDto>, res: Response) {
+        console.log(1);
         const userId = user?.userId;
         await this.likeService.createLike(userId!, params.targetId, params.targetType);
         res.sendStatus(201);

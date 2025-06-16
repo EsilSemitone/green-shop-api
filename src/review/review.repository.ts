@@ -43,9 +43,10 @@ export class ReviewRepository implements IReviewRepository {
         const { orderBy, user_id, product_id, variant_id } = criteria;
 
         const buildUserQuery = () => {
-            return this.db.db.raw(
-                `select * from users ${user_id ? `where uuid::text = '${this.db.db.raw('?', [user_id])}'` : ''}`,
-            );
+            if (user_id) {
+                return this.db.db.raw("select * from users where uuid::text = '?'", [user_id]);
+            }
+            return this.db.db.raw(`select * from users`);
         };
 
         const buildQuery = () => {
@@ -103,10 +104,10 @@ export class ReviewRepository implements IReviewRepository {
             }
 
             if (product_id) {
-                query.where(this.db.db.raw(`reviews.product_id::text =  '${product_id}'`));
+                query.where(`reviews.product_id`, product_id);
             }
             if (variant_id) {
-                query.where(this.db.db.raw(`reviews.product_variant_id::text =  '${variant_id}'`));
+                query.where(`reviews.product_variant_id`, variant_id);
             }
             query.groupBy(...groupByArr);
 
