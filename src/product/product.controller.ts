@@ -35,7 +35,9 @@ import {
     UpdateProductVariantRequestParamsDto,
     UpdateProductVariantRequestParamsSchema,
     UpdateProductVariantRequestSchema,
+    ROLES,
 } from 'contracts-green-shop';
+import { RoleGuard } from '../common/middlewares/role.guard';
 
 @injectable()
 export class ProductController extends Controller implements IController {
@@ -52,6 +54,7 @@ export class ProductController extends Controller implements IController {
                 func: this.create,
                 middlewares: [
                     this.authGuardFactory.create(),
+                    new RoleGuard([ROLES.ADMIN]),
                     new ValidateMiddleware([{ key: 'body', schema: CreateProductRequestSchema }]),
                 ],
             },
@@ -97,6 +100,7 @@ export class ProductController extends Controller implements IController {
                 func: this.update,
                 middlewares: [
                     this.authGuardFactory.create(),
+                    new RoleGuard([ROLES.ADMIN]),
                     new ValidateMiddleware([
                         { key: 'params', schema: UpdateProductRequestParamsSchema },
                         { key: 'body', schema: UpdateProductRequestSchema },
@@ -109,6 +113,7 @@ export class ProductController extends Controller implements IController {
                 func: this.delete,
                 middlewares: [
                     this.authGuardFactory.create(),
+                    new RoleGuard([ROLES.ADMIN]),
                     new ValidateMiddleware([{ key: 'params', schema: DeleteProductRequestParamsSchema }]),
                 ],
             },
@@ -118,6 +123,7 @@ export class ProductController extends Controller implements IController {
                 func: this.createProductVariant,
                 middlewares: [
                     this.authGuardFactory.create(),
+                    new RoleGuard([ROLES.ADMIN]),
                     new ValidateMiddleware([
                         { key: 'params', schema: CreateProductVariantRequestParamsSchema },
                         { key: 'body', schema: CreateProductVariantRequestSchema },
@@ -130,6 +136,7 @@ export class ProductController extends Controller implements IController {
                 func: this.updateProductVariant,
                 middlewares: [
                     this.authGuardFactory.create(),
+                    new RoleGuard([ROLES.ADMIN]),
                     new ValidateMiddleware([
                         { key: 'params', schema: UpdateProductVariantRequestParamsSchema },
                         { key: 'body', schema: UpdateProductVariantRequestSchema },
@@ -142,6 +149,7 @@ export class ProductController extends Controller implements IController {
                 func: this.deleteProductVariant,
                 middlewares: [
                     this.authGuardFactory.create(),
+                    new RoleGuard([ROLES.ADMIN]),
                     new ValidateMiddleware([{ key: 'params', schema: DeleteProductVariantRequestParamsSchema }]),
                 ],
             },

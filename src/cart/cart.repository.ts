@@ -44,7 +44,11 @@ export class cartRepository implements ICartRepository {
     }
 
     async updateCartItem({ uuid, data }: IUpdateCartItem): Promise<CartItemModel> {
-        const result = await this.db.db<CartItemModel>('cart_items').update(data).where({ uuid }).returning('*');
+        const result = await this.db
+            .db<CartItemModel>('cart_items')
+            .update({ ...data, updated_at: new Date() })
+            .where({ uuid })
+            .returning('*');
         return result[0];
     }
 }

@@ -30,7 +30,7 @@ export class UserRepository {
     async update(uuid: string, data: IUpdateUser): Promise<UserModel> {
         const [user] = await this.databaseService
             .db<UserModel>('users')
-            .update({ ...data })
+            .update({ ...data, updated_at: new Date() })
             .where({ uuid })
             .returning('*');
         return user;

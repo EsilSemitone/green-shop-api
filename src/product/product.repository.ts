@@ -35,7 +35,7 @@ export class ProductRepository implements IProductRepository {
     async update({ uuid, data }: IUpdateProduct): Promise<ProductModel> {
         const [updatedProduct] = await this.databaseService
             .db<ProductModel>('products')
-            .update({ ...data })
+            .update({ ...data, updated_at: new Date() })
             .where({ uuid })
             .returning('*');
         return updatedProduct;
@@ -58,7 +58,7 @@ export class ProductRepository implements IProductRepository {
     async updateProductVariant({ uuid, ...data }: IUpdateProductVariant): Promise<ProductVariantModel> {
         const updatedProduct = await this.databaseService
             .db<ProductVariantModel>('product_variants')
-            .update(data)
+            .update({ ...data, updated_at: new Date() })
             .where({ uuid })
             .returning('*');
         return updatedProduct[0];

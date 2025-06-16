@@ -146,7 +146,11 @@ export class OrderRepository implements IOrderRepository {
     }
 
     async updateOrder(uuid: string, data: IUpdateOrder): Promise<OrderModel> {
-        const [order] = await this.db.db<OrderModel>('orders').update(data).where({ uuid }).returning('*');
+        const [order] = await this.db
+            .db<OrderModel>('orders')
+            .update({ ...data, updated_at: new Date() })
+            .where({ uuid })
+            .returning('*');
         return order;
     }
 
