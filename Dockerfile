@@ -5,7 +5,7 @@ WORKDIR /api
 COPY package*.json ./
 
 RUN npm ci
-RUN npm install contracts-green-shop@latest
+# RUN npm install contracts-green-shop@latest
 
 COPY . .
 

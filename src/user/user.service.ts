@@ -1,14 +1,19 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
-import { ILogger } from '../core/logger/logger.service.interface.ts';
-import { APP_TYPES } from '../types.ts';
-import { IUserRepository } from './interfaces/user.repository.interface.ts';
-import { DeleteUserResponseDto, GetMeResponseDto, UpdateUserRequestDto, UpdateUserResponseDto } from 'contracts-green-shop';
-import { HttpException } from '../common/exceptionFilter/http.exception.ts';
-import { ERROR } from '../common/error/error.ts';
-import { IUserService } from './interfaces/user.service.interface.ts';
-import { UserEntity } from './user.entity.ts';
-import { IConfigService } from '../core/configService/config.service.interface.ts';
+import { ILogger } from '../core/logger/logger.service.interface';
+import { APP_TYPES } from '../types';
+import { IUserRepository } from './interfaces/user.repository.interface';
+import {
+    DeleteUserResponseDto,
+    GetMeResponseDto,
+    UpdateUserRequestDto,
+    UpdateUserResponseDto,
+} from 'contracts-green-shop';
+import { HttpException } from '../common/exceptionFilter/http.exception';
+import { ERROR } from '../common/error/error';
+import { IUserService } from './interfaces/user.service.interface';
+import { UserEntity } from './user.entity';
+import { IConfigService } from '../core/configService/config.service.interface';
 
 @injectable()
 export class UserService implements IUserService {
@@ -29,7 +34,8 @@ export class UserService implements IUserService {
         if (!userData) {
             throw new HttpException(ERROR.USER_NOT_FOUND, 404);
         }
-
+        
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { password_hash, restore_code, ...result } = userData;
 
         this.loggerService.log('Success service users - get me');
@@ -55,6 +61,8 @@ export class UserService implements IUserService {
         };
 
         if (Object.keys(updatedData).length === 0) {
+
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { password_hash, restore_code, ...result } = user;
 
             this.loggerService.log('Success service update user ');
@@ -62,6 +70,8 @@ export class UserService implements IUserService {
         }
 
         const updatedUser = await this.userRepository.update(userId, updatedData);
+
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { password_hash, restore_code, ...result } = updatedUser;
 
         this.loggerService.log('Success service update user ');

@@ -1,10 +1,10 @@
 import 'reflect-metadata';
 import { Container, ContainerModule } from 'inversify';
-import { APP_TYPES } from './types.ts';
-import { App } from './app.ts';
+import { APP_TYPES } from './types';
+import { App } from './app';
 import { IMainReturnType } from './common/interfaces/main-return.interface.ts';
-import { ConfigService } from './core/configService/config.service.ts';
-import { LoggerService } from './core/logger/logger.service.ts';
+import { ConfigService } from './core/configService/config.service';
+import { LoggerService } from './core/logger/logger.service';
 import { ILogger } from './core/logger/logger.service.interface.ts';
 import { IController } from './common/interfaces/controller.interface.ts';
 import { AuthController } from './auth/auth.controller.ts';

@@ -11,8 +11,9 @@ import { IUpdateUser } from './interfaces/update-user.interface.ts';
 export class UserRepository {
     constructor(@inject(APP_TYPES.DATABASE_SERVICE) private databaseService: IDatabaseService) {}
 
-    async getByUniqueCriteria(data: GetUserByUniqueCriteria): Promise<UserModel | undefined> {
-        return this.databaseService.db<UserModel>('users').where(data).first();
+    async getByUniqueCriteria(data: GetUserByUniqueCriteria): Promise<UserModel | null> {
+        const res = await this.databaseService.db<UserModel>('users').where(data).first();
+        return res || null;
     }
 
     async create(data: ICreateUser): Promise<UserModel> {

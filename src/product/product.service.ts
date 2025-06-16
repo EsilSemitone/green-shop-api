@@ -2,8 +2,8 @@ import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
 import { IProductService } from './interfaces/product.service.interface.ts';
 import { ILogger } from '../core/logger/logger.service.interface.ts';
-import { APP_TYPES } from '../types.ts';
-import { CreateProductRequestDto, CreateProductResponseDto } from 'contracts-green-shop/product/create-product.ts';
+import { APP_TYPES } from '../types';
+import { CreateProductRequestDto, CreateProductResponseDto } from 'contracts-green-shop/product/create-product';
 import { IProductRepository } from './interfaces/product.repository.interface.ts';
 import {
     CreateProductVariantRequestDto,
@@ -23,8 +23,8 @@ import {
     UpdateProductVariantRequestDto,
     UpdateProductVariantResponseDto,
 } from 'contracts-green-shop';
-import { HttpException } from '../common/exceptionFilter/http.exception.ts';
-import { ERROR } from '../common/error/error.ts';
+import { HttpException } from '../common/exceptionFilter/http.exception';
+import { ERROR } from '../common/error/error';
 
 @injectable()
 export class ProductService implements IProductService {
@@ -185,7 +185,7 @@ export class ProductService implements IProductService {
         );
 
         const { products, count } = await this.productRepository.getProductVariantsByCriteriaExtended(query);
-        const page = Math.floor(query.offset / query.limit) + 1;
+        const page = Math.floor(query.offset / query.limit) + (count > 0 ? 1 : 0);
         const totalPage = Math.ceil(count / query.limit);
 
         const currentProducts = products.map(({ price, images, ...otherProps }) => {

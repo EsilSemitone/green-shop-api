@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import express, { Express } from 'express';
 import { inject, injectable } from 'inversify';
 import { ILogger } from './core/logger/logger.service.interface.ts';
-import { APP_TYPES } from './types.ts';
+import { APP_TYPES } from './types';
 import parser from 'body-parser';
 import { IController } from './common/interfaces/controller.interface.ts';
 import { IExceptionsFilter } from './common/exceptionFilter/exceptionFilter.interface.ts';
