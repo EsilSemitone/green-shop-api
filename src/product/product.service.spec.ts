@@ -1,7 +1,6 @@
 import { Container } from 'inversify';
 import { IProductService } from './interfaces/product.service.interface';
 import { APP_TYPES } from '../types';
-import { LoggerService } from '../core/logger/logger.service';
 import { ILogger } from '../core/logger/logger.service.interface';
 import { IProductRepository } from './interfaces/product.repository.interface';
 import { ProductService } from './product.service';
@@ -35,6 +34,13 @@ const PRODUCT_VARIANT: ProductVariantModel = {
     updated_at: new Date(),
 };
 
+const loggerServiceMock: ILogger = {
+    log: jest.fn(),
+    warn: jest.fn(),
+    error: jest.fn(),
+    setServiceName: jest.fn(),
+};
+
 const productRepositoryMock: jest.Mocked<IProductRepository> = {
     create: jest.fn(),
     getByUuid: jest.fn(),
@@ -54,7 +60,7 @@ let productService: IProductService;
 
 beforeAll(() => {
     const container = new Container();
-    container.bind<ILogger>(APP_TYPES.LOGGER_SERVICE).to(LoggerService);
+    container.bind<ILogger>(APP_TYPES.LOGGER_SERVICE).toConstantValue(loggerServiceMock);
     container.bind<IProductRepository>(APP_TYPES.PRODUCT_REPOSITORY).toConstantValue(productRepositoryMock);
     container.bind<IProductService>(APP_TYPES.PRODUCT_SERVICE).to(ProductService);
 

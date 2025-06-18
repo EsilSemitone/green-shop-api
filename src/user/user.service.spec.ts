@@ -4,7 +4,6 @@ import { ILogger } from '../core/logger/logger.service.interface';
 import { IUserRepository } from './interfaces/user.repository.interface.ts';
 import { IUserService } from './interfaces/user.service.interface.ts';
 import { UserService } from './user.service';
-import { LoggerService } from '../core/logger/logger.service';
 import { UserModel } from '../common/models';
 import { randomUUID } from 'crypto';
 import { ROLES, UpdateUserRequestDto } from 'contracts-green-shop';
@@ -24,6 +23,13 @@ const USER: UserModel = {
     updated_at: new Date(),
 };
 
+const loggerServiceMock: ILogger = {
+    log: jest.fn(),
+    warn: jest.fn(),
+    error: jest.fn(),
+    setServiceName: jest.fn(),
+};
+
 const userRepositoryMock: jest.Mocked<IUserRepository> = {
     getByUniqueCriteria: jest.fn(),
     create: jest.fn(),
@@ -40,7 +46,7 @@ let userService: IUserService;
 beforeAll(() => {
     const container = new Container();
     container.bind<IUserService>(APP_TYPES.USER_SERVICE).to(UserService);
-    container.bind<ILogger>(APP_TYPES.LOGGER_SERVICE).to(LoggerService);
+    container.bind<ILogger>(APP_TYPES.LOGGER_SERVICE).toConstantValue(loggerServiceMock);
     container.bind<IUserRepository>(APP_TYPES.USER_REPOSITORY).toConstantValue(userRepositoryMock);
     container.bind<IConfigService>(APP_TYPES.CONFIG_SERVICE).toConstantValue(configServiceMock);
 

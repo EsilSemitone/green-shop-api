@@ -96,7 +96,7 @@ export class AuthService implements IAuthService {
         await this.refreshTokenRepository.create({
             user_id: isUserExist.uuid,
             token: refreshToken,
-            expires_at: new Date(Date.now() + 60 * 60 * 24 * 30),
+            expires_at: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
         });
 
         this.loggerService.log(`Success service login user`);
@@ -184,7 +184,6 @@ export class AuthService implements IAuthService {
         const isTokenExist = await this.refreshTokenRepository.getByUniqueCriteria({ token: refreshToken });
 
         if (!isTokenExist) {
-
             this.loggerService.error(`Error service refresh, refreshToken is not found`);
             throw new HttpException(ERROR.INVALID_REFRESH_TOKEN, 400);
         }
