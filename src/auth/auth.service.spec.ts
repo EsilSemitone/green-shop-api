@@ -188,4 +188,118 @@ describe('Auth service', () => {
             });
         });
     });
+
+    describe('restorePassword', () => {
+        it('should throw error (user not found)', async () => {
+            userRepositoryMock.getByUniqueCriteria.mockResolvedValueOnce(null);
+            await expect(authService.restorePassword(USER.email)).rejects.toThrow(ERROR.USER_NOT_FOUND);
+        });
+
+        it('should send restore code, update user and return success', async () => {
+            userRepositoryMock.getByUniqueCriteria.mockResolvedValueOnce(USER);
+
+            const result = await authService.restorePassword(USER.email);
+
+            expect(result).toEqual({ isSuccess: true });
+            expect(userRepositoryMock.update).toHaveBeenCalledWith(
+                USER.uuid,
+                expect.objectContaining({ restore_code: expect.any(String) }),
+            );
+            expect(emailServiceMock.sendRestoreCodeEmail).toHaveBeenCalledWith(USER.email, expect.any(String));
+        });
+    });
+
+    describe('resetPassword', () => {
+        const inputData = { password: '12345678', restore_code: '239845091238745019' };
+        it('should throw error (user not found)', async () => {
+            userRepositoryMock.getByUniqueCriteria.mockResolvedValueOnce(null);
+
+            await expect(authService.resetPassword(inputData)).rejects.toThrow(ERROR.USER_NOT_FOUND);
+        });
+
+        it('should reset password , update user and return success', async () => {
+            userRepositoryMock.getByUniqueCriteria.mockResolvedValueOnce(USER);
+
+            const result = await authService.resetPassword(inputData);
+
+            expect(result).toEqual({ isSuccess: true });
+            expect(userRepositoryMock.update).toHaveBeenCalledWith(
+                USER.uuid,
+                expect.objectContaining({ password_hash: expect.any(String) }),
+            );
+        });
+    });
+
+    describe('logout', () => {
+        const token = '12345678';
+        it('should return => success: false (token is not transferred)', async () => {
+            const result = await authService.logout(undefined, { userId: USER.uuid, role: USER.role });
+            expect(result).toEqual({ isSuccess: false });
+        });
+
+        it('should return => success: false (token is not transferred)', async () => {
+            refreshTokenRepositoryMock.getByUniqueCriteria.mockResolvedValueOnce(null);
+
+            const result = await authService.logout(token, { userId: USER.uuid, role: USER.role });
+            expect(result).toEqual({ isSuccess: false });
+        });
+
+        it('should success disable token and return => success: true', async () => {
+            refreshTokenRepositoryMock.getByUniqueCriteria.mockResolvedValueOnce({
+                uuid: '1',
+                user_id: '2',
+                token: token,
+                expires_at: new Date(),
+                is_valid: true,
+                created_at: new Date(),
+                updated_at: new Date(),
+            });
+
+            const result = await authService.logout(token, { userId: USER.uuid, role: USER.role });
+
+            expect(refreshTokenRepositoryMock.getByUniqueCriteria).toHaveBeenCalledWith({ token });
+            expect(refreshTokenRepositoryMock.tokenDisable).toHaveBeenCalledWith(USER.uuid, token);
+
+            expect(result).toEqual({ isSuccess: true });
+        });
+    });
+
+    describe('refresh', () => {
+        const refreshTokenModel = {
+            uuid: '1',
+            user_id: '2',
+            token: '12345678',
+            expires_at: new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 30),
+            is_valid: true,
+            created_at: new Date(),
+            updated_at: new Date(),
+        };
+        const refresh_token = '12345678';
+        it('should throw error (refreshToken is not defined)', async () => {
+            await expect(authService.refresh(undefined)).rejects.toThrow(ERROR.INVALID_REFRESH_TOKEN);
+        });
+
+        it('should throw error (refreshToken is not found)', async () => {
+            refreshTokenRepositoryMock.getByUniqueCriteria.mockResolvedValueOnce(null);
+            await expect(authService.refresh(refresh_token)).rejects.toThrow(ERROR.INVALID_REFRESH_TOKEN);
+        });
+
+        it('should throw error (refreshToken is not valid) [invalid status]', async () => {
+            refreshTokenRepositoryMock.getByUniqueCriteria.mockResolvedValueOnce({
+                ...refreshTokenModel,
+                is_valid: false,
+            });
+
+            await expect(authService.refresh(refreshTokenModel.token)).rejects.toThrow(ERROR.INVALID_REFRESH_TOKEN);
+        });
+
+        it('should throw error (refreshToken is not valid) [invalid status]', async () => {
+            refreshTokenRepositoryMock.getByUniqueCriteria.mockResolvedValueOnce({
+                ...refreshTokenModel,
+                expires_at: new Date(new Date().getTime() - 1000 * 60), //просрочен на минуту
+            });
+
+            await expect(authService.refresh(refreshTokenModel.token)).rejects.toThrow(ERROR.INVALID_REFRESH_TOKEN);
+        });
+    });
 });

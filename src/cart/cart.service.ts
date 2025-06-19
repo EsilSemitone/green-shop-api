@@ -156,7 +156,13 @@ export class CartService implements ICartService {
         const currentCartItems = await this.cartRepository.getCartItemsByCriteria({ cart_id: cartId });
 
         if (items.length < 1) {
-            return currentCartItems;
+            return currentCartItems.map(({ uuid, product_variant_id, quantity }) => {
+                return {
+                    uuid,
+                    product_variant_id,
+                    quantity,
+                };
+            });
         }
 
         const itemsForCreate: ICreateCartItem[] = [];
