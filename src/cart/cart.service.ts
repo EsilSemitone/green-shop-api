@@ -1,8 +1,8 @@
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
-import { APP_TYPES } from '../types.ts';
-import { ILogger } from '../core/logger/logger.service.interface.ts';
-import { ICartService } from './interfaces/cart.service.interface.ts';
+import { APP_TYPES } from '../types';
+import { ILogger } from '../core/logger/logger.service.interface';
+import { ICartService } from './interfaces/cart.service.interface';
 import {
     CreateCartItemRequestDto,
     CreateCartItemRequestResponseDto,
@@ -14,13 +14,13 @@ import {
     UpdateCartItemRequestDto,
     UpdateCartItemRequestResponseDto,
 } from 'contracts-green-shop';
-import { ICartRepository } from './interfaces/cart.repository.interface.ts';
-import { HttpException } from '../common/exceptionFilter/http.exception.ts';
-import { ERROR } from '../common/error/error.ts';
-import { IProductRepository } from '../product/interfaces/product.repository.interface.ts';
-import { CartModel } from '../common/models/cart-model.ts';
-import { ICreateCartItem } from './interfaces/create-cart-item.interface.ts';
-import { IUpdateCartItem } from './interfaces/update-cart-item.interface.ts';
+import { ICartRepository } from './interfaces/cart.repository.interface';
+import { HttpException } from '../common/exceptionFilter/http.exception';
+import { ERROR } from '../common/error/error';
+import { IProductRepository } from '../product/interfaces/product.repository.interface';
+import { CartModel } from '../common/models/cart-model';
+import { ICreateCartItem } from './interfaces/create-cart-item.interface';
+import { IUpdateCartItem } from './interfaces/update-cart-item.interface';
 
 @injectable()
 export class CartService implements ICartService {
@@ -154,10 +154,15 @@ export class CartService implements ICartService {
         );
 
         const currentCartItems = await this.cartRepository.getCartItemsByCriteria({ cart_id: cartId });
-        console.log(currentCartItems);
 
         if (items.length < 1) {
-            return currentCartItems;
+            return currentCartItems.map(({ uuid, product_variant_id, quantity }) => {
+                return {
+                    uuid,
+                    product_variant_id,
+                    quantity,
+                };
+            });
         }
 
         const itemsForCreate: ICreateCartItem[] = [];
@@ -165,7 +170,6 @@ export class CartService implements ICartService {
 
         items.forEach((item) => {
             const currentItem = currentCartItems.find((i) => i.product_variant_id === item.product_variant_id);
-            console.log(currentItem);
 
             if (!currentItem) {
                 itemsForCreate.push({ ...item, cart_id: cartId });

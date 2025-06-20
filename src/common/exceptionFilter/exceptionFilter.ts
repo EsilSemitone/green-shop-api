@@ -1,10 +1,10 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
 import { NextFunction, Request, Response } from 'express';
-import { APP_TYPES } from '../../types.ts';
+import { APP_TYPES } from '../../types';
 import { ILogger } from '../../core/logger/logger.service.interface.ts';
-import { HttpException } from './http.exception.ts';
-import { IExceptionsFilter } from './exceptionFilter.interface.ts';
+import { HttpException } from './http.exception';
+import { IExceptionsFilter } from './exceptionFilter.interface';
 
 @injectable()
 export class ExceptionsFilter implements IExceptionsFilter {
@@ -13,9 +13,10 @@ export class ExceptionsFilter implements IExceptionsFilter {
     }
 
     execute(err: Error | HttpException, req: Request, res: Response, _: NextFunction): void {
-        console.log(err.stack);
         if (err instanceof HttpException) {
-            this.logger.error(`[${err.context || ''}] ${err.path || req.path} ${err.message}  ${err.code}`);
+            this.logger.error(
+                `[${err.context || ''}] ${err.path || req.path} ${err.message}  ${err.code}`,
+            );
             res.status(err.code);
             res.send({
                 error: err.message,

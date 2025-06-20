@@ -1,19 +1,19 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
-import { IOrderRepository } from './interfaces/order.repository.interface.ts';
-import { APP_TYPES } from '../types.ts';
-import { IDatabaseService } from '../core/database/database.service.interface.ts';
-import { ICreateOrder } from './interfaces/crate-order.interface.ts';
-import { ERROR } from '../common/error/error.ts';
-import { HttpException } from '../common/exceptionFilter/http.exception.ts';
+import { IOrderRepository } from './interfaces/order.repository.interface';
+import { APP_TYPES } from '../types';
+import { IDatabaseService } from '../core/database/database.service.interface';
+import { ICreateOrder } from './interfaces/crate-order.interface';
+import { ERROR } from '../common/error/error';
+import { HttpException } from '../common/exceptionFilter/http.exception';
 import { ORDER_STATUS } from 'contracts-green-shop';
-import { IExtendedOrder } from './interfaces/extended-order.interface.ts';
-import { IGetOrdersByCriteria } from './interfaces/get-orders-by-criteria.interface.ts';
-import { IUpdateOrder } from './interfaces/update-order.interface.ts';
-import { CartItemModel } from '../common/models/cart-item-model.ts';
-import { OrderItemModel } from '../common/models/order-item.model.ts';
-import { OrderModel } from '../common/models/order.model.ts';
-import { ProductVariantModel } from '../common/models/product-variant-model.ts';
+import { IExtendedOrder } from './interfaces/extended-order.interface';
+import { IGetOrdersByCriteria } from './interfaces/get-orders-by-criteria.interface';
+import { IUpdateOrder } from './interfaces/update-order.interface';
+import { CartItemModel } from '../common/models/cart-item-model';
+import { OrderItemModel } from '../common/models/order-item.model';
+import { OrderModel } from '../common/models/order.model';
+import { ProductVariantModel } from '../common/models/product-variant-model';
 
 @injectable()
 export class OrderRepository implements IOrderRepository {
@@ -146,7 +146,11 @@ export class OrderRepository implements IOrderRepository {
     }
 
     async updateOrder(uuid: string, data: IUpdateOrder): Promise<OrderModel> {
-        const [order] = await this.db.db<OrderModel>('orders').update(data).where({ uuid }).returning('*');
+        const [order] = await this.db
+            .db<OrderModel>('orders')
+            .update({ ...data, updated_at: new Date() })
+            .where({ uuid })
+            .returning('*');
         return order;
     }
 

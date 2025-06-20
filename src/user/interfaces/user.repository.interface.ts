@@ -4,7 +4,7 @@ import { GetUserByUniqueCriteria } from './get-user-by-unique-criteria.interface
 import { IUpdateUser } from './update-user.interface.ts';
 
 export interface IUserRepository {
-    getByUniqueCriteria(data: GetUserByUniqueCriteria): Promise<UserModel | undefined>;
+    getByUniqueCriteria(data: GetUserByUniqueCriteria): Promise<UserModel | null>;
     create(data: ICreateUser): Promise<UserModel>;
     update(uuid: string, data: IUpdateUser): Promise<UserModel>;
     delete(userId: string): Promise<void>;

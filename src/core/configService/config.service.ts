@@ -1,11 +1,10 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
 import { configDotenv } from 'dotenv';
-import { ERROR } from '../../common/error/error.ts';
+import { ERROR } from '../../common/error/error';
 import { ILogger } from '../logger/logger.service.interface.ts';
-import { APP_TYPES } from '../../types.ts';
-import { Config, ConfigServiceSchema } from './interfaces/config.service.schema.ts';
-// import { resolve } from 'path';
+import { APP_TYPES } from '../../types';
+import { Config, ConfigServiceSchema } from './interfaces/config.service.schema';
 
 @injectable()
 export class ConfigService implements ConfigService {

@@ -1,11 +1,11 @@
 import { inject } from 'inversify';
-import { Controller } from '../common/abstract.controller.ts';
-import { IController } from '../common/interfaces/controller.interface.ts';
-import { AuthGuardFactory } from '../common/middlewares/auth.guard.factory.ts';
-import { ValidateMiddleware } from '../common/middlewares/validate.middleware.ts';
-import { APP_TYPES } from '../types.ts';
+import { Controller } from '../common/abstract.controller';
+import { IController } from '../common/interfaces/controller.interface';
+import { AuthGuardFactory } from '../common/middlewares/auth.guard.factory';
+import { ValidateMiddleware } from '../common/middlewares/validate.middleware';
+import { APP_TYPES } from '../types';
 import { Request, Response } from 'express';
-import { IUserService } from './interfaces/user.service.interface.ts';
+import { IUserService } from './interfaces/user.service.interface';
 import { UpdateUserRequestDto, UpdateUserRequestSchema } from 'contracts-green-shop';
 
 export class UserController extends Controller implements IController {

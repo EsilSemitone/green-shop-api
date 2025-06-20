@@ -1,11 +1,11 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
-import { APP_TYPES } from '../../types.ts';
-import { ILogger } from '../../core/logger/logger.service.interface.ts';
+import { APP_TYPES } from '../../types';
+import { ILogger } from '../../core/logger/logger.service.interface';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { randomUUID } from 'crypto';
-import { IS3Service } from './interfaces/s3.service.interface.ts';
-import { IConfigService } from '../../core/configService/config.service.interface.ts';
+import { IS3Service } from './interfaces/s3.service.interface';
+import { IConfigService } from '../../core/configService/config.service.interface';
 
 @injectable()
 export class S3Service implements IS3Service {

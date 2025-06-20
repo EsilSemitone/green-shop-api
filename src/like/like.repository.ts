@@ -1,13 +1,13 @@
 import 'reflect-metadata';
-import { ILikeRepository } from './interfaces/like.repository.ts';
+import { ILikeRepository } from './interfaces/like.repository';
 import { inject, injectable } from 'inversify';
-import { APP_TYPES } from '../types.ts';
-import { IDatabaseService } from '../core/database/database.service.interface.ts';
+import { APP_TYPES } from '../types';
+import { IDatabaseService } from '../core/database/database.service.interface';
 import { LIKE_TYPE } from 'contracts-green-shop';
-import { targetLikeMap } from './helpers/target-like-map.ts';
-import { ERROR } from '../common/error/error.ts';
-import { HttpException } from '../common/exceptionFilter/http.exception.ts';
-import { LikeModel } from '../common/models/like-model.ts';
+import { targetLikeMap } from './helpers/target-like-map';
+import { ERROR } from '../common/error/error';
+import { HttpException } from '../common/exceptionFilter/http.exception';
+import { LikeModel } from '../common/models/like-model';
 
 @injectable()
 export class likeRepository implements ILikeRepository {

@@ -1,17 +1,17 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
-import { IAddressService } from './interfaces/address.service.interface.ts';
-import { ILogger } from '../core/logger/logger.service.interface.ts';
-import { APP_TYPES } from '../types.ts';
+import { IAddressService } from './interfaces/address.service.interface';
+import { ILogger } from '../core/logger/logger.service.interface';
+import { APP_TYPES } from '../types';
 import {
     CreateAddressRequestDto,
     CreateAddressResponseDto,
     DeleteAddressResponseDto,
     GetAllAddressesResponseDto,
 } from 'contracts-green-shop';
-import { IAddressRepository } from './interfaces/address.repository.interface.ts';
-import { HttpException } from '../common/exceptionFilter/http.exception.ts';
-import { ERROR } from '../common/error/error.ts';
+import { IAddressRepository } from './interfaces/address.repository.interface';
+import { HttpException } from '../common/exceptionFilter/http.exception';
+import { ERROR } from '../common/error/error';
 
 @injectable()
 export class AddressService implements IAddressService {
@@ -54,6 +54,6 @@ export class AddressService implements IAddressService {
         this.loggerService.log(`Start service get all addresses with params: ${JSON.stringify({ userId })}`);
 
         const addresses = await this.addressRepository.getAll(userId);
-        return {addresses};
+        return { addresses };
     }
 }

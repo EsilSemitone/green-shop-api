@@ -1,5 +1,7 @@
 name: Deploy backend
-
+env:
+  HUSKY: 0
+  
 on:
   pull_request:
     branches:

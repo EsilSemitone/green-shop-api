@@ -1,9 +1,9 @@
 import 'reflect-metadata';
 import { Request, Response, NextFunction } from 'express';
-import { IMiddleware } from '../interfaces/middleware.interface.ts';
-import { IJwtService } from '../../core/jwtService/jwt.service.interface.ts';
+import { IMiddleware } from '../interfaces/middleware.interface';
+import { IJwtService } from '../../core/jwtService/jwt.service.interface';
 import { inject, injectable } from 'inversify';
-import { APP_TYPES } from '../../types.ts';
+import { APP_TYPES } from '../../types';
 
 @injectable()
 export class AuthMiddleware implements IMiddleware {

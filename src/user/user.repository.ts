@@ -1,18 +1,19 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
-import { APP_TYPES } from '../types.ts';
-import { IDatabaseService } from '../core/database/database.service.interface.ts';
-import { UserModel } from '../common/models/user-model.interface.ts';
-import { GetUserByUniqueCriteria } from './interfaces/get-user-by-unique-criteria.interface.ts';
-import { ICreateUser } from './interfaces/create-user.interface.ts';
-import { IUpdateUser } from './interfaces/update-user.interface.ts';
+import { APP_TYPES } from '../types';
+import { IDatabaseService } from '../core/database/database.service.interface';
+import { UserModel } from '../common/models/user-model.interface';
+import { GetUserByUniqueCriteria } from './interfaces/get-user-by-unique-criteria.interface';
+import { ICreateUser } from './interfaces/create-user.interface';
+import { IUpdateUser } from './interfaces/update-user.interface';
 
 @injectable()
 export class UserRepository {
     constructor(@inject(APP_TYPES.DATABASE_SERVICE) private databaseService: IDatabaseService) {}
 
-    async getByUniqueCriteria(data: GetUserByUniqueCriteria): Promise<UserModel | undefined> {
-        return this.databaseService.db<UserModel>('users').where(data).first();
+    async getByUniqueCriteria(data: GetUserByUniqueCriteria): Promise<UserModel | null> {
+        const res = await this.databaseService.db<UserModel>('users').where(data).first();
+        return res || null;
     }
 
     async create(data: ICreateUser): Promise<UserModel> {
@@ -29,7 +30,7 @@ export class UserRepository {
     async update(uuid: string, data: IUpdateUser): Promise<UserModel> {
         const [user] = await this.databaseService
             .db<UserModel>('users')
-            .update({ ...data })
+            .update({ ...data, updated_at: new Date() })
             .where({ uuid })
             .returning('*');
         return user;

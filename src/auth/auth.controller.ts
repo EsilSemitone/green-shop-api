@@ -1,15 +1,21 @@
 import { inject, injectable } from 'inversify';
 import 'reflect-metadata';
-import { Controller } from '../common/abstract.controller.ts';
+import { Controller } from '../common/abstract.controller';
 import { IController } from '../common/interfaces/controller.interface.ts';
-import { APP_TYPES } from '../types.ts';
+import { APP_TYPES } from '../types';
 import { Request, Response } from 'express';
 import { LoginSchemaRequest, LoginSchemaRequestDto } from 'contracts-green-shop/auth/login.schema.js';
-import { ResetPasswordRequestDto, ResetPasswordSchemaRequest } from 'contracts-green-shop/auth/reset-password.schema.js';
-import { RestorePasswordRequestDto, RestorePasswordSchemaRequest } from 'contracts-green-shop/auth/restore-password.schema.js';
-import { ValidateMiddleware } from '../common/middlewares/validate.middleware.ts';
-import { IAuthService } from './interfaces/auth.service.interface.ts';
-import { AuthGuardFactory } from '../common/middlewares/auth.guard.factory.ts';
+import {
+    ResetPasswordRequestDto,
+    ResetPasswordSchemaRequest,
+} from 'contracts-green-shop/auth/reset-password.schema.js';
+import {
+    RestorePasswordRequestDto,
+    RestorePasswordSchemaRequest,
+} from 'contracts-green-shop/auth/restore-password.schema.js';
+import { ValidateMiddleware } from '../common/middlewares/validate.middleware';
+import { IAuthService } from './interfaces/auth.service.interface';
+import { AuthGuardFactory } from '../common/middlewares/auth.guard.factory';
 import { RegisterSchemaRequest, RegisterSchemaRequestDto } from 'contracts-green-shop';
 
 @injectable()

@@ -1,8 +1,8 @@
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
-import { IReviewService } from './interfaces/review.service.interface.ts';
-import { APP_TYPES } from '../types.ts';
-import { ILogger } from '../core/logger/logger.service.interface.ts';
+import { IReviewService } from './interfaces/review.service.interface';
+import { APP_TYPES } from '../types';
+import { ILogger } from '../core/logger/logger.service.interface';
 import {
     CreateReviewCommentRequestDto,
     CreateReviewCommentResponseDto,
@@ -14,12 +14,12 @@ import {
     GetProductReviewsRequestQueryDto,
     LIKE_TYPE,
 } from 'contracts-green-shop';
-import { IOrderService } from '../order/interfaces/order.service.interface.ts';
-import { HttpException } from '../common/exceptionFilter/http.exception.ts';
-import { ERROR } from '../common/error/error.ts';
-import { IReviewRepository } from './interfaces/review.repository.interface.ts';
-import { IProductRepository } from '../product/interfaces/product.repository.interface.ts';
-import { ILikeRepository } from '../like/interfaces/like.repository.ts';
+import { IOrderService } from '../order/interfaces/order.service.interface';
+import { HttpException } from '../common/exceptionFilter/http.exception';
+import { ERROR } from '../common/error/error';
+import { IReviewRepository } from './interfaces/review.repository.interface';
+import { IProductRepository } from '../product/interfaces/product.repository.interface';
+import { ILikeRepository } from '../like/interfaces/like.repository';
 
 @injectable()
 export class ReviewService implements IReviewService {
