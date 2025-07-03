@@ -1,4 +1,4 @@
-import { PRODUCT_CATEGORY, SIZE } from 'contracts-green-shop';
+import { ORDER_BY_PRODUCT_VARIANTS, PRODUCT_CATEGORY, SIZE } from 'contracts-green-shop';
 import { CustomProductVariant } from './custom-product-variant.interface.ts';
 
 export interface IGetProductVariantsByCriteriaExtendedData {
@@ -10,6 +10,7 @@ export interface IGetProductVariantsByCriteriaExtendedData {
     priceFrom?: number;
     priceTo?: number;
     search?: string;
+    orderBy: ORDER_BY_PRODUCT_VARIANTS;
 }
 
 export interface IGetProductVariantsByCriteriaExtendedReturnType {

@@ -74,6 +74,11 @@ import { ILikeRepository } from './like/interfaces/like.repository';
 import { likeRepository } from './like/like.repository';
 import { AuthMiddleware } from './common/middlewares/auth.middleware';
 import { IConfigService } from './core/configService/config.service.interface';
+import { TagController } from './tag/tag.controller';
+import { ITagService } from './tag/interfaces/tag.service.interface';
+import { TagService } from './tag/tag.service';
+import { ITagRepository } from './tag/interfaces/tag.repository.interface';
+import { tagRepository } from './tag/tag.repository';
 
 const container = new Container();
 
@@ -159,6 +164,12 @@ const LikeModule = new ContainerModule(({ bind }) => {
     bind<ILikeRepository>(APP_TYPES.LIKE_REPOSITORY).to(likeRepository).inSingletonScope();
 });
 
+const TagModule = new ContainerModule(({ bind }) => {
+    bind<IController>(APP_TYPES.TAG_CONTROLLER).to(TagController).inSingletonScope();
+    bind<ITagService>(APP_TYPES.TAG_SERVICE).to(TagService).inSingletonScope();
+    bind<ITagRepository>(APP_TYPES.TAG_REPOSITORY).to(tagRepository).inSingletonScope();
+});
+
 function buildContainer(): Container {
     container.load(appModule);
     container.load(userModule);
@@ -173,6 +184,7 @@ function buildContainer(): Container {
     container.load(FavoritesModule);
     container.load(ReviewModule);
     container.load(LikeModule);
+    container.load(TagModule);
     container.bind<App>(APP_TYPES.APP).to(App).inSingletonScope();
 
     return container;

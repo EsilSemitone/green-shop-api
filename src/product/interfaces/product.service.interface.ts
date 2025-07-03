@@ -15,6 +15,8 @@ import {
     UpdateProductResponseDto,
     UpdateProductVariantRequestDto,
     UpdateProductVariantResponseDto,
+    GetAllProductsResponseDto,
+    GetAllProductsRequestQueryDto,
 } from 'contracts-green-shop';
 import { CreateProductRequestDto, CreateProductResponseDto } from 'contracts-green-shop/product/create-product.ts';
 
@@ -40,4 +42,5 @@ export interface IProductService {
     getProductFilter(): Promise<GetProductFilterResponseDto>;
     getSimilarProductVariants(dto: GetSimilarProductVariantsRequestDto): Promise<GetSimilarProductVariantsResponseDto>;
     getProductVariantByUuid(uuid: string): Promise<GetProductVariantByUuidResponseDto>;
+    getAllProducts(query: GetAllProductsRequestQueryDto): Promise<GetAllProductsResponseDto>;
 }

@@ -4,8 +4,15 @@ import { ILogger } from '../core/logger/logger.service.interface';
 import { APP_TYPES } from '../types';
 import { IUserRepository } from './interfaces/user.repository.interface';
 import {
+    AddAdminUserResponseDto,
     DeleteUserResponseDto,
+    GetAllUsersRequestQueryDto,
+    GetAllUsersResponseDto,
     GetMeResponseDto,
+    GetStatsUsersRequestParamsDto,
+    GetStatsUsersResponseDto,
+    GetUserResponseDto,
+    ROLES,
     UpdateUserRequestDto,
     UpdateUserResponseDto,
 } from 'contracts-green-shop';
@@ -14,6 +21,7 @@ import { ERROR } from '../common/error/error';
 import { IUserService } from './interfaces/user.service.interface';
 import { UserEntity } from './user.entity';
 import { IConfigService } from '../core/configService/config.service.interface';
+import { upgradeEndDate, upgradeStartDate } from '../common/utils/upgrade-date';
 
 @injectable()
 export class UserService implements IUserService {
@@ -34,7 +42,7 @@ export class UserService implements IUserService {
         if (!userData) {
             throw new HttpException(ERROR.USER_NOT_FOUND, 404);
         }
-        
+
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { password_hash, restore_code, ...result } = userData;
 
@@ -61,7 +69,6 @@ export class UserService implements IUserService {
         };
 
         if (Object.keys(updatedData).length === 0) {
-
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { password_hash, restore_code, ...result } = user;
 
@@ -90,5 +97,90 @@ export class UserService implements IUserService {
 
         this.loggerService.log('Success service delete user');
         return { isSuccess: true };
+    }
+
+    async getAll(dto: GetAllUsersRequestQueryDto): Promise<GetAllUsersResponseDto> {
+        this.loggerService.log(`Start service getAll users with params ${JSON.stringify(dto)}`);
+
+        const { limit, offset } = dto;
+        const { users, total } = await this.userRepository.getAll(dto);
+
+        const totalPage = Math.ceil(total / limit);
+        const page = Math.floor(offset / limit) + (total > 0 ? 1 : 0);
+
+        const usersWithCurrentFields = users.map(({ uuid, name, email, photo_image }) => {
+            return {
+                uuid,
+                name,
+                email,
+                photo_image,
+            };
+        });
+
+        this.loggerService.log('Success service getAll users');
+
+        return {
+            totalPage,
+            page,
+            users: usersWithCurrentFields,
+        };
+    }
+
+    async getUser(userId: string): Promise<GetUserResponseDto> {
+        this.loggerService.log(`Start service getUser with params ${JSON.stringify({ userId })}`);
+
+        const user = await this.userRepository.getByUniqueCriteria({ uuid: userId });
+
+        if (!user) {
+            throw new HttpException(ERROR.USER_NOT_FOUND, 404);
+        }
+
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { password_hash, restore_code, ...userWithCurrentFields } = user;
+
+        this.loggerService.log('Success service getUser');
+        return userWithCurrentFields;
+    }
+
+    async addAdminUser(email: string): Promise<AddAdminUserResponseDto> {
+        this.loggerService.log(`Start service addAdminUser with params ${JSON.stringify({ email })}`);
+
+        const user = await this.userRepository.getByUniqueCriteria({ email });
+
+        if (!user) {
+            throw new HttpException(ERROR.USER_NOT_FOUND, 404);
+        }
+
+        await this.userRepository.update(user.uuid, { role: ROLES.ADMIN });
+
+        this.loggerService.log('Success service add addAdminUser');
+
+        return {
+            isSuccess: true,
+        };
+    }
+
+    async getStats(dto: GetStatsUsersRequestParamsDto): Promise<GetStatsUsersResponseDto> {
+        this.loggerService.log(`Start service getStats with params ${JSON.stringify(dto)}`);
+
+        const stats = await this.userRepository.getStats({
+            ...dto,
+            startDay: upgradeStartDate(dto.startDay),
+            endDay: upgradeEndDate(dto.endDay),
+            raw: {
+                startDay: dto.startDay,
+                endDay: dto.endDay,
+            },
+        });
+
+        const total = stats.reduce((prev, s) => {
+            return prev + s.count;
+        }, 0);
+
+        this.loggerService.log('Success service getStats');
+        return {
+            stats,
+            total,
+        };
     }
 }

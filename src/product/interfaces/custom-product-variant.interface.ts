@@ -7,6 +7,7 @@ export interface CustomProductVariant {
     product_variant_id: string;
     images: string[];
     tags_id: string[];
+    created_at: Date
 }
 
 export interface CustomProductVariantExtended extends ProductVariantModel {

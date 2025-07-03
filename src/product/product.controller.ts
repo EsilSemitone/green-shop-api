@@ -36,6 +36,8 @@ import {
     UpdateProductVariantRequestParamsSchema,
     UpdateProductVariantRequestSchema,
     ROLES,
+    GetAllProductsRequestQuerySchema,
+    GetAllProductsRequestQueryDto,
 } from 'contracts-green-shop';
 import { RoleGuard } from '../common/middlewares/role.guard';
 
@@ -57,6 +59,12 @@ export class ProductController extends Controller implements IController {
                     new RoleGuard([ROLES.ADMIN]),
                     new ValidateMiddleware([{ key: 'body', schema: CreateProductRequestSchema }]),
                 ],
+            },
+            {
+                path: '/all',
+                method: 'get',
+                func: this.getAllProducts,
+                middlewares: [new ValidateMiddleware([{ key: 'query', schema: GetAllProductsRequestQuerySchema }])],
             },
             {
                 path: '/variants',
@@ -162,6 +170,11 @@ export class ProductController extends Controller implements IController {
                 ],
             },
         ]);
+    }
+
+    async getAllProducts({ query }: Request<object, object, object, GetAllProductsRequestQueryDto>, res: Response) {
+        const result = await this.productService.getAllProducts(query);
+        this.ok(res, result);
     }
 
     async create({ body }: Request<object, object, CreateProductRequestDto, object, object>, res: Response) {

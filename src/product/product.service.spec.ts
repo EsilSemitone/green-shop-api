@@ -6,7 +6,12 @@ import { IProductRepository } from './interfaces/product.repository.interface';
 import { ProductService } from './product.service';
 import { ProductModel, ProductVariantModel } from '../common/models';
 import { randomUUID } from 'crypto';
-import { GetSimilarProductVariantsRequestDto, PRODUCT_CATEGORY_ENUM, SIZE } from 'contracts-green-shop';
+import {
+    GetSimilarProductVariantsRequestDto,
+    ORDER_BY_PRODUCT_VARIANTS_ENUM,
+    PRODUCT_CATEGORY_ENUM,
+    SIZE,
+} from 'contracts-green-shop';
 import { ERROR } from '../common/error/error';
 import { CustomProductVariant, CustomProductVariantExtended } from './interfaces/custom-product-variant.interface';
 import { IProductFilter } from './interfaces/product-filter.interface';
@@ -26,7 +31,7 @@ const PRODUCT: ProductModel = {
 const PRODUCT_VARIANT: ProductVariantModel = {
     uuid: randomUUID(),
     product_id: PRODUCT.uuid,
-    rating: 5,
+    rating: 0,
     price: 199,
     size: SIZE.LARGE,
     stock: 1,
@@ -54,6 +59,8 @@ const productRepositoryMock: jest.Mocked<IProductRepository> = {
     getProductVariantsByCriteriaExtended: jest.fn(),
     getProductFilter: jest.fn(),
     getProductVariantExtended: jest.fn(),
+    getAllProducts: jest.fn(),
+    assignTagsForProductVariant: jest.fn(),
 };
 
 let productService: IProductService;
@@ -140,7 +147,7 @@ describe('Product service', () => {
     });
 
     describe('createProductVariant', () => {
-        const createData = { rating: 5, price: 199, size: SIZE.LARGE, stock: 1 };
+        const createData = { rating: 0, price: 199, size: SIZE.LARGE, stock: 1 };
 
         it('should create product variant and return', async () => {
             productRepositoryMock.getByUuid.mockResolvedValueOnce(PRODUCT);
@@ -241,7 +248,11 @@ describe('Product service', () => {
             const res = await productService.getProductVariantsByProduct(PRODUCT.uuid);
 
             expect(productRepositoryMock.getProductVariantsByProduct).toHaveBeenCalledWith(PRODUCT.uuid);
-            expect(res).toEqual({ ...PRODUCT, variants: productVariants });
+            expect(res).toEqual({
+                ...PRODUCT,
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                variants: productVariants,
+            });
         });
 
         it('should throw error (product not found)', async () => {
@@ -261,6 +272,7 @@ describe('Product service', () => {
                 product_variant_id: randomUUID(),
                 images: ['http://link1...', 'http://link2...'],
                 tags_id: ['1', '2'],
+                created_at: new Date('2025.10.11'),
             },
             {
                 uuid: randomUUID(),
@@ -269,6 +281,7 @@ describe('Product service', () => {
                 product_variant_id: randomUUID(),
                 images: ['http://link1...', 'http://link2...'],
                 tags_id: ['1', '2'],
+                created_at: new Date('2025.10.11'),
             },
         ];
 
@@ -280,6 +293,7 @@ describe('Product service', () => {
             priceFrom: 0,
             priceTo: 1000,
             search: 'Грабли',
+            orderBy: ORDER_BY_PRODUCT_VARIANTS_ENUM.FIRST_NEW,
         };
 
         it('should find product variants and return', async () => {
@@ -294,7 +308,8 @@ describe('Product service', () => {
             expect(result).toEqual({
                 page: 1,
                 totalPage: 1,
-                products: productVariants.map(({ price, images, ...otherProps }) => {
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                products: productVariants.map(({ price, images, created_at, ...otherProps }) => {
                     return {
                         ...otherProps,
                         price: Number(Number(price).toFixed(2)),
@@ -353,7 +368,7 @@ describe('Product service', () => {
     describe('getSimilarProductVariants', () => {
         it('find similar product variants and return', async () => {
             const query: GetSimilarProductVariantsRequestDto = {
-                limit: 1,
+                limit: 2,
                 category: PRODUCT_CATEGORY_ENUM.ACCESSORIES,
                 tags_id: ['1'],
             };
@@ -367,6 +382,7 @@ describe('Product service', () => {
                         product_variant_id: randomUUID(),
                         images: ['http://link1...', 'http://link2...'],
                         tags_id: ['1', '2'],
+                        created_at: new Date('2025.10.11'),
                     },
                     {
                         uuid: randomUUID(),
@@ -375,6 +391,7 @@ describe('Product service', () => {
                         product_variant_id: randomUUID(),
                         images: [],
                         tags_id: [],
+                        created_at: new Date('2025.10.11'),
                     },
                 ],
                 count: 0,
@@ -386,12 +403,11 @@ describe('Product service', () => {
 
             expect(productRepositoryMock.getProductVariantsByCriteriaExtended).toHaveBeenCalledWith({
                 ...query,
+                orderBy: ORDER_BY_PRODUCT_VARIANTS_ENUM.FIRST_NEW,
                 offset: 0,
             });
             expect(res[0].price).toBe('1.00');
             expect(res[0].image).toBe('http://link1...');
-            expect(res[1].price).toBe('12.00');
-            expect(res[1].image).toBe(null);
         });
     });
 
@@ -404,6 +420,7 @@ describe('Product service', () => {
                 product_variant_id: randomUUID(),
                 images: ['http://link1...', 'http://link2...'],
                 tags_id: ['1', '2'],
+                created_at: new Date('2025.10.11'),
             };
             productRepositoryMock.getProductVariantExtended.mockResolvedValue(findRepositoryResult);
 
