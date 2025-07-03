@@ -441,7 +441,7 @@ describe('Product service', () => {
             });
         });
 
-        it('should throw error', async () => {
+        it('should throw error ', async () => {
             productRepositoryMock.getProductVariantExtended.mockResolvedValue(null);
 
             await expect(productService.getProductVariantByUuid(PRODUCT_VARIANT.uuid)).rejects.toThrow(
