@@ -17,10 +17,42 @@ import { IProductFilter } from './interfaces/product-filter.interface';
 import { CustomProductVariant, CustomProductVariantExtended } from './interfaces/custom-product-variant.interface';
 import { ProductVariantTagsModel } from '../common/models/product-variant-tags-model.interface';
 import { IGetProductVariantExtended } from './interfaces/get-product-cariant-extended.interface';
+import { IGetAllProductsQuery, IGetAllProductsReturn } from './interfaces/get-all-products-query.interface';
+import { IAssignTagsForProductVariantQuery } from './interfaces/assign-tags-for-product-variant';
+import { orderByProductVariantMap } from './constants/order-by-product-variants-map';
 
 @injectable()
 export class ProductRepository implements IProductRepository {
     constructor(@inject(APP_TYPES.DATABASE_SERVICE) private databaseService: IDatabaseService) {}
+
+    async getAllProducts(query: IGetAllProductsQuery): Promise<IGetAllProductsReturn> {
+        const { limit, offset, search } = query;
+
+        const buildQuery = () => {
+            const query = this.databaseService.db<ProductModel>('products');
+
+            if (search) {
+                query.where((builder) => {
+                    builder.whereLike('name', `%${search}%`);
+                    builder.orWhereLike('short_description', `%${search}%`);
+                    builder.orWhereLike('description', `%${search}%`);
+                });
+            }
+            query.orderBy('updated_at', 'desc');
+
+            return query;
+        };
+
+        const [products, count] = await Promise.all([
+            await buildQuery().limit(limit).offset(offset),
+            await this.databaseService.db.from(buildQuery()).count<{ count: string }[]>('* as count'),
+        ]);
+
+        return {
+            products,
+            count: Number(count[0].count),
+        };
+    }
 
     async create(data: CreateProductRequestDto): Promise<ProductModel> {
         const newProduct = await this.databaseService.db<ProductModel>('products').insert(data).returning('*');
@@ -100,6 +132,7 @@ export class ProductRepository implements IProductRepository {
         category,
         size,
         search,
+        orderBy,
     }: IGetProductVariantsByCriteriaExtendedData): Promise<IGetProductVariantsByCriteriaExtendedReturnType> {
         const buildProductQuery = () => {
             const query = this.databaseService.db<ProductModel>('products').select('uuid', 'name', 'images');
@@ -132,6 +165,7 @@ export class ProductRepository implements IProductRepository {
                     'product_variants.price as price',
                     'pf.name as name',
                     'pf.images as images',
+                    'product_variants.created_at as created_at',
                 )
                 .from('product_variants')
                 .whereBetween('price', [priceFrom ? Number(priceFrom) : 0, priceTo ? Number(priceTo) : 100000])
@@ -141,6 +175,12 @@ export class ProductRepository implements IProductRepository {
             if (size) {
                 q.andWhere({ size });
             }
+
+            const res = orderByProductVariantMap.get(orderBy);
+            const currentOrderBy: [string, string] = res ? res : ['product_variants.created_at', 'desc'];
+
+            q.orderBy(...currentOrderBy);
+
             return q;
         };
 
@@ -150,6 +190,7 @@ export class ProductRepository implements IProductRepository {
             baseQuery.clone().limit(limit).offset(offset),
             this.databaseService.db.from(baseQuery.clone().as('subquery')).count<{ count: string }[]>('* as count'),
         ]);
+        console.log(products);
 
         return { products: products, count: Number(count[0].count) };
     }
@@ -231,5 +272,9 @@ export class ProductRepository implements IProductRepository {
             .first();
 
         return result || null;
+    }
+
+    async assignTagsForProductVariant(query: IAssignTagsForProductVariantQuery): Promise<void> {
+        await this.databaseService.db<ProductVariantTagsModel>('product_variant_tags').insert(query);
     }
 }

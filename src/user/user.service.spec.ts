@@ -35,6 +35,8 @@ const userRepositoryMock: jest.Mocked<IUserRepository> = {
     create: jest.fn(),
     update: jest.fn(),
     delete: jest.fn(),
+    getAll: jest.fn(),
+    getStats: jest.fn(),
 };
 const configServiceMock: jest.Mocked<IConfigService> = {
     get: jest.fn(),

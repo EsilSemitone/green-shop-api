@@ -41,4 +41,6 @@ export const ERROR = {
     USER_DONT_HAVE_A_LIKE: 'У пользователя нет лайка на эту сущность',
 
     ENTITY_NOT_FOUND: 'Сущность не найдена',
+
+    TAG_ALREADY_EXIST: 'Тег с таким иминем уже существует',
 };

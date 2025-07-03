@@ -33,6 +33,7 @@ export class App {
         @inject(APP_TYPES.FAVORITES_CONTROLLER) private favoritesController: IController,
         @inject(APP_TYPES.REVIEW_CONTROLLER) private reviewController: IController,
         @inject(APP_TYPES.LIKE_CONTROLLER) private likeController: IController,
+        @inject(APP_TYPES.TAG_CONTROLLER) private tagController: IController,
     ) {
         this.app = express();
 
@@ -71,6 +72,7 @@ export class App {
         this.app.use(this.buildPath('favorites'), this.favoritesController.router);
         this.app.use(this.buildPath('review'), this.reviewController.router);
         this.app.use(this.buildPath('like'), this.likeController.router);
+        this.app.use(this.buildPath('tag'), this.tagController.router);
     }
 
     private useExceptionFilters(): void {

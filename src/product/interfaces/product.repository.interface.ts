@@ -11,6 +11,8 @@ import {
 import { IProductFilter } from './product-filter.interface.ts';
 import { CustomProductVariant, CustomProductVariantExtended } from './custom-product-variant.interface.ts';
 import { IGetProductVariantExtended } from './get-product-cariant-extended.interface.ts';
+import { IGetAllProductsQuery, IGetAllProductsReturn } from './get-all-products-query.interface.ts';
+import { IAssignTagsForProductVariantQuery } from './assign-tags-for-product-variant.ts';
 
 export interface IProductRepository {
     create(data: CreateProductRequestDto): Promise<ProductModel>;
@@ -34,4 +36,6 @@ export interface IProductRepository {
     }: IGetProductVariantsByCriteriaExtendedData): Promise<IGetProductVariantsByCriteriaExtendedReturnType>;
     getProductFilter(): Promise<IProductFilter>;
     getProductVariantExtended(query: IGetProductVariantExtended): Promise<CustomProductVariant | null>;
+    getAllProducts(query: IGetAllProductsQuery): Promise<IGetAllProductsReturn>;
+    assignTagsForProductVariant(query: IAssignTagsForProductVariantQuery): Promise<void>;
 }

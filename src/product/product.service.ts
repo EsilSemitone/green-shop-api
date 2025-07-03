@@ -22,6 +22,9 @@ import {
     UpdateProductResponseDto,
     UpdateProductVariantRequestDto,
     UpdateProductVariantResponseDto,
+    GetAllProductsRequestQueryDto,
+    GetAllProductsResponseDto,
+    ORDER_BY_PRODUCT_VARIANTS_ENUM,
 } from 'contracts-green-shop';
 import { HttpException } from '../common/exceptionFilter/http.exception';
 import { ERROR } from '../common/error/error';
@@ -33,6 +36,22 @@ export class ProductService implements IProductService {
         @inject(APP_TYPES.PRODUCT_REPOSITORY) private productRepository: IProductRepository,
     ) {
         this.loggerService.setServiceName(ProductService.name);
+    }
+
+    async getAllProducts(query: GetAllProductsRequestQueryDto): Promise<GetAllProductsResponseDto> {
+        this.loggerService.log(`Start service getAllProducts with params ${JSON.stringify(query)}`);
+
+        const { products, count } = await this.productRepository.getAllProducts(query);
+
+        const page = Math.floor(query.offset / query.limit) + (count > 0 ? 1 : 0);
+        const totalPage = Math.ceil(count / query.limit);
+
+        this.loggerService.log('success service getAllProducts');
+        return {
+            products,
+            page,
+            totalPage,
+        };
     }
 
     async create(data: CreateProductRequestDto): Promise<CreateProductResponseDto> {
@@ -102,8 +121,21 @@ export class ProductService implements IProductService {
             throw new HttpException(ERROR.PRODUCT_NOT_FOUND, 404);
         }
 
-        const newProduct = await this.productRepository.createProductVariant({ product_id: productId, ...data });
+        const { tags, ...createData } = data;
+        const currentCreateData = { ...createData, rating: 0 };
 
+        const newProduct = await this.productRepository.createProductVariant({
+            product_id: productId,
+            ...currentCreateData,
+        });
+
+        if (tags && tags.length > 0) {
+            await this.productRepository.assignTagsForProductVariant(
+                tags.map((t) => {
+                    return { product_variant_id: newProduct.uuid, tag_id: t };
+                }),
+            );
+        }
         this.loggerService.log('Success service create product variant ');
         return newProduct;
     }
@@ -188,7 +220,8 @@ export class ProductService implements IProductService {
         const page = Math.floor(query.offset / query.limit) + (count > 0 ? 1 : 0);
         const totalPage = Math.ceil(count / query.limit);
 
-        const currentProducts = products.map(({ price, images, ...otherProps }) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const currentProducts = products.map(({ price, images, created_at, ...otherProps }) => {
             return {
                 ...otherProps,
                 price: Number(Number(price).toFixed(2)),
@@ -218,9 +251,14 @@ export class ProductService implements IProductService {
     ): Promise<GetSimilarProductVariantsResponseDto> {
         this.loggerService.log(`Start service get product filter`);
 
-        const { products } = await this.productRepository.getProductVariantsByCriteriaExtended({ ...dto, offset: 0 });
+        const { products } = await this.productRepository.getProductVariantsByCriteriaExtended({
+            ...dto,
+            offset: 0,
+            orderBy: ORDER_BY_PRODUCT_VARIANTS_ENUM.FIRST_NEW,
+        });
 
-        const currentProducts = products.map(({ price, images, ...otherProps }) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const currentProducts = products.map(({ price, images, created_at, ...otherProps }) => {
             return {
                 ...otherProps,
                 price: Number(price).toFixed(2),

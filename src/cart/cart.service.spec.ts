@@ -42,6 +42,8 @@ const productRepositoryMock: jest.Mocked<IProductRepository> = {
     getProductVariantsByCriteriaExtended: jest.fn(),
     getProductFilter: jest.fn(),
     getProductVariantExtended: jest.fn(),
+    getAllProducts: jest.fn(),
+    assignTagsForProductVariant: jest.fn(),
 };
 
 beforeAll(() => {
