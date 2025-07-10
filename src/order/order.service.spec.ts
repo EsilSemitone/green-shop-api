@@ -32,6 +32,7 @@ const orderRepositoryMock: jest.Mocked<IOrderRepository> = {
     updateOrder: jest.fn(),
     getOrderByPaymentId: jest.fn(),
     existOrderWithProductVariant: jest.fn(),
+    getAll: jest.fn(),
 };
 
 const paymentMethodRepositoryMock: jest.Mocked<IPaymentMethodRepository> = {
