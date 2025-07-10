@@ -190,7 +190,6 @@ export class ProductRepository implements IProductRepository {
             baseQuery.clone().limit(limit).offset(offset),
             this.databaseService.db.from(baseQuery.clone().as('subquery')).count<{ count: string }[]>('* as count'),
         ]);
-        console.log(products);
 
         return { products: products, count: Number(count[0].count) };
     }

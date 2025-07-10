@@ -14,6 +14,8 @@ import { CartItemModel } from '../common/models/cart-item-model';
 import { OrderItemModel } from '../common/models/order-item.model';
 import { OrderModel } from '../common/models/order.model';
 import { ProductVariantModel } from '../common/models/product-variant-model';
+import { IGetAllOrdersByQuery, IGetAllOrdersByQueryReturn } from './interfaces/get-all-orders-by-query.interface';
+import { orderByOrderMap } from './constants/order-by-orders-map';
 
 @injectable()
 export class OrderRepository implements IOrderRepository {
@@ -170,5 +172,32 @@ export class OrderRepository implements IOrderRepository {
             });
 
         return res.length > 0;
+    }
+
+    async getAll(query: IGetAllOrdersByQuery): Promise<IGetAllOrdersByQueryReturn> {
+        const { limit, offset, orderBy, ...filter } = query;
+
+        const buildQuery = () => {
+            const query = this.db.db<OrderModel>('orders');
+
+            const currentOrderBy = orderByOrderMap.get(orderBy) ?? ['created_at', 'desc'];
+            query.orderBy(...currentOrderBy);
+
+            for (const [key, value] of Object.entries(filter)) {
+                query.where({ [key]: value });
+            }
+
+            return query;
+        };
+
+        const [orders, total] = await Promise.all([
+            await buildQuery().limit(limit).offset(offset),
+            await this.db.db.from(buildQuery()).count<{ count: string }[]>('* as count'),
+        ]);
+
+        return {
+            orders,
+            total: Number(total[0].count),
+        };
     }
 }

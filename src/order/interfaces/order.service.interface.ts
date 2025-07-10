@@ -1,8 +1,12 @@
 import {
     CreateOrderRequestDto,
     CreateOrderResponseDto,
+    GetAllOrdersRequestQueryDto,
+    GetAllOrdersResponseDto,
     GetMyOrdersResponseDto,
     GetOrderDetailsResponseDto,
+    UpdateOrderRequestDto,
+    UpdateOrderResponseDto,
 } from 'contracts-green-shop';
 
 export interface IOrderService {
@@ -14,4 +18,6 @@ export interface IOrderService {
     getMyOrders(userId: string): Promise<GetMyOrdersResponseDto>;
     getOrderDetails(orderId: string): Promise<GetOrderDetailsResponseDto>;
     hasUserPurchasedProduct(userId: string, product_variant_id: string): Promise<boolean>;
+    getAllOrders(query: GetAllOrdersRequestQueryDto): Promise<GetAllOrdersResponseDto>;
+    update(orderId: string, updateData: UpdateOrderRequestDto): Promise<UpdateOrderResponseDto>;
 }

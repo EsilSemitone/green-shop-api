@@ -9,12 +9,20 @@ import { ValidateMiddleware } from '../common/middlewares/validate.middleware';
 import {
     CreateOrderRequestDto,
     CreateOrderRequestSchema,
+    GetAllOrdersRequestQueryDto,
+    GetAllOrdersRequestQuerySchema,
     GetOrderDetailsRequestParamsDto,
     GetOrderDetailsRequestParamsSchema,
+    ROLES,
+    UpdateOrderRequestDto,
+    UpdateOrderRequestParamsDto,
+    UpdateOrderRequestParamsSchema,
+    UpdateOrderRequestSchema,
 } from 'contracts-green-shop';
 import { IOrderService } from './interfaces/order.service.interface';
 import { CartProvideMiddleware } from '../common/middlewares/cart-provide.middleware';
 import { ICartService } from '../cart/interfaces/cart.service.interface';
+import { RoleGuard } from '../common/middlewares/role.guard';
 
 @injectable()
 export class OrderController extends Controller implements IController {
@@ -43,6 +51,40 @@ export class OrderController extends Controller implements IController {
                 middlewares: [this.authGuardFactory.create()],
             },
             {
+                path: '/all',
+                method: 'get',
+                func: this.getAll,
+                middlewares: [
+                    this.authGuardFactory.create(),
+                    new RoleGuard([ROLES.ADMIN]),
+                    new ValidateMiddleware([
+                        {
+                            key: 'query',
+                            schema: GetAllOrdersRequestQuerySchema,
+                        },
+                    ]),
+                ],
+            },
+            {
+                path: '/:orderUuid',
+                method: 'patch',
+                func: this.update,
+                middlewares: [
+                    this.authGuardFactory.create(),
+                    new RoleGuard([ROLES.ADMIN]),
+                    new ValidateMiddleware([
+                        {
+                            key: 'params',
+                            schema: UpdateOrderRequestParamsSchema,
+                        },
+                        {
+                            key: 'body',
+                            schema: UpdateOrderRequestSchema,
+                        },
+                    ]),
+                ],
+            },
+            {
                 path: '/:orderId',
                 method: 'get',
                 func: this.getOrderDetails,
@@ -63,6 +105,16 @@ export class OrderController extends Controller implements IController {
     async getMyOrders({ user }: Request, res: Response) {
         const userId = user?.userId;
         const result = await this.orderService.getMyOrders(userId!);
+        this.ok(res, result);
+    }
+
+    async getAll({ query }: Request<object, object, object, GetAllOrdersRequestQueryDto>, res: Response) {
+        const result = await this.orderService.getAllOrders(query);
+        this.ok(res, result);
+    }
+
+    async update({ params, body }: Request<UpdateOrderRequestParamsDto, object, UpdateOrderRequestDto>, res: Response) {
+        const result = await this.orderService.update(params.orderUuid, body);
         this.ok(res, result);
     }
 

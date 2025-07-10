@@ -5,10 +5,14 @@ import { IOrderService } from './interfaces/order.service.interface';
 import {
     CreateOrderRequestDto,
     CreateOrderResponseDto,
+    GetAllOrdersRequestQueryDto,
+    GetAllOrdersResponseDto,
     GetMyOrdersResponseDto,
     GetOrderDetailsResponseDto,
     ORDER_STATUS,
     PAYMENT_METHOD,
+    UpdateOrderRequestDto,
+    UpdateOrderResponseDto,
 } from 'contracts-green-shop';
 import { IOrderRepository } from './interfaces/order.repository.interface';
 import { IPaymentMethodRepository } from '../payment-method/interfaces/payment-method.repository.interface';
@@ -173,5 +177,31 @@ export class OrderService implements IOrderService {
 
         this.loggerService.log(`Success service hasUserPurchasedProduct`);
         return isUserHasPurchasedProduct;
+    }
+
+    async getAllOrders(query: GetAllOrdersRequestQueryDto): Promise<GetAllOrdersResponseDto> {
+        this.loggerService.log(`start service getAllOrders with params ${JSON.stringify(query)}`);
+
+        const { limit, offset } = query;
+        const { orders, total } = await this.orderRepository.getAll(query);
+
+        const page = Math.floor(offset / limit) + 1;
+        const totalPage = Math.ceil(total / limit);
+
+        this.loggerService.log('Success service getAllOrders');
+        return {
+            page,
+            totalPage,
+            orders,
+        };
+    }
+
+    async update(orderId: string, updateData: UpdateOrderRequestDto): Promise<UpdateOrderResponseDto> {
+        this.loggerService.log(`Start service update with params ${JSON.stringify({ orderId, ...updateData })}`);
+
+        const result = await this.orderRepository.updateOrder(orderId, updateData);
+
+        this.loggerService.log('Success service update');
+        return result;
     }
 }
